@@ -8,57 +8,55 @@ import java.net.*;
 
 public class TCPServer {
     public static void main(String[] args) {
- 
-        ServerSocket server = null;
         String host = "127.0.0.1";
         int maxServers = 2;
         int port = 32001;
-    	for (int i = 0; i < maxServers; i++) {
-    		try {
-    			server = new ServerSocket(port + i);
-                while (true) {
-                    Socket client = server.accept();
-                    System.out.println("NEW CLIENT CONNECTED TO SERVER");
-                    
-                    ServerHandler serverSock = new ServerHandler(client);
-
-                    new Thread(serverSock).start();
-                    
-                    //break;
-            	}
-    		} catch (IOException e) {
-                e.printStackTrace();
-            }
-    	}        
+        
+        for (int i = 0; i < maxServers; i++) {
+        	ServerHandler serverSock = new ServerHandler(port + i);
+            new Thread(serverSock).start();
+        }
     }
     
     private static class ServerHandler implements Runnable {
     	
-    	private final Socket serverSocket;
+    	//private final Socket serverSocket;
+    	private final int port;
     	
-    	 public ServerHandler(Socket socket) {
-             this.serverSocket = socket;
+    	 public ServerHandler(int port) {
+             this.port = port;
          }
     	 
     	 @Override
     	 public void run() {
+    		 ServerSocket server = null;
+			try {
+				server = new ServerSocket(port);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+    		 try {  
+    			 while(true) {
+    	    	     
+                     Socket client = server.accept();
+                     System.out.println("NEW CLIENT CONNECTED TO SERVER");
+                     
+        			 
+    				 DataInputStream in = new DataInputStream(client.getInputStream());
+        			 String content;
+        			 content = in.readUTF();
+            		 System.out.println(content);
+            		 //in.close();
+        			 if(content.equals("CONNECTING")) {
+        	    		 System.out.println("HOLA2");
+        				 System.out.println("CLIENT MESSAGE: " + content);
+        				 DataOutputStream out = new DataOutputStream(client.getOutputStream());
+            			 out.writeUTF("CONNECTION DONE");
+        				 
+    	    			 client.close();
+    				 }
+    			 }
 
-    		 try { 
-				 DataInputStream in = new DataInputStream(serverSocket.getInputStream());
-    			 String content;
-    			 content = in.readUTF();
-        		 System.out.println(content);
-        		 //in.close();
-    			 if(content.equals("CONNECTING")) {
-    	    		 System.out.println("HOLA2");
-    				 System.out.println("CLIENT MESSAGE: " + content);
-    				 DataOutputStream out = new DataOutputStream(serverSocket.getOutputStream());
-        			 out.writeUTF("CONNECTION DONE");
-    				 
-	    			 serverSocket.close();
-				 }
-    			 
-    			 
     		 } catch (IOException e) {
     			 e.printStackTrace();
     		 }
