@@ -22,8 +22,8 @@ public class TCPProxy {
                 ClientHandler clientSock = new ClientHandler(client);
  
                 new Thread(clientSock).start();
-                
-                
+
+                //break;
             }
         }catch (IOException e) {
         	System.out.println("Catch 1");
@@ -49,17 +49,12 @@ public class TCPProxy {
  
         @Override
         public void run() {
-//            PrintWriter out = null;
-//            BufferedReader in = null;
-            
             DataInputStream in;           
             DataOutputStream out;
                       
             
             String host = "127.0.0.1";
-            int port = 32001;
-            //Socket pollingSocket = null;
-            
+            int port = 32001;          
             
             for(int i= 0; i<3; i++) {   
             	try (Socket pollingSocket = new Socket(host, port)) {
@@ -67,13 +62,13 @@ public class TCPProxy {
             		out.writeUTF("POLLING");
                 	portList.put(port, true);
                 	pollingSocket.close();
+                	out.close();
 	            }catch(IOException e) {
 	            	portList.put(port, false);
 	            }
             	port++;
             }
 
-            //Enumeration enumeration = portList.elements();
             Enumeration clave = portList.keys();          
             Enumeration valor = portList.elements();
             Object valorValue;
@@ -82,7 +77,7 @@ public class TCPProxy {
             System.out.println("\n______HASH TABLE______");
             while (clave.hasMoreElements()) {
               System.out.print("PORT: " + clave.nextElement());
-              System.out.println(" AVIABLE: " + valor.nextElement());
+              System.out.println(" AVAIABLE: " + valor.nextElement());
             }
             
             clave = portList.keys(); 

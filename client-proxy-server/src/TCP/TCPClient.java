@@ -16,10 +16,10 @@ public class TCPClient {
             
             if(!freePort.equals("NO PORTS AVAIABLE")) {
             	int newPort = Integer.parseInt(freePort);
-                
+            	
                 try (Socket socketToServer = new Socket(host, newPort)) {
     	            DataOutputStream out = new DataOutputStream(socketToServer.getOutputStream());
-    	            out.writeUTF("CONECTING");
+    	            out.writeUTF("CONNECTING");
     	            
     	            in = new DataInputStream(socketToServer.getInputStream());
     	            String serverMessage = in.readUTF();

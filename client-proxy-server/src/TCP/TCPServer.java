@@ -10,37 +10,61 @@ public class TCPServer {
     public static void main(String[] args) {
  
         ServerSocket server = null;
-        ServerSocket server2 = null;
         String host = "127.0.0.1";
-        try {
-        	
-            server = new ServerSocket(32001);
-            server.setReuseAddress(false);
-            
+        int maxServers = 2;
+        int port = 32001;
+    	for (int i = 0; i < maxServers; i++) {
+    		try {
+    			server = new ServerSocket(port + i);
+                while (true) {
+                    Socket client = server.accept();
+                    System.out.println("NEW CLIENT CONNECTED TO SERVER");
+                    
+                    ServerHandler serverSock = new ServerHandler(client);
 
-            //server2 = new ServerSocket(32002);
-            //server2.setReuseAddress(false);
-
-            while (true) {
-            	
-                Socket client = server.accept();
-                System.out.println("NEW CLIENT CONNECTED TO SERVER PORT: 32001");
-                DataInputStream in = new DataInputStream(client.getInputStream());
-                String content = in.readUTF();
-                
-                DataOutputStream out = new DataOutputStream(client.getOutputStream());
-                out.writeUTF("CONNECTION DONE");
-                
-                if(content.equals("CONECTING")) {
-                	System.out.println("CLIENT MESSAGE: " + content);
-                	
-                	//in.close();
-                }
-                client.close();
+                    new Thread(serverSock).start();
+                    
+                    //break;
+            	}
+    		} catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    	}        
+    }
+    
+    private static class ServerHandler implements Runnable {
+    	
+    	private final Socket serverSocket;
+    	
+    	 public ServerHandler(Socket socket) {
+             this.serverSocket = socket;
+         }
+    	 
+    	 @Override
+    	 public void run() {
+
+    		 try { 
+				 DataInputStream in = new DataInputStream(serverSocket.getInputStream());
+    			 String content;
+    			 content = in.readUTF();
+        		 System.out.println(content);
+        		 //in.close();
+    			 if(content.equals("CONNECTING")) {
+    	    		 System.out.println("HOLA2");
+    				 System.out.println("CLIENT MESSAGE: " + content);
+    				 DataOutputStream out = new DataOutputStream(serverSocket.getOutputStream());
+        			 out.writeUTF("CONNECTION DONE");
+    				 
+	    			 serverSocket.close();
+				 }
+    			 
+    			 
+    		 } catch (IOException e) {
+    			 e.printStackTrace();
+    		 }
+            
+             
+    	 }
     }
 }
             
