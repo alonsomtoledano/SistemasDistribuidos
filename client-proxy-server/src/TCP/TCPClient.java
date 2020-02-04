@@ -28,6 +28,9 @@ public class TCPClient {
                 	e.printStackTrace();
                 }
             }
+        while(true) {
+        	
+        }
         } catch (IOException e) {
             e.printStackTrace();
         }
