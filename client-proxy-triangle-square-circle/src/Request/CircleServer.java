@@ -1,4 +1,4 @@
-package TCP;
+package Request;
 
 import java.io.*;
 import java.net.*;
@@ -6,16 +6,13 @@ import java.net.*;
 import java.io.*;
 import java.net.*;
 
-public class TCPServer {
+public class CircleServer {
     public static void main(String[] args) {
         String host = "127.0.0.1";
-        int maxServers = 2;
-        int port = 32001;
+        int port = 32003;
         
-        for (int i = 0; i < maxServers; i++) {
-        	ServerHandler serverSock = new ServerHandler(port + i);
-            new Thread(serverSock).start();
-        }
+    	ServerHandler serverSock = new ServerHandler(port);
+        new Thread(serverSock).start();
     }
     
     private static class ServerHandler implements Runnable {
@@ -36,25 +33,19 @@ public class TCPServer {
 				e1.printStackTrace();
 			}
     		 try {  
-    			 while(true) {
-    	    	     
-                     Socket client = server.accept();
-                     System.out.println("NEW CLIENT CONNECTED TO SERVER");
-                     
-        			 
-    				 DataInputStream in = new DataInputStream(client.getInputStream());
-        			 String content;
-        			 content = in.readUTF();
-            		 System.out.println(content);
-            		 //in.close();
-        			 if(content.equals("CONNECTING")) {
-        	    		 System.out.println("HOLA2");
-        				 System.out.println("CLIENT MESSAGE: " + content);
-        				 DataOutputStream out = new DataOutputStream(client.getOutputStream());
-            			 out.writeUTF("CONNECTION DONE");
-        				 
-    	    			 client.close();
-    				 }
+    			 while(true) {  
+                     Socket client = server.accept();                  
+
+                     DataInputStream in = new DataInputStream(client.getInputStream());
+
+        			 String content = in.readUTF();
+
+     				 System.out.println("CLIENT MESSAGE: " + content);
+     				 
+    				 DataOutputStream out = new DataOutputStream(client.getOutputStream());
+        			 out.writeUTF("CIRCLE AREA");
+    				 
+	    			 client.close();
     			 }
 
     		 } catch (IOException e) {

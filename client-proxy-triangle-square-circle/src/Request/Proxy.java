@@ -26,7 +26,6 @@ public class Proxy {
                 //break;
             }
         }catch (IOException e) {
-        	System.out.println("Catch 1");
             e.printStackTrace();
         } /*finally {
             if (server != null) {
