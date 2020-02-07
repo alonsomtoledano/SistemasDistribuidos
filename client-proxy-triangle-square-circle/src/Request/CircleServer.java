@@ -3,6 +3,9 @@ package Request;
 import java.io.*;
 import java.net.*;
 
+import Froms.Circle;
+import Froms.Triangle;
+
 import java.io.*;
 import java.net.*;
 
@@ -34,23 +37,24 @@ public class CircleServer {
 			}
     		 try {  
     			 while(true) {  
-                     Socket client = server.accept();                  
-
-                     DataInputStream in = new DataInputStream(client.getInputStream());
-
-        			 String content = in.readUTF();
-
-     				 System.out.println("CLIENT MESSAGE: " + content);
-     				 
-    				 DataOutputStream out = new DataOutputStream(client.getOutputStream());
-        			 out.writeUTF("CIRCLE AREA");
+    				 Socket client = server.accept();
+        			 ObjectInputStream is = new ObjectInputStream(client.getInputStream());
+        			 Circle circle = (Circle)is.readObject();
+        			 
+        			 float area = (float) (Math.PI * Math.pow(circle.getRadio(), 2));
+        			 
+        			 DataOutputStream out = new DataOutputStream(client.getOutputStream());
+        			 out.writeUTF(String.valueOf(area));
     				 
 	    			 client.close();
     			 }
 
     		 } catch (IOException e) {
     			 e.printStackTrace();
-    		 }
+    		 } catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             
              
     	 }

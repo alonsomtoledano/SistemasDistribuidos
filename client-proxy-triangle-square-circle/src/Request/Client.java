@@ -13,7 +13,10 @@ public class Client {
     public static void main(String[] args) {
     	
     	int option;
-    	Object form;
+    	Triangle triangle = null;
+    	Square square = null;
+    	Circle circle = null;
+    	
     	String portProxy;
     	Scanner u = new Scanner(System.in);
     	
@@ -23,20 +26,22 @@ public class Client {
 			
 			if (option == 1) {
 				portProxy = "TRIANGLE";
-				form = createTriangle();
+				triangle = createTriangle();
 				break;
 			}
 			else if (option == 2) {
 				portProxy = "SQUARE";
-				form =  createSquare();
+				square =  createSquare();
 				break;
 			}
 			else if (option == 3) {
 				portProxy = "CIRCLE";
-				form =  createCircle();
+				circle =  createCircle();
 				break;
 			}
-			else {System.out.println("Enter a valid option");}
+			else {
+				System.out.println("Enter a valid option");
+			}
 		}
 		
         String host = "127.0.0.1";
@@ -52,12 +57,26 @@ public class Client {
             System.out.println("PORT TO CONNECT: " + freePort);
           
             try (Socket socket2 = new Socket(host, freePort)) {
-            	Triangle triangle = new Triangle(2, 2);
-            	ObjectOutputStream os = new ObjectOutputStream (socket.getOutputStream());
-            	os.writeObject(triangle);
-            	System.out.println(triangle.getBase());
-            	os.close();
             	
+            	ObjectOutputStream os = new ObjectOutputStream (socket2.getOutputStream());
+            	DataInputStream in2 = new DataInputStream(socket2.getInputStream());
+            	
+            	if(triangle != null) {
+            		os.writeObject(triangle);
+                	String area = in2.readUTF();
+                	System.out.println("Area: " + area);
+            	}
+            	else if (square != null) {
+            		os.writeObject(square);
+                	String area = in2.readUTF();
+                	System.out.println("Area: " + area);
+            	}
+            	else if (circle != null) {
+            		os.writeObject(circle);
+                	String area = in2.readUTF();
+                	System.out.println("Area: " + area);
+            	}
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

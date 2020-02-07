@@ -3,6 +3,9 @@ package Request;
 import java.io.*;
 import java.net.*;
 
+import Froms.Square;
+import Froms.Triangle;
+
 import java.io.*;
 import java.net.*;
 
@@ -34,23 +37,23 @@ public class SquareServer {
 			}
     		 try {  
     			 while(true) {  
-                     Socket client = server.accept();
-
-                     DataInputStream in = new DataInputStream(client.getInputStream());
-
-        			 String content = in.readUTF();
-
-     				 System.out.println("CLIENT MESSAGE: " + content);
-     				 
-    				 DataOutputStream out = new DataOutputStream(client.getOutputStream());
-        			 out.writeUTF("SQUARE AREA");
+    				 Socket client = server.accept();
+        			 ObjectInputStream is = new ObjectInputStream(client.getInputStream());
+        			 Square square = (Square)is.readObject();
+        			 
+        			 float area = square.getBase() * square.getHeight();
+        			 
+        			 DataOutputStream out = new DataOutputStream(client.getOutputStream());
+        			 out.writeUTF(String.valueOf(area));
     				 
 	    			 client.close();
     			 }
 
     		 } catch (IOException e) {
     			 e.printStackTrace();
-    		 }
+    		 } catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
             
              
     	 }

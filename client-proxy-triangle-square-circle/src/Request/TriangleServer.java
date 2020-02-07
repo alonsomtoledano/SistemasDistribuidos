@@ -37,18 +37,13 @@ public class TriangleServer {
     		 try {  
     			 while(true) {  
                      Socket client = server.accept();
-                     System.out.println("Hola1");
         			 ObjectInputStream is = new ObjectInputStream(client.getInputStream());
-        			 
-        			 System.out.println("Hola2");
-        			 
-
         			 Triangle triangle = (Triangle)is.readObject();
-        			 is.close();
         			 
         			 float area = (triangle.getBase() * triangle.getHeight())/2;
         			 
-        			 System.out.println(area);
+        			 DataOutputStream out = new DataOutputStream(client.getOutputStream());
+        			 out.writeUTF(String.valueOf(area));
     				 
 	    			 client.close();
     			 }

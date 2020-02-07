@@ -1,6 +1,8 @@
 package Froms;
 
-public class Circle {
+import java.io.Serializable;
+
+public class Circle implements Serializable {
 	private float radio;
 	
 	public Circle(float radio) {

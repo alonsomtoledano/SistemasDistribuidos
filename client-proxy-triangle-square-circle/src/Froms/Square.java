@@ -1,6 +1,8 @@
 package Froms;
 
-public class Square {
+import java.io.Serializable;
+
+public class Square implements Serializable {
 	private float base;
 	private float height;
 	
