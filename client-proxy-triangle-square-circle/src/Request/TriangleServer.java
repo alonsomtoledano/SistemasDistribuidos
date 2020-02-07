@@ -3,6 +3,8 @@ package Request;
 import java.io.*;
 import java.net.*;
 
+import Froms.Triangle;
+
 import java.io.*;
 import java.net.*;
 
@@ -34,23 +36,28 @@ public class TriangleServer {
 			}
     		 try {  
     			 while(true) {  
-                     Socket client = server.accept();                  
+                     Socket client = server.accept();
+                     System.out.println("Hola1");
+        			 ObjectInputStream is = new ObjectInputStream(client.getInputStream());
+        			 
+        			 System.out.println("Hola2");
+        			 
 
-                     DataInputStream in = new DataInputStream(client.getInputStream());
-
-        			 String content = in.readUTF();
-
-     				 System.out.println("CLIENT MESSAGE: " + content);
-     				 
-    				 DataOutputStream out = new DataOutputStream(client.getOutputStream());
-        			 out.writeUTF("TRIANGLE AREA");
+        			 Triangle triangle = (Triangle)is.readObject();
+        			 is.close();
+        			 
+        			 float area = (triangle.getBase() * triangle.getHeight())/2;
+        			 
+        			 System.out.println(area);
     				 
 	    			 client.close();
     			 }
 
     		 } catch (IOException e) {
     			 e.printStackTrace();
-    		 }
+    		 } catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
             
              
     	 }

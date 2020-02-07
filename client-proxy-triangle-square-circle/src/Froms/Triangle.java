@@ -1,6 +1,12 @@
 package Froms;
 
-public class Triangle {
+import java.io.Serializable;
+
+public class Triangle implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private float base;
 	private float height;
 	

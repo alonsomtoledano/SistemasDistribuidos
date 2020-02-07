@@ -12,26 +12,52 @@ public class Client {
 	 
     public static void main(String[] args) {
     	
-    	String form = menu();
+    	int option;
+    	Object form;
+    	String portProxy;
+    	Scanner u = new Scanner(System.in);
+    	
+		while (true) {
+			System.out.println("<1> Triangle Area\n<2> Square Area\n<3> Circle Area");
+			option = u.nextInt();
+			
+			if (option == 1) {
+				portProxy = "TRIANGLE";
+				form = createTriangle();
+				break;
+			}
+			else if (option == 2) {
+				portProxy = "SQUARE";
+				form =  createSquare();
+				break;
+			}
+			else if (option == 3) {
+				portProxy = "CIRCLE";
+				form =  createCircle();
+				break;
+			}
+			else {System.out.println("Enter a valid option");}
+		}
 		
         String host = "127.0.0.1";
         int port = 32000;
         try (Socket socket = new Socket(host, port)) {
+
         	DataInputStream in = new DataInputStream(socket.getInputStream());
         	DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         	
-        	out.writeUTF(form);
+        	out.writeUTF(portProxy);
         	
         	int freePort = Integer.parseInt(in.readUTF());
             System.out.println("PORT TO CONNECT: " + freePort);
-            
+          
             try (Socket socket2 = new Socket(host, freePort)) {
-            	DataInputStream in2 = new DataInputStream(socket2.getInputStream());
-            	DataOutputStream out2 = new DataOutputStream(socket2.getOutputStream());
+            	Triangle triangle = new Triangle(2, 2);
+            	ObjectOutputStream os = new ObjectOutputStream (socket.getOutputStream());
+            	os.writeObject(triangle);
+            	System.out.println(triangle.getBase());
+            	os.close();
             	
-            	out2.writeUTF(form);
-            	String area = in2.readUTF();
-                System.out.println("Area: " + area);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -40,29 +66,7 @@ public class Client {
         }
     }
     
-    public static String menu() {
-    	int option;
-    	Scanner u = new Scanner(System.in);
-    	
-		while (true) {
-			System.out.println("<1> Triangle Area\n<2> Square Area\n<3> Circle Area");
-			option = u.nextInt();
-			
-			if (option == 1) {
-				return createTriangle();
-			}
-			else if (option == 2) {
-				return createSquare();
-			}
-			else if (option == 3) {
-				return createCircle();
-			}
-			else {System.out.println("Enter a valid option");}
-		}
-		
-    }
-    
-    public static String createTriangle() {
+    public static Triangle createTriangle() {
     	Scanner u = new Scanner(System.in);
     	float base;
     	float height;
@@ -74,10 +78,10 @@ public class Client {
 		
     	Triangle triangle = new Triangle(base, height);
 
-		return "TRIANGLE";
+		return triangle;
     }
     
-    public static String createSquare() {
+    public static Square createSquare() {
     	Scanner u = new Scanner(System.in);
     	float base;
     	float height;
@@ -88,12 +92,11 @@ public class Client {
 		height = u.nextFloat();
 
     	Square square = new Square(base, height);
-    	System.out.println("Created");
     	
-    	return "SQUARE";
+    	return square;
     }
     
-    public static String createCircle() {
+    public static Circle createCircle() {
     	Scanner u = new Scanner(System.in);
     	float radio;
     	
@@ -102,6 +105,6 @@ public class Client {
     	
     	Circle circle = new Circle(radio);
     	
-    	return "CIRCLE";
+    	return circle;
     }
 }

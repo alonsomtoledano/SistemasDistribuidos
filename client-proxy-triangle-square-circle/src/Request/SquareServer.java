@@ -34,7 +34,7 @@ public class SquareServer {
 			}
     		 try {  
     			 while(true) {  
-                     Socket client = server.accept();                  
+                     Socket client = server.accept();
 
                      DataInputStream in = new DataInputStream(client.getInputStream());
 
