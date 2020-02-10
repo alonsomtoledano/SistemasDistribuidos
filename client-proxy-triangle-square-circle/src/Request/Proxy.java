@@ -5,6 +5,8 @@ import java.net.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import Froms.Triangle;
+
 public class Proxy {
 	
 	static Hashtable portList=new Hashtable();
@@ -48,9 +50,9 @@ public class Proxy {
  
         @Override
         public void run() {
-        	portList.put("Triangle", 32001);
-            portList.put("Square", 32002);
-            portList.put("Circle", 32003);
+        	portList.put("Froms.Triangle", 32001);
+            portList.put("Froms.Square", 32002);
+            portList.put("Froms.Circle", 32003);
 
             Enumeration clave = portList.keys();          
             Enumeration valor = portList.elements();
@@ -65,20 +67,20 @@ public class Proxy {
             	ObjectInputStream is = new ObjectInputStream(proxySocket.getInputStream());
 	        	DataOutputStream out = new DataOutputStream(proxySocket.getOutputStream());
 	        	
-	        	String clientObject = is.readUTF();
-	        	
-	        	System.out.println(clientObject.getClass().getName());
+	        	String clientObject = is.readObject().getClass().getName();
 	        	
 	        	clave = portList.keys(); 
 	            valor = portList.elements();
 	            
 	            while (clave.hasMoreElements()) {
 	            	Object claveValue = clave.nextElement();
-	            	if(clientObject.getClass().getName().equals(claveValue.toString())) {
+	            	if(clientObject.equals(claveValue.toString())) {
 	            		out.writeUTF(portList.get(claveValue).toString());
 	            	}
 	              }
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
             
