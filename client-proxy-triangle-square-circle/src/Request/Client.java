@@ -17,7 +17,6 @@ public class Client {
     	Square square = null;
     	Circle circle = null;
     	
-    	String portProxy;
     	Scanner u = new Scanner(System.in);
     	
 		while (true) {
@@ -25,17 +24,14 @@ public class Client {
 			option = u.nextInt();
 			
 			if (option == 1) {
-				portProxy = "TRIANGLE";
 				triangle = createTriangle();
 				break;
 			}
 			else if (option == 2) {
-				portProxy = "SQUARE";
 				square =  createSquare();
 				break;
 			}
 			else if (option == 3) {
-				portProxy = "CIRCLE";
 				circle =  createCircle();
 				break;
 			}
@@ -46,15 +42,28 @@ public class Client {
 		
         String host = "127.0.0.1";
         int port = 32000;
+        int freePort = 0;
+        
         try (Socket socket = new Socket(host, port)) {
 
         	DataInputStream in = new DataInputStream(socket.getInputStream());
-        	DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+        	ObjectOutputStream oout = new ObjectOutputStream (socket.getOutputStream());
         	
-        	out.writeUTF(portProxy);
-        	
-        	int freePort = Integer.parseInt(in.readUTF());
-            System.out.println("PORT TO CONNECT: " + freePort);
+        	if(triangle != null) {
+        		oout.writeObject(triangle);
+            	freePort = Integer.parseInt(in.readUTF());
+                System.out.println("PORT TO CONNECT: " + freePort);
+        	}
+        	else if (square != null) {
+        		oout.writeObject(square);
+        		freePort = Integer.parseInt(in.readUTF());
+                System.out.println("PORT TO CONNECT: " + freePort);
+        	}
+        	else if (circle != null) {
+        		oout.writeObject(circle);
+        		freePort = Integer.parseInt(in.readUTF());
+                System.out.println("PORT TO CONNECT: " + freePort);
+        	}
           
             try (Socket socket2 = new Socket(host, freePort)) {
             	

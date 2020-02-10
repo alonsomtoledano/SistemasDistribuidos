@@ -48,9 +48,9 @@ public class Proxy {
  
         @Override
         public void run() {
-        	portList.put("TRIANGLE", 32001);
-            portList.put("SQUARE", 32002);
-            portList.put("CIRCLE", 32003);
+        	portList.put("Triangle", 32001);
+            portList.put("Square", 32002);
+            portList.put("Circle", 32003);
 
             Enumeration clave = portList.keys();          
             Enumeration valor = portList.elements();
@@ -62,17 +62,19 @@ public class Proxy {
             }
             
             try {
-				DataInputStream in = new DataInputStream(proxySocket.getInputStream());
+            	ObjectInputStream is = new ObjectInputStream(proxySocket.getInputStream());
 	        	DataOutputStream out = new DataOutputStream(proxySocket.getOutputStream());
 	        	
-	        	String clientMessage = in.readUTF();
+	        	String clientObject = is.readUTF();
+	        	
+	        	System.out.println(clientObject.getClass().getName());
 	        	
 	        	clave = portList.keys(); 
 	            valor = portList.elements();
 	            
 	            while (clave.hasMoreElements()) {
 	            	Object claveValue = clave.nextElement();
-	            	if(clientMessage.equals(claveValue.toString())) {
+	            	if(clientObject.getClass().getName().equals(claveValue.toString())) {
 	            		out.writeUTF(portList.get(claveValue).toString());
 	            	}
 	              }
