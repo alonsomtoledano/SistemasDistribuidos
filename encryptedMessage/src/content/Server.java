@@ -6,6 +6,7 @@ import java.net.*;
 import encryptation.Encryptation;
 
 public class Server {
+	static int messageCounter = 0;
     public static void main(String[] args) {
     	int port = 32001;
         try {
@@ -21,7 +22,7 @@ public class Server {
         }
     }
     
-    private static class ServerHandler implements Runnable {   	 
+    private static class ServerHandler implements Runnable {
     	 private final Socket socketToProxy;
     	 
          public ServerHandler(Socket socket) {
@@ -32,18 +33,20 @@ public class Server {
     	 public void run() {
     		 try {
     			DataInputStream in = new DataInputStream(socketToProxy.getInputStream());
- 				DataOutputStream out = null;
- 	    		String encryptedMessage = in.readUTF();
- 	    		System.out.println("RECIBIDO DEL PROXY: " + encryptedMessage);
- 	    		
- 	    		String decryptedMessage = Encryptation.Decrypt(encryptedMessage);
- 	    		out = new DataOutputStream(socketToProxy.getOutputStream());
- 	            out.writeUTF(decryptedMessage);
- 	            
- 	            System.out.println("ENVIADO AL PROXY: " + decryptedMessage);
-	            }catch(IOException e) {
-	            	e.printStackTrace();
-	            } catch (Exception e) {
+				DataOutputStream out = null;
+				String encryptedMessage = in.readUTF();
+				messageCounter++;
+				System.out.println("RECIBIDO DEL PROXY: " + encryptedMessage);
+				System.out.println("MESSAGE NUMBER: " + messageCounter);
+				
+				String decryptedMessage = Encryptation.Decrypt(encryptedMessage);
+				out = new DataOutputStream(socketToProxy.getOutputStream());
+				out.writeUTF(decryptedMessage);
+				
+				System.out.println("ENVIADO AL PROXY: " + decryptedMessage);
+				}catch(IOException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
     	 }
