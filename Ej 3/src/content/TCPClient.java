@@ -1,4 +1,4 @@
-package ejercicioClase.Proxy;
+package content;
 
 import java.io.*;
 import java.net.*;
