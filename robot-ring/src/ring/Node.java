@@ -17,26 +17,32 @@ public class Node {
     
     static String ip = "172.20.10.14";
     static int puertoClient = 5000;
+    static String ipClient = "172.20.10.14";
+    
+    static boolean masterNode = false;
+    static int auxPuertoIzquierda = puertoIzquierda;
+    static boolean done = false;
+    static boolean allDone = false;
 
     public static void main(String[] args) {
     	Robot robot = new Robot(ip);
     	
 	    if(args[0].equals("1")) {
+	    	masterNode = true;
 	    	puertoIzquierda = puertoClient;
 	    }
 	    
-	    try {
-	    	HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoDerecha, ipDerecha, robot);
-	    	new Thread(handlerDerecha).start();
-	    	HandlerIzquierda handlerIzquierda = new HandlerIzquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda);
-	    	new Thread(handlerIzquierda).start();
-	    }catch(Exception e) {
-	    	e.printStackTrace();
-	    }
+    	HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoDerecha, ipDerecha, robot);
+    	new Thread(handlerDerecha).start();
+    	HandlerIzquierda handlerIzquierda = new HandlerIzquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda);
+    	new Thread(handlerIzquierda).start();
     }
     
     public static void derecha(String ip, Robot robot) {
-    	 while( true ) {
+    	int a = 1;
+    	if(masterNode) a = 2;
+    	for(int k = 0; k < a; k++) {
+       	 while( true ) {
              try {
                  ServerSocket socketIzquierda = new ServerSocket(puertoIzquierda);
                  Socket sIzquierda;
@@ -47,69 +53,62 @@ public class Node {
 						Configuration configuration = (Configuration)inputIzquierda.readObject();
 						
 	                     System.out.println("RECIBIDA LA CONFIGURACION");
-                    	 if(configuration.getIp().equals(robot.getIp())) { //ES PARA ESTE ROBOT
-                    		 System.out.println("LA CONFIGURACION ES PARA ESTE ROBOT");
-    	                     try {
- 								Thread.sleep(5000);
-	 						} catch (InterruptedException e) {
-	 						}
-    	                     
-                    		 //JOINT ROTATION
-                    		 float newJointRotation[] = robot.getJointRotation();
-                    		 newJointRotation[configuration.getJointNumber() - 1] += configuration.getJointRotation();
-                    		 robot.setJointRotation(newJointRotation);
-                    		 
-                    		 //JOINT TRANSLATION
-                    		 float newJointTranslation[] = robot.getJointTranslation();
-                    		 newJointTranslation[configuration.getJointNumber() - 1] += configuration.getJointTranslation();
-                    		 robot.setJointTranslation(newJointTranslation);
-                    		 
-                    		 //STOP
-                    		 if(configuration.getStop()) {   	                         
-    	                         Socket socketIzquierda1 = new Socket(ipIzquierda,puertoIzquierda2);
-	            	             DataOutputStream outputIzquierda = new DataOutputStream( socketIzquierda1.getOutputStream() );
-	            	             outputIzquierda.writeUTF("ERROR");
-	            	             if( outputIzquierda!=null ) outputIzquierda.close();
-	            	             if( socketIzquierda1!=null ) socketIzquierda1.close();
-	            	             System.exit(0);
-                    		 }
-                    		 System.out.println("LA CONFIGURACION SE HA REALIZADO");
-                    	 }
-                    	 else {
-                    		 System.out.println("LA CONFIGURACION NO ES PARA ESTE ROBOT, ENVIANDO CONFIGURACION...");
-                    		 try {
-								Thread.sleep(5000);
-							} catch (InterruptedException e) {
-							}
-	                         Socket socketDerecha = new Socket(ipDerecha, puertoDerecha);
+	                     
+	                     Thread.sleep(3000);
+	                     
+	                     String configurationRobot[][] = configuration.getConfigurationRobot();
+	                     boolean doneConfiguration[] = configuration.getDone();
+	                     if(done) {
+	                    	 for(int i = 0; i < configurationRobot.length; i++) {
+	                          	 if(configurationRobot[i][0].equals(robot.getIp())) {
+	                          		 doneConfiguration[i] = true;
+	                          		 configuration.setDone(doneConfiguration);
+	                          		 break;
+	                          	 }
+	                    	 }
+	                     }
+	                     
+	                     for (int l = 0; l < configuration.getDone().length; l++) {
+	                    	 if (configuration.getDone()[l] == true) {
+	                    		 allDone = true;
+	                    	 } else {
+	                    		 allDone = false;
+	                    		 break;
+	                    	 }
+	                     }
+	                     
+	                     if(!allDone) {
+	                    	 System.out.println("ENVIANDO CONFIGURACION");
+	                    	 Socket socketDerecha = new Socket(ipDerecha, puertoDerecha);
 	                         ObjectOutputStream outputDerecha = new ObjectOutputStream (socketDerecha.getOutputStream());
 	                         outputDerecha.writeObject(configuration);
-	                         if( inputIzquierda!=null ) inputIzquierda.close();
-	                         if( sIzquierda!=null ) sIzquierda.close();
-                    	 }
+	                         
+			                 if(!done) {    
+		                         //REALIZAR LA CONFIGURACION
+		                         HandlerOperation handlerOperation = new HandlerOperation(configuration, robot);
+		                     	 new Thread(handlerOperation).start();
+		                     }
+	                     } else {
+	                    	 System.out.println("ALL DONE");
+	                    	 Socket socketIzquierda2 = new Socket(ipIzquierda,puertoIzquierda2);
+	            	           DataOutputStream outputIzquierda = new DataOutputStream( socketIzquierda2.getOutputStream() );
+	            	           outputIzquierda.writeUTF("ALL DONE");
+	            	           if( outputIzquierda!=null ) outputIzquierda.close();
+	            	           if( socketIzquierda!=null ) socketIzquierda.close();
+	            	           System.exit(0);
+	                     }
                     	 
-                    	//SHOW ROBOT STATUS
-                		 System.out.println("//////////_ROBOT STATUS_//////////");
-                		 System.out.println("IP: " + robot.getIp());
-                		 System.out.print("JOINT ROTATION: ");
-                		 for (int i = 0; i < robot.getJointRotation().length; i++) {
-                			 System.out.print("[" + robot.getJointRotation()[i] + "] ");
-                		 }
-                		 System.out.print("\nJOINT TRANSLATION: ");
-                		 for (int i = 0; i < robot.getJointTranslation().length; i++) {
-                			 System.out.print("[" + robot.getJointTranslation()[i] + "] ");
-                		 }
-                		 System.out.println("\n//////////////////////////////////");
-                		 
-					} catch (ClassNotFoundException e1) {
-						e1.printStackTrace();
-					}
-                     
+					} catch (ClassNotFoundException | InterruptedException e1) {
+					}  
+                    if(masterNode) {
+                    	break;
+                    }
                  }
              }
              catch (IOException ex) {
             	 try {
       	           Socket socketIzquierda = new Socket(ipIzquierda,puertoIzquierda2);
+      	           System.out.println("ERROR\nENVIANDO ERROR");
       	           DataOutputStream outputIzquierda = new DataOutputStream( socketIzquierda.getOutputStream() );
       	           outputIzquierda.writeUTF("ERROR");
       	           if( outputIzquierda!=null ) outputIzquierda.close();
@@ -121,7 +120,12 @@ public class Node {
       	       catch(IOException ex1) {            
       	       }
              }
+             if(masterNode) {
+                 puertoIzquierda=auxPuertoIzquierda;
+                 break;
+             }
          }
+    	}
     }
     
     public static void izquierda(String ip) {
@@ -137,15 +141,23 @@ public class Node {
                     	System.out.println("RECIBIDO ERROR");
                     	Thread.sleep(5000);
                     	System.out.println("ENVIANDO ERROR");
-                        Socket socketIzquierda = new Socket(ipIzquierda,puertoIzquierda2);
-                        DataOutputStream outputIzquierda = new DataOutputStream( socketIzquierda.getOutputStream());
-                        outputIzquierda.writeUTF("ERROR");
-                        if( outputIzquierda!=null ) outputIzquierda.close();
-                        if( socketIzquierda!=null ) socketIzquierda.close();
-                        if( inputDerecha!=null ) inputDerecha.close();
-                        if( sDerecha!=null ) sDerecha.close();
-                        if( socketDerecha!=null ) socketDerecha.close();
-                        System.exit(0);
+                    	try(Socket socketIzquierda = new Socket(ipIzquierda, puertoIzquierda2);){
+                    		DataOutputStream outputIzquierda = new DataOutputStream( socketIzquierda.getOutputStream());
+                            outputIzquierda.writeUTF("ERROR");
+                            System.exit(0);
+                    	}catch(Exception e) {
+	           				 System.exit(0);
+	           			}
+                    } else if (mensaje.compareTo("ALL DONE")==0) {
+                    	System.out.println("ALL DONE");
+                    	Thread.sleep(5000);
+                    	try(Socket socketIzquierda = new Socket(ipIzquierda, puertoIzquierda2);){
+                    		DataOutputStream outputIzquierda = new DataOutputStream( socketIzquierda.getOutputStream());
+                            outputIzquierda.writeUTF("ALL DONE");
+                            System.exit(0);
+                    	}catch(Exception e) {
+	           				 System.exit(0);
+	           			}
                     }
                 }
             }
@@ -154,7 +166,65 @@ public class Node {
 				e.printStackTrace();
 			} 
         }
-   } 
+    }
+    
+    public static void operation(Configuration configuration, Robot robot) {
+		String configurationRobot[][] = configuration.getConfigurationRobot();
+		
+        for(int i = 0; i < configurationRobot.length; i++) {
+          	 if(configurationRobot[i][0].equals(robot.getIp())) {
+           		 System.out.println("REALIZANDO LA CONFIGURACION");
+           		 
+           		 //JOINT ROTATION
+           		 float newRotation[] = robot.getJointRotation();
+           		 newRotation[Integer.parseInt(configurationRobot[i][1]) - 1] += Float.parseFloat(configurationRobot[i][2]);
+           		 robot.setJointRotation(newRotation);
+           		 
+           		 //JOINT TRANSLATION
+           		 float newTranslation[] = robot.getJointTranslation();
+           		 newTranslation[Integer.parseInt(configurationRobot[i][1]) - 1] += Float.parseFloat(configurationRobot[i][3]);
+           		 robot.setJointTranslation(newTranslation);
+           		 
+           		 if(configuration.getIpToStop().equals(robot.getIp())) {
+           			 System.out.println("SHUTTING DOWN");
+           			 try(Socket socketIzquierda1 = new Socket(ipIzquierda, puertoIzquierda2);){
+           				 DataOutputStream outputIzquierda = new DataOutputStream( socketIzquierda1.getOutputStream() );
+           	             outputIzquierda.writeUTF("ERROR");
+           	             System.exit(0);
+           			 }catch(Exception e) {
+           				 System.exit(0);
+           			 }
+           		 }
+           		 
+           		 try {
+    				Thread.sleep(5000);
+    			} catch (InterruptedException e) {
+    				e.printStackTrace();
+    			}
+           		 
+           		 done = true;
+           		 System.out.println("LA CONFIGURACION SE HA REALIZADO");
+           		 
+                try {
+    				Thread.sleep(5000);
+    			} catch (InterruptedException e1) {
+    				e1.printStackTrace();
+    			}
+	       		 //SHOW ROBOT STATUS
+	       		 System.out.println("////////////////////___ROBOT STATUS___////////////////////");
+	       		 System.out.println("IP: " + robot.getIp());
+	       		 System.out.print("JOINT ROTATION: ");
+	       		 for (int j = 0; j < robot.getJointRotation().length; j++) {
+	       			 System.out.print("[" + robot.getJointRotation()[j] + "] ");
+	       		 }
+	       		 System.out.print("\nJOINT TRANSLATION: ");
+	       		 for (int j = 0; j < robot.getJointTranslation().length; j++) {
+	       			 System.out.print("[" + robot.getJointTranslation()[j] + "] ");
+	       		 }
+	       		 System.out.println("\n////////////////////////////////////////////////////////");
+           	 }
+        }
+    }
     
 	private static class HandlerDerecha implements Runnable {
 
@@ -191,6 +261,22 @@ public class Node {
 		public void run() {
 			System.out.println("Izquierda");
 			izquierda(ip);
+		}
+	}
+	
+	private static class HandlerOperation implements Runnable {
+		
+		private Configuration configuration;
+		private Robot robot;
+		
+		public HandlerOperation(Configuration configuration, Robot robot) {
+			this.configuration = configuration;
+			this.robot = robot;
+		}
+		
+		@Override
+		public void run() {
+			operation(configuration, robot);
 		}
 	}
 }

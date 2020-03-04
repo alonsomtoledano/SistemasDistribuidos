@@ -3,57 +3,51 @@ package client;
 import java.io.Serializable;
 
 public class Configuration implements Serializable{
-	private String ip;
-	private int jointNumber;
-	private float jointRotation;
-	private float jointTranslation;
-	private boolean stop;
+	
+	//CONFIGURATION: IP, JOINT NUMBER, ROTATION, TRANSLATION
+	private String configurationRobot[][];
+	private String ipToStop = "0";
+	private boolean done[];
+	
+	public Configuration(int maxNodes) {
+		//CONFIGURATION
+		String configuration[][] = new String[maxNodes][4];
+		for(int i = 0; i < maxNodes; i++) {
+			for(int j = 0; j < 4; j++) {
+				configuration[i][j] = "0";
+			}
+		}
+		this.configurationRobot = configuration;
 		
-	public Configuration() {
-		this.setIp("0");
-		this.setJointNumber(0);
-		this.setJointRotation(0);
-		this.setJointTranslation(0);
-		this.setStop(false);
+		//DONE
+		boolean doneArray[] = new boolean[maxNodes];
+		for(int i = 0; i < maxNodes; i++) {
+			doneArray[i] = false;
+		}
+		this.done = doneArray;
 	}
 
-	public String getIp() {
-		return ip;
+	public String[][] getConfigurationRobot() {
+		return configurationRobot;
 	}
 
-	public void setIp(String ip) {
-		this.ip = ip;
+	public void setConfigurationRobot(String configurationRobot[][]) {
+		this.configurationRobot = configurationRobot;
 	}
 
-	public int getJointNumber() {
-		return jointNumber;
+	public String getIpToStop() {
+		return ipToStop;
 	}
 
-	public void setJointNumber(int jointNumber) {
-		this.jointNumber = jointNumber;
+	public void setIpToStop(String ipToStop) {
+		this.ipToStop = ipToStop;
 	}
 
-	public float getJointRotation() {
-		return jointRotation;
+	public boolean[] getDone() {
+		return done;
 	}
 
-	public void setJointRotation(float jointRotation) {
-		this.jointRotation = jointRotation;
-	}
-
-	public float getJointTranslation() {
-		return jointTranslation;
-	}
-
-	public void setJointTranslation(float jointTranslation) {
-		this.jointTranslation = jointTranslation;
-	}
-
-	public boolean getStop() {
-		return stop;
-	}
-
-	public void setStop(boolean stop) {
-		this.stop = stop;
+	public void setDone(boolean done[]) {
+		this.done = done;
 	}
 }

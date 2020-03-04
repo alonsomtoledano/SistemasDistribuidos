@@ -4,7 +4,6 @@ public class Robot {
 	private String ip;
 	private float jointRotation[] = {0, 0, 0, 0, 0, 0};
 	private float jointTranslation[] = {0, 0, 0, 0, 0, 0};
-	private boolean stop = false;
 	
 	public Robot(String ip) {
 		this.ip = ip;
@@ -28,9 +27,5 @@ public class Robot {
 
 	public String getIp() {
 		return ip;
-	}
-
-	public boolean getStop() {
-		return stop;
 	}
 }
