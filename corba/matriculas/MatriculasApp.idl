@@ -2,7 +2,7 @@ module MatriculasApp
 {
   interface Matriculas
   {
-  string readMatriculas();
+  string findTxt();
   oneway void shutdown();
   };
 };
