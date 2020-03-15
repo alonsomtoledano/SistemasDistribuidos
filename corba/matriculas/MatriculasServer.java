@@ -127,6 +127,54 @@ class MatriculasImpl extends MatriculasPOA {
 		}
 		return listaMaticulas;
   }
+  
+  public String findTxtAndDelete() {
+		File archivo = null;
+		FileReader fr = null;
+		BufferedReader br = null;
+		
+		String listaMaticulas = "";
+		try {
+			File f = new File("./");
+			FilenameFilter filter = new FilenameFilter() {
+				@Override
+				public boolean accept(File f, String name) {
+					// We want to find only .c files
+					return name.endsWith(".txt");
+				}
+			};
+			// Note that this time we are using a File class as an array,
+			// instead of String
+			File[] files = f.listFiles(filter);
+			// Get the names of the files by using the .getName() method
+			for (int i = 0; i < files.length; i++) {
+				System.out.println(files[i].getName());
+				archivo = new File (files[i].getName());
+				fr = new FileReader (archivo);
+				br = new BufferedReader(fr);
+				 // Lectura del fichero
+				String linea;
+				while((linea=br.readLine())!=null){
+					listaMaticulas = listaMaticulas + linea + ", ";
+				}
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}finally{
+		 // En el finally cerramos el fichero, para asegurarnos
+		 // que se cierra tanto si todo va bien como si salta 
+		 // una excepcion.
+		 try{                    
+			if( null != fr ){   
+			   fr.close();
+			   archivo.delete();
+			}                  
+		 }catch (Exception e2){ 
+			e2.printStackTrace();
+		 }
+		}
+		return listaMaticulas;
+  }
     
   // implement shutdown() method
   public void shutdown() {
