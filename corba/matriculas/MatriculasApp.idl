@@ -1,0 +1,8 @@
+module MatriculasApp
+{
+  interface Matriculas
+  {
+  string matriculasGenerator();
+  oneway void shutdown();
+  };
+};

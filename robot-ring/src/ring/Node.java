@@ -8,16 +8,16 @@ import ring.Robot;
 
 public class Node {
 
-    private static int puertoIzquierda = 5006;
-    private static int puertoDerecha   = 5002;
-    static String ipDerecha = "172.20.10.6";
-    private static int puertoIzquierda2 = 5007;
+    private static int puertoIzquierda = 5002;
+    private static int puertoDerecha   = 5001;
+    static String ipDerecha = "localhost";
+    private static int puertoIzquierda2 = 5004;
     private static int puertoDerecha2   = 5003;
-    static String ipIzquierda = "172.20.10.9";
+    static String ipIzquierda = "localhost";
     
-    static String ip = "172.20.10.14";
+    static String ip = "localhost";
     static int puertoClient = 5000;
-    static String ipClient = "172.20.10.14";
+    static String ipClient = "localhost";
     
     static boolean masterNode = false;
     static int auxPuertoIzquierda = puertoIzquierda;

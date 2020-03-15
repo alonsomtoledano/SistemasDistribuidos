@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 public class Client {
 	public static void main(String[] args) {
-		String ipNode = "10.45.0.20";
+		String ipNode = "localhost";
         int port = 5000;
-        int maxNodes = 4;
+        int maxNodes = 3;
         
         String configurationRobot[][] = new String[maxNodes][4];
         String ipToStop = null;
