@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import java.io.*;
+
 class MatriculasImpl extends MatriculasPOA {
   private ORB orb;
 
@@ -42,6 +44,41 @@ class MatriculasImpl extends MatriculasPOA {
 		listaMaticulas.add(matricula);
 	}
 	return listaMaticulas.toString();
+  }
+  
+  public String readMatriculas() {
+	File archivo = null;
+	FileReader fr = null;
+	BufferedReader br = null;
+	
+	String listaMaticulas = "";
+	try {
+		// Apertura del fichero y creacion de BufferedReader para poder
+		// hacer una lectura comoda (disponer del metodo readLine()).
+		archivo = new File ("./matriculas.txt");
+		fr = new FileReader (archivo);
+		br = new BufferedReader(fr);
+		// Lectura del fichero
+		String linea;
+		while((linea=br.readLine())!=null) {
+			listaMaticulas = listaMaticulas + linea + ", ";
+		}
+	}
+	catch(Exception e){
+		e.printStackTrace();
+	}finally{
+		// En el finally cerramos el fichero, para asegurarnos
+		// que se cierra tanto si todo va bien como si salta 
+		// una excepcion.
+		try{                    
+			if( null != fr ){   
+			   fr.close();     
+			}
+		}catch (Exception e2){ 
+			e2.printStackTrace();
+		}
+	}
+	return listaMaticulas;
   }
     
   // implement shutdown() method

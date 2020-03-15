@@ -25,7 +25,7 @@ public class MatriculasClient
         matriculasImpl = MatriculasHelper.narrow(ncRef.resolve_str(name));
 
         System.out.println("Obtained a handle on server object: " + matriculasImpl);
-        System.out.println(matriculasImpl.matriculasGenerator());
+        System.out.println(matriculasImpl.readMatriculas());
         matriculasImpl.shutdown();
 
         } catch (Exception e) {
