@@ -1,0 +1,47 @@
+///////////////////////////___Node1___MasterNode___///////////////////////////
+
+		//PORTS
+	    int puertoIzquierda = 5002;
+	    int puertoDerecha   = 5000;
+	    int puertoIzquierda2 = 5005;
+	    int puertoDerecha2   = 5003;
+	    
+	    //IP
+	    String ipDerecha = "localhost";
+	    String ipIzquierda = "localhost";
+	    
+	    //CONTROL VARIABLES
+	    boolean masterNode = true;
+	    int nodeNumber = 1;
+	    
+///////////////////////////___Node2___///////////////////////////
+
+		//PORTS
+	    int puertoIzquierda = 5000;
+	    int puertoDerecha   = 5001;
+	    int puertoIzquierda2 = 5003;
+	    int puertoDerecha2   = 5004;
+	    
+	    //IP
+	    String ipDerecha = "localhost";
+	    String ipIzquierda = "localhost";
+	    
+	    //CONTROL VARIABLES
+	    boolean masterNode = false;
+	    int nodeNumber = 2;
+	    
+///////////////////////////___Node3___///////////////////////////
+
+		//PORTS
+	    int puertoIzquierda = 5001;
+	    int puertoDerecha   = 5002;
+	    int puertoIzquierda2 = 5004;
+	    int puertoDerecha2   = 5005;
+	    
+	    //IP
+	    String ipDerecha = "localhost";
+	    String ipIzquierda = "localhost";
+	    
+	    //CONTROL VARIABLES
+	    boolean masterNode = false;
+	    int nodeNumber = 3;
