@@ -7,21 +7,23 @@ public class Node {
 
 	public static void main(String[] args) {
 		//PORTS
-	    int puertoIzquierda = 5002;
-	    int puertoDerecha   = 5000;
-	    int puertoIzquierda2 = 5005;
-	    int puertoDerecha2   = 5003;
+	    int puertoIzquierda = 6003;
+	    int puertoDerecha = 6001;
+	    int puertoIzquierda2 = 6006;
+	    int puertoDerecha2 = 6004;
+	    int puertoCentralServer = 6000;
 	    
 	    //IP
-	    String ipDerecha = "localhost";
 	    String ipIzquierda = "localhost";
+	    String ipDerecha = "localhost";
+	    String ipCentralServer = "localhost";
 	    
 	    //CONTROL VARIABLES
 	    boolean masterNode = true;
 	    int nodeNumber = 1;
 		
 	    
-		HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoDerecha, ipDerecha, masterNode, nodeNumber);
+		HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode, nodeNumber);
     	new Thread(handlerDerecha).start();
     	
     	HandlerIzquierda handlerIzquierda = new HandlerIzquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda, nodeNumber);
@@ -29,7 +31,7 @@ public class Node {
 	}
 	
 	//THREAD FUNCTIONS
-    public static void derecha(int puertoIzquierda, int puertoDerecha, String ipDerecha, boolean masterNode) {
+    public static void derecha(int puertoIzquierda, int puertoDerecha, int puertoCentralServer, String ipDerecha, String ipCentralServer, boolean masterNode) {
     	boolean firstTime = true;
     	
     	while(true) {
@@ -69,6 +71,13 @@ public class Node {
     					ObjectOutputStream outputDerecha = new ObjectOutputStream (socketDerecha.getOutputStream());
     					outputDerecha.writeObject(message);
     					
+    					if(masterNode) {
+    						Socket socketCentralServer = new Socket(ipCentralServer, puertoCentralServer);
+        					ObjectOutputStream outputCentralServer = new ObjectOutputStream (socketCentralServer.getOutputStream());
+        					outputCentralServer.writeObject(message);
+        					System.out.println("MENSAJE ENVIADO AL SERVIDOR");
+    					}
+    					
     					Thread.sleep(3000);
     					
     					System.out.println("MENSAJE ENVIADO");
@@ -88,15 +97,17 @@ public class Node {
 	//THREAD HANDLERS
 	private static class HandlerDerecha implements Runnable {
 	
-		private int puertoIzquierda, puertoDerecha;
-		private String ipDerecha;
+		private int puertoIzquierda, puertoDerecha, puertoCentralServer;
+		private String ipDerecha, ipCentralServer;
 		private boolean masterNode;
 		private int nodeNumber;
 	
-		public HandlerDerecha(int puertoIzquierda, int puertoDerecha, String ipDerecha, boolean masterNode, int nodeNumber) {
+		public HandlerDerecha(int puertoIzquierda, int puertoDerecha, int puertoCentralServer, String ipDerecha, String ipCentralServer, boolean masterNode, int nodeNumber) {
 			this.puertoIzquierda = puertoIzquierda;
 			this.puertoDerecha = puertoDerecha;
+			this.puertoCentralServer = puertoCentralServer;
 			this.ipDerecha = ipDerecha;
+			this.ipCentralServer = ipCentralServer;
 			this.masterNode = masterNode;
 			this.nodeNumber = nodeNumber;
 		}
@@ -104,7 +115,7 @@ public class Node {
 		@Override
 		public void run() {
 			System.out.println(nodeNumber + " Derecha");
-			derecha(puertoIzquierda, puertoDerecha, ipDerecha, masterNode);
+			derecha(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode);
 		}
 	}
 	

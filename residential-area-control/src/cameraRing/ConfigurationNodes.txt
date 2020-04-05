@@ -1,14 +1,20 @@
+///////////////////////////___CentralServer___///////////////////////////
+		//PORTS
+	    int puertoCameraRing = 6000;
+
 ///////////////////////////___Node1___MasterNode___///////////////////////////
 
 		//PORTS
-	    int puertoIzquierda = 5002;
-	    int puertoDerecha   = 5000;
-	    int puertoIzquierda2 = 5005;
-	    int puertoDerecha2   = 5003;
+	    int puertoIzquierda = 6003;
+	    int puertoDerecha = 6001;
+	    int puertoIzquierda2 = 6006;
+	    int puertoDerecha2 = 6004;
+	    int puertoCentralServer = 6000;
 	    
 	    //IP
-	    String ipDerecha = "localhost";
 	    String ipIzquierda = "localhost";
+	    String ipDerecha = "localhost";
+	    String ipCentralServer = "localhost";
 	    
 	    //CONTROL VARIABLES
 	    boolean masterNode = true;
@@ -17,14 +23,16 @@
 ///////////////////////////___Node2___///////////////////////////
 
 		//PORTS
-	    int puertoIzquierda = 5000;
-	    int puertoDerecha   = 5001;
-	    int puertoIzquierda2 = 5003;
-	    int puertoDerecha2   = 5004;
+	    int puertoIzquierda = 6001;
+	    int puertoDerecha = 6002;
+	    int puertoIzquierda2 = 6004;
+	    int puertoDerecha2 = 6005;
+	    int puertoCentralServer = 6000;
 	    
 	    //IP
-	    String ipDerecha = "localhost";
 	    String ipIzquierda = "localhost";
+	    String ipDerecha = "localhost";
+	    String ipCentralServer = "localhost";
 	    
 	    //CONTROL VARIABLES
 	    boolean masterNode = false;
@@ -33,14 +41,16 @@
 ///////////////////////////___Node3___///////////////////////////
 
 		//PORTS
-	    int puertoIzquierda = 5001;
-	    int puertoDerecha   = 5002;
-	    int puertoIzquierda2 = 5004;
-	    int puertoDerecha2   = 5005;
+	    int puertoIzquierda = 6002;
+	    int puertoDerecha = 6003;
+	    int puertoIzquierda2 = 6005;
+	    int puertoDerecha2 = 6006;
+	    int puertoCentralServer = 6000;
 	    
 	    //IP
-	    String ipDerecha = "localhost";
 	    String ipIzquierda = "localhost";
+	    String ipDerecha = "localhost";
+	    String ipCentralServer = "localhost";
 	    
 	    //CONTROL VARIABLES
 	    boolean masterNode = false;
