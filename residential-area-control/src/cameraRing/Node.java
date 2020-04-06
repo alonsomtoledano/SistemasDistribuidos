@@ -2,6 +2,14 @@ package cameraRing;
 
 import java.io.*;
 import java.net.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
+import java.util.List;
+import java.util.Scanner;
 
 public class Node {
 
@@ -21,8 +29,9 @@ public class Node {
 	    //CONTROL VARIABLES
 	    boolean masterNode = true;
 	    int nodeNumber = 1;
+	    boolean inOut = true; //TRUE = IN, FALSE = OUT
 		
-	    
+	    findMatriculas(inOut);
 		HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode, nodeNumber);
     	new Thread(handlerDerecha).start();
     	
@@ -92,7 +101,45 @@ public class Node {
     
     public static void izquierda(int puertoIzquierda2, int puertoDerecha2, String ipIzquierda) {
     	
-    }	
+    }
+    
+    public static void findMatriculas(boolean inOut) {
+    	String folderRoute = inOut ? "./src/cameraRing/detectionIn" : "./src/cameraRing/detectionOut";
+    	
+    	File folder = new File(folderRoute);
+    	Path path = Paths.get("./src/cameraRing/detectionIn/");
+    	
+    	while (true) {        	
+        	try {
+        		WatchService watcher = path.getFileSystem().newWatchService();
+        		path.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
+        		WatchKey watchKey = watcher.take();
+        		List<WatchEvent<?>> events = watchKey.pollEvents();
+        		for (WatchEvent event : events) {
+        			if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE) {
+        				
+        				String[] list = folder.list();
+        				
+        		    	for (int i = 0; i < list.length; i++) {
+        		    		if (list[i].endsWith(".jpg")) {
+        		    			System.out.println("Foto " + i);
+        		    			String imageRoute = inOut ? "./src/cameraRing/detectionIn/" + list[i] : "./src/cameraRing/detectionOut/" + list[i];
+        		    			
+        		    			try {
+        							String cmd = "python ./src/cameraRing/matriculasDetector.py " + imageRoute;
+        							Runtime.getRuntime().exec(cmd);
+        							System.out.println("PYTHON");
+        						} catch (Exception e) {
+        						}
+        		    		}
+        		    	}
+        		    	
+        			}
+        		}
+    		} catch (Exception e) {
+    		}
+    	}
+    }
 	
 	//THREAD HANDLERS
 	private static class HandlerDerecha implements Runnable {
