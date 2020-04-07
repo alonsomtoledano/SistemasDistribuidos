@@ -1,0 +1,8 @@
+module MatriculasApp
+{
+  interface Matriculas
+  {
+  string findTxtAndDelete();
+  oneway void shutdown();
+  };
+};

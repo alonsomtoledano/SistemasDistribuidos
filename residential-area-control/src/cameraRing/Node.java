@@ -29,9 +29,9 @@ public class Node {
 	    //CONTROL VARIABLES
 	    boolean masterNode = true;
 	    int nodeNumber = 1;
-	    boolean inOut = true; //TRUE = IN, FALSE = OUT
+	    boolean inOut = false; //TRUE = IN, FALSE = OUT
 		
-	    findMatriculas(inOut);
+	    matriculasDetector(inOut);
 		HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode, nodeNumber);
     	new Thread(handlerDerecha).start();
     	
@@ -103,13 +103,13 @@ public class Node {
     	
     }
     
-    public static void findMatriculas(boolean inOut) {
-    	String folderRoute = inOut ? "./src/cameraRing/detectionIn" : "./src/cameraRing/detectionOut";
+    public static void matriculasDetector(boolean inOut) {
+    	String folderRoute = inOut ? "./src/cameraRing/detectionIn/" : "./src/cameraRing/detectionOut/";
     	
     	File folder = new File(folderRoute);
-    	Path path = Paths.get("./src/cameraRing/detectionIn/");
+    	Path path = Paths.get(folderRoute);
     	
-    	while (true) {        	
+    	while (true) {
         	try {
         		WatchService watcher = path.getFileSystem().newWatchService();
         		path.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
@@ -122,13 +122,12 @@ public class Node {
         				
         		    	for (int i = 0; i < list.length; i++) {
         		    		if (list[i].endsWith(".jpg")) {
-        		    			System.out.println("Foto " + i);
-        		    			String imageRoute = inOut ? "./src/cameraRing/detectionIn/" + list[i] : "./src/cameraRing/detectionOut/" + list[i];
+        		    			String imageRoute = folderRoute + list[i];
         		    			
         		    			try {
-        							String cmd = "python ./src/cameraRing/matriculasDetector.py " + imageRoute;
+        							String cmd = "python ./src/cameraRing/matriculasDetector.py " + imageRoute + " " + inOut;
+        							System.out.println(cmd);
         							Runtime.getRuntime().exec(cmd);
-        							System.out.println("PYTHON");
         						} catch (Exception e) {
         						}
         		    		}
