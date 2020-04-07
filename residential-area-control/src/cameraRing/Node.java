@@ -118,19 +118,59 @@ public class Node {
     }
     
     public static void clientCorba(boolean inOut) {
-		try {
-			Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/clientCorba.bat");
-			
-			//LEER
-			BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-			
-			String s = null;
-			while ((s = stdInput.readLine()) != null) {
-			    System.out.println(s);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    	String folderRoute = inOut ? "./src/cameraRing/detectionIn/" : "./src/cameraRing/detectionOut/";
+    	
+    	File folder = new File(folderRoute);
+    	Path path = Paths.get(folderRoute);
+    	
+    	while (true) {
+        	try {
+        		WatchService watcher = path.getFileSystem().newWatchService();
+        		path.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
+        		WatchKey watchKey = watcher.take();
+        		List<WatchEvent<?>> events = watchKey.pollEvents();
+        		for (WatchEvent event : events) {
+        			if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE) {
+        				
+        				String[] list = folder.list();
+        				
+        		    	for (int i = 0; i < list.length; i++) {
+        		    		if (list[i].endsWith(".jpg")) {        	
+        		    			
+        		    			try {
+        		    				Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/clientCorba.bat");
+        		    				
+        		    				//LEER
+        		    				BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+        		    				
+        		    				String s = null;
+        		    				while ((s = stdInput.readLine()) != null) {
+        		    				    System.out.println(s);
+        		    				}
+        						} catch (Exception e) {
+        						}
+        		    		}
+        		    	}
+        		    	
+        			}
+        		}
+    		} catch (Exception e) {
+    		}
+    	}
+    	
+//		try {
+//			Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/clientCorba.bat");
+//			
+//			//LEER
+//			BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+//			
+//			String s = null;
+//			while ((s = stdInput.readLine()) != null) {
+//			    System.out.println(s);
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
     }
     
     public static void matriculasDetector(boolean inOut) {
