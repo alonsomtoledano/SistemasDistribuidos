@@ -2,7 +2,7 @@ module MatriculasApp
 {
   interface Matriculas
   {
-  string findTxtAndDelete();
+  string matriculasDetector();
   oneway void shutdown();
   };
 };

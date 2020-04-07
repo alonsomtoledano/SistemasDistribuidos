@@ -9,7 +9,6 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.List;
-import java.util.Scanner;
 
 public class Node {
 
@@ -29,21 +28,28 @@ public class Node {
 	    //CONTROL VARIABLES
 	    boolean masterNode = true;
 	    int nodeNumber = 1;
-	    boolean inOut = false; //TRUE = IN, FALSE = OUT
+	    boolean inOut = true; //TRUE = IN, FALSE = OUT
 		
-	    matriculasDetector(inOut);
 		HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode, nodeNumber);
     	new Thread(handlerDerecha).start();
     	
     	HandlerIzquierda handlerIzquierda = new HandlerIzquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda, nodeNumber);
     	new Thread(handlerIzquierda).start();
+    	
+    	if (masterNode) {
+        	HandlerServerCorba handlerServerCorba = new HandlerServerCorba();
+        	new Thread(handlerServerCorba).start();
+    	}
+    	
+    	HandlerClientCorba handlerClientCorba = new HandlerClientCorba(inOut);
+    	new Thread(handlerClientCorba).start();
 	}
 	
 	//THREAD FUNCTIONS
     public static void derecha(int puertoIzquierda, int puertoDerecha, int puertoCentralServer, String ipDerecha, String ipCentralServer, boolean masterNode) {
     	boolean firstTime = true;
     	
-    	while(true) {
+    	while (true) {
     		try {
     			ServerSocket socketIzquierda = new ServerSocket(puertoIzquierda);
     			Socket sIzquierda;
@@ -103,6 +109,30 @@ public class Node {
     	
     }
     
+    public static void serverCorba() {
+		try {
+			Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/serverCorba.bat");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public static void clientCorba(boolean inOut) {
+		try {
+			Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/clientCorba.bat");
+			
+			//LEER
+			BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+			
+			String s = null;
+			while ((s = stdInput.readLine()) != null) {
+			    System.out.println(s);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
     public static void matriculasDetector(boolean inOut) {
     	String folderRoute = inOut ? "./src/cameraRing/detectionIn/" : "./src/cameraRing/detectionOut/";
     	
@@ -126,7 +156,6 @@ public class Node {
         		    			
         		    			try {
         							String cmd = "python ./src/cameraRing/matriculasDetector.py " + imageRoute + " " + inOut;
-        							System.out.println(cmd);
         							Runtime.getRuntime().exec(cmd);
         						} catch (Exception e) {
         						}
@@ -182,6 +211,29 @@ public class Node {
 		public void run() {
 			System.out.println(nodeNumber + " Izquierda");
 			izquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda);
+		}
+	}
+	
+	private static class HandlerServerCorba implements Runnable {		
+		@Override
+		public void run() {
+			System.out.println("Server Corba");
+			serverCorba();
+		}
+	}
+	
+	private static class HandlerClientCorba implements Runnable {
+		
+		private boolean inOut;
+		
+		public HandlerClientCorba(boolean inOut) {
+			this.inOut = inOut;
+		}
+		
+		@Override
+		public void run() {
+			System.out.println("Client Corba");
+			clientCorba(inOut);
 		}
 	}
 }
