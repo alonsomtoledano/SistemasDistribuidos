@@ -8,6 +8,16 @@ public class MatriculasClient
   static Matriculas matriculasImpl;
 
   public static void main(String args[]) {
+//	  String orbArgs[] = {args[1], args[2], args[3], args[4]};
+//	  String inOutArgs = args[0];
+//	  boolean inOut;
+//	  
+//	  if(inOutArgs.equals("true")) {
+//		  inOut = true;
+//	  } else {
+//		  inOut = false;
+//	  }
+	  
       try {
 		ORB orb = ORB.init(args, null);
 
@@ -18,8 +28,7 @@ public class MatriculasClient
         String name = "Matriculas";
         matriculasImpl = MatriculasHelper.narrow(ncRef.resolve_str(name));
 
-        System.out.println("Obtained a handle on server object: " + matriculasImpl);
-        System.out.println(matriculasImpl.matriculasDetector());
+        System.out.println(matriculasImpl.matriculasDetectorIn());
         matriculasImpl.shutdown();
 
         } catch (Exception e) {

@@ -26,42 +26,30 @@ class MatriculasImpl extends MatriculasPOA {
     orb = orb_val; 
   }
   
-  public String matriculasDetector() {
-	String folderRoute = "./src/cameraRing/detectionIn/";
-  	
-  	File folder = new File(folderRoute);
-  	Path path = Paths.get(folderRoute);
-  	
-  	while (true) {
-      	try {
-      		WatchService watcher = path.getFileSystem().newWatchService();
-      		path.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
-      		WatchKey watchKey = watcher.take();
-      		List<WatchEvent<?>> events = watchKey.pollEvents();
-      		for (WatchEvent event : events) {
-      			if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE) {
-      				
-      				String[] list = folder.list();
-      				
-      		    	for (int i = 0; i < list.length; i++) {
-      		    		if (list[i].endsWith(".jpg")) {
-      		    			String imageRoute = folderRoute + list[i];
-      		    			
-      		    			try {
-      							String cmd = "python ./src/cameraRing/matriculasDetector.py " + imageRoute + " " + true;
-      							System.out.println(cmd);
-      							Runtime.getRuntime().exec(cmd);
-      						} catch (Exception e) {
-      						}
-      		    		}
-      		    	}
-      		    	
-      			}
-      		}
-  		} catch (Exception e) {
-  		}
-      	return "Hola";
-  	}
+  public String matriculasDetectorIn() {
+	boolean inOut = true;
+	  
+	String folderRoute = inOut ? "../detectionIn/" : "../detectionOut/";
+	
+	File folder = new File(folderRoute);
+
+  	try {  				
+		String[] list = folder.list();
+		
+    	for (int i = 0; i < list.length; i++) {
+    		if (list[i].endsWith(".jpg")) {
+    			String imageRoute = folderRoute + list[i];
+    			
+    			try {
+					String cmd = "python ../matriculasDetector.py " + imageRoute + " " + inOut;
+					Runtime.getRuntime().exec(cmd);
+				} catch (Exception e) {
+				}
+    		}
+    	}
+	} catch (Exception e) {
+	}
+  	return "hola";
   }
     
   public void shutdown() {
@@ -98,7 +86,7 @@ public class MatriculasServer {
 	        
 	        orb.run();
 	        
-	      } 
+	      }
 	          
 	        catch (Exception e) {
 	          System.err.println("ERROR: " + e);
@@ -106,6 +94,6 @@ public class MatriculasServer {
 	        }
 	            
 	        System.out.println("MatriculasServer Exiting ...");
-	  }        
+	  }
   }
 }

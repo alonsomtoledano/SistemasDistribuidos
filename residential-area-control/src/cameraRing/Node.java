@@ -142,11 +142,15 @@ public class Node {
         		    				
         		    				//LEER
         		    				BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-        		    				
-        		    				String s = null;
-        		    				while ((s = stdInput.readLine()) != null) {
-        		    				    System.out.println(s);
+
+        		    				String line = null;
+        		    				String matricula = null;
+        		    				while ((line = stdInput.readLine()) != null) {
+        		    					//matricula = line;
+        		    					System.out.println(line);
         		    				}
+        		    				//System.out.println(matricula);
+        		    				
         						} catch (Exception e) {
         						}
         		    		}
@@ -157,20 +161,6 @@ public class Node {
     		} catch (Exception e) {
     		}
     	}
-    	
-//		try {
-//			Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/clientCorba.bat");
-//			
-//			//LEER
-//			BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-//			
-//			String s = null;
-//			while ((s = stdInput.readLine()) != null) {
-//			    System.out.println(s);
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
     }
     
     public static void matriculasDetector(boolean inOut) {

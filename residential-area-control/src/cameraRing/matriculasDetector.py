@@ -13,17 +13,17 @@ matricula = text [1:len(text)]
 os.remove(sys.argv[1])
 
 if sys.argv[2] == "true":
-	f = open("./src/cameraRing/matriculas.txt","a")
+	f = open("../matriculas.txt","a")
 	f.write(matricula + "\n")
 
 	f.close()
 else:
-	f = open("./src/cameraRing/matriculas.txt","r")
+	f = open("../matriculas.txt","r")
 	lines = f.readlines()
 	
 	f.close()
 	
-	f = open("./src/cameraRing/matriculas.txt","w")
+	f = open("../matriculas.txt","w")
 	
 	for line in lines:
 		if line != matricula + "\n":
