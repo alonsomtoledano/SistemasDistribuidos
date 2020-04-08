@@ -17,6 +17,7 @@ if sys.argv[2] == "true":
 	f.write(matricula + "\n")
 
 	f.close()
+	print(matricula)
 else:
 	f = open("../matriculas.txt","r")
 	lines = f.readlines()
@@ -30,3 +31,4 @@ else:
 			f.write(line)
 			
 	f.close()
+	print(matricula)

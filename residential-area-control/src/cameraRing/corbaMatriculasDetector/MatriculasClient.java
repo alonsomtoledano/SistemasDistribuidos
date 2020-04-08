@@ -28,7 +28,7 @@ public class MatriculasClient
         String name = "Matriculas";
         matriculasImpl = MatriculasHelper.narrow(ncRef.resolve_str(name));
 
-        System.out.println(matriculasImpl.matriculasDetectorIn());
+        System.out.println(matriculasImpl.matriculasDetectorOut());
         matriculasImpl.shutdown();
 
         } catch (Exception e) {

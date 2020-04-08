@@ -140,16 +140,15 @@ public class Node {
         		    			try {
         		    				Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/clientCorba.bat");
         		    				
-        		    				//LEER
+        		    				//READ
         		    				BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
         		    				String line = null;
         		    				String matricula = null;
         		    				while ((line = stdInput.readLine()) != null) {
-        		    					//matricula = line;
-        		    					System.out.println(line);
+        		    					matricula = line;
         		    				}
-        		    				//System.out.println(matricula);
+        		    				System.out.println(matricula);
         		    				
         						} catch (Exception e) {
         						}
