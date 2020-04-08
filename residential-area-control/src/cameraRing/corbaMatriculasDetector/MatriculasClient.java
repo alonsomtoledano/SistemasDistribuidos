@@ -8,18 +8,11 @@ public class MatriculasClient
   static Matriculas matriculasImpl;
 
   public static void main(String args[]) {
-//	  String orbArgs[] = {args[1], args[2], args[3], args[4]};
-//	  String inOutArgs = args[0];
-//	  boolean inOut;
-//	  
-//	  if(inOutArgs.equals("true")) {
-//		  inOut = true;
-//	  } else {
-//		  inOut = false;
-//	  }
+	  String orbArgs[] = {args[1], args[2], args[3], args[4]};
+	  String inOutArgs = args[0];
 	  
       try {
-		ORB orb = ORB.init(args, null);
+		ORB orb = ORB.init(orbArgs, null);
 
         org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
 
@@ -28,7 +21,11 @@ public class MatriculasClient
         String name = "Matriculas";
         matriculasImpl = MatriculasHelper.narrow(ncRef.resolve_str(name));
 
-        System.out.println(matriculasImpl.matriculasDetectorOut());
+        if (inOutArgs.equals("true")) {
+            System.out.println(matriculasImpl.matriculasDetectorIn());
+        } else {
+        	System.out.println(matriculasImpl.matriculasDetectorOut());
+        }
         matriculasImpl.shutdown();
 
         } catch (Exception e) {

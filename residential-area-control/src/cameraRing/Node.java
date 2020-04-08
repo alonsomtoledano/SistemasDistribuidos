@@ -138,7 +138,7 @@ public class Node {
         		    		if (list[i].endsWith(".jpg")) {        	
         		    			
         		    			try {
-        		    				Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/clientCorba.bat");
+        		    				Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/clientCorba.bat " + inOut);
         		    				
         		    				//READ
         		    				BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
