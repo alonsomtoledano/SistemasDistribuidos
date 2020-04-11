@@ -8,6 +8,7 @@ import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
@@ -27,13 +28,13 @@ public class Node {
 	    
 	    //CONTROL VARIABLES
 	    boolean masterNode = true;
-	    int nodeNumber = 1;
-	    boolean inOut = true; //TRUE = IN, FALSE = OUT
+	    boolean inOut = false; //TRUE = IN, FALSE = OUT
 		
-		HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode, nodeNumber);
+	    //CODE
+		HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode);
     	new Thread(handlerDerecha).start();
     	
-    	HandlerIzquierda handlerIzquierda = new HandlerIzquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda, nodeNumber);
+    	HandlerIzquierda handlerIzquierda = new HandlerIzquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda);
     	new Thread(handlerIzquierda).start();
     	
     	if (masterNode) {
@@ -43,6 +44,44 @@ public class Node {
     	
     	HandlerClientCorba handlerClientCorba = new HandlerClientCorba(inOut);
     	new Thread(handlerClientCorba).start();
+    	/*
+    	//Se crea un nuevo mensaje y se hace el get de la lista
+    	Message mensaje = new Message();
+    	List<List<String>> matriculasInLog = mensaje.getMatriculasInLog();
+    	
+    	//Se crea la primera pareja de matricula - hora
+    	List<String> matricula1 = new ArrayList<String>();
+    	matricula1.add("matricula1");
+    	matricula1.add("hora1");
+    	
+    	//Se crea la segunda pareja de matricula - hora
+    	List<String> matricula2 = new ArrayList<String>();
+    	matricula2.add("matricula2");
+    	matricula2.add("hora2");
+    	
+    	//Se añaden las parejas
+    	matriculasInLog.add(matricula1);
+    	matriculasInLog.add(matricula2);
+    	
+    	//Se hace el set
+    	mensaje.setMatriculasInLog(matriculasInLog);
+    	
+    	//Se muestra por pantalla toda la lista
+    	System.out.println(mensaje.getMatriculasInLog());
+    	
+    	//Se muestra por pantalla cada valor
+    	System.out.println(mensaje.getMatriculasInLog().get(0));
+    	System.out.println(mensaje.getMatriculasInLog().get(1));
+    	System.out.println(mensaje.getMatriculasInLog().get(0).get(0));
+    	System.out.println(mensaje.getMatriculasInLog().get(0).get(1));
+    	System.out.println(mensaje.getMatriculasInLog().get(1).get(0));
+    	System.out.println(mensaje.getMatriculasInLog().get(1).get(1));
+    	
+    	//Se hace el get de la lista, se vacía, se hace el set y se muestra por pantalla
+    	matriculasInLog = mensaje.getMatriculasInLog();
+    	matriculasInLog.clear();
+    	mensaje.setMatriculasInLog(matriculasInLog);
+    	System.out.println(mensaje.getMatriculasInLog());*/
 	}
 	
 	//THREAD FUNCTIONS
@@ -59,7 +98,7 @@ public class Node {
         			ObjectOutputStream outputDerecha = new ObjectOutputStream (socketDerecha.getOutputStream());
         			
     				System.out.println("ENVIANDO PRIMER MENSAJE");
-    				Message message = new Message("Contenido");
+    				Message message = new Message();
     				
     				try {
 						Thread.sleep(3000);
@@ -77,7 +116,7 @@ public class Node {
     					
     					Thread.sleep(3000);
     					
-    					System.out.println("MENSAJE RECIBIDO: " + message.getContent());
+    					//System.out.println("MENSAJE RECIBIDO: " + message.getContent());
     					
     					Thread.sleep(3000);
     					
@@ -204,21 +243,19 @@ public class Node {
 		private int puertoIzquierda, puertoDerecha, puertoCentralServer;
 		private String ipDerecha, ipCentralServer;
 		private boolean masterNode;
-		private int nodeNumber;
 	
-		public HandlerDerecha(int puertoIzquierda, int puertoDerecha, int puertoCentralServer, String ipDerecha, String ipCentralServer, boolean masterNode, int nodeNumber) {
+		public HandlerDerecha(int puertoIzquierda, int puertoDerecha, int puertoCentralServer, String ipDerecha, String ipCentralServer, boolean masterNode) {
 			this.puertoIzquierda = puertoIzquierda;
 			this.puertoDerecha = puertoDerecha;
 			this.puertoCentralServer = puertoCentralServer;
 			this.ipDerecha = ipDerecha;
 			this.ipCentralServer = ipCentralServer;
 			this.masterNode = masterNode;
-			this.nodeNumber = nodeNumber;
 		}
 	
 		@Override
 		public void run() {
-			System.out.println(nodeNumber + " Derecha");
+			System.out.println("Derecha");
 			derecha(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode);
 		}
 	}
@@ -227,18 +264,16 @@ public class Node {
 		
 		private int puertoIzquierda2, puertoDerecha2;
 		private String ipIzquierda;
-		private int nodeNumber;
 	
-		public HandlerIzquierda(int puertoIzquierda2, int puertoDerecha2, String ipIzquierda, int nodeNumber) {
+		public HandlerIzquierda(int puertoIzquierda2, int puertoDerecha2, String ipIzquierda) {
 			this.puertoIzquierda2 = puertoIzquierda2;
 			this.puertoDerecha2 = puertoDerecha2;
 			this.ipIzquierda = ipIzquierda;
-			this.nodeNumber = nodeNumber;
 		}
 	
 		@Override
 		public void run() {
-			System.out.println(nodeNumber + " Izquierda");
+			System.out.println("Izquierda");
 			izquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda);
 		}
 	}
