@@ -10,9 +10,10 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Node {
-
+	
 	public static void main(String[] args) {
 		//PORTS
 	    int puertoIzquierda = 6003;
@@ -26,23 +27,31 @@ public class Node {
 	    String ipDerecha = "localhost";
 	    String ipCentralServer = "localhost";
 	    
-	    //CONTROL VARIABLES
-	    boolean masterNode = true;
-	    boolean inOut = false; //TRUE = IN, FALSE = OUT
+	    //NODE VARIABLES
+	    boolean masterNode = true; //IS THIS THE MASTER NODE
+	    boolean inOut = true; //TRUE = IN, FALSE = OUT
+	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
+	    
+	    //LOG VARIBLES
+	    String logPath = "./src/cameraRing/node.log";
+	    
+	    //LOCKS
+	    ReentrantLock logLock = new ReentrantLock();
+	    ReentrantLock matriculasLock = new ReentrantLock();
 		
 	    //CODE
-		HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode);
+		HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode, firstTime, logPath, logLock, matriculasLock);
     	new Thread(handlerDerecha).start();
     	
-    	HandlerIzquierda handlerIzquierda = new HandlerIzquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda);
+    	HandlerIzquierda handlerIzquierda = new HandlerIzquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda, logPath, logLock);
     	new Thread(handlerIzquierda).start();
     	
     	if (masterNode) {
-        	HandlerServerCorba handlerServerCorba = new HandlerServerCorba();
+        	HandlerServerCorba handlerServerCorba = new HandlerServerCorba(logPath, logLock);
         	new Thread(handlerServerCorba).start();
     	}
     	
-    	HandlerClientCorba handlerClientCorba = new HandlerClientCorba(inOut);
+    	HandlerClientCorba handlerClientCorba = new HandlerClientCorba(inOut, logPath, logLock, matriculasLock);
     	new Thread(handlerClientCorba).start();
     	/*
     	//Se crea un nuevo mensaje y se hace el get de la lista
@@ -85,8 +94,14 @@ public class Node {
 	}
 	
 	//THREAD FUNCTIONS
-    public static void derecha(int puertoIzquierda, int puertoDerecha, int puertoCentralServer, String ipDerecha, String ipCentralServer, boolean masterNode) {
-    	boolean firstTime = true;
+    public static void derecha(int puertoIzquierda, int puertoDerecha, int puertoCentralServer, String ipDerecha, String ipCentralServer, boolean masterNode,
+    							boolean firstTime, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
+    	logLock.lock();
+		try {
+			Log.log("info", logPath, "Right thread started");
+		} finally {
+			logLock.unlock();
+		}
     	
     	while (true) {
     		try {
@@ -97,16 +112,32 @@ public class Node {
         			Socket socketDerecha = new Socket(ipDerecha, puertoDerecha);
         			ObjectOutputStream outputDerecha = new ObjectOutputStream (socketDerecha.getOutputStream());
         			
-    				System.out.println("ENVIANDO PRIMER MENSAJE");
+        			logLock.lock();
+        			try {
+            			try {
+							Thread.sleep(3000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+        				Log.log("info", logPath, "Making fist message");
+        			} finally {
+        				logLock.unlock();
+        			}
+        			
     				Message message = new Message();
-    				
-    				try {
-						Thread.sleep(3000);
-					} catch (InterruptedException e) {
-					}
-    				
     				outputDerecha.writeObject(message);
-    				System.out.println("PRIMER MENSAJE ENVIADO");
+    				
+    				logLock.lock();
+    				try {
+    					try {
+							Thread.sleep(3000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+    					Log.log("info", logPath, "First message sent");
+    				} finally {
+    					logLock.unlock();
+    				}
     			}
     			
     			while((sIzquierda = socketIzquierda.accept()) != null) {
@@ -114,27 +145,61 @@ public class Node {
     				try {
     					Message message = (Message)inputIzquierda.readObject();
     					
-    					Thread.sleep(3000);
+    					logLock.lock();
+    					try {
+        					Thread.sleep(3000);
+    						Log.log("info", logPath, "Message recieved");
+    					} finally {
+    						logLock.unlock();
+    					}
+    					
+    					List<List<String>> matriculasInLog = message.getMatriculasInLog();
     					
     					//System.out.println("MENSAJE RECIBIDO: " + message.getContent());
     					
-    					Thread.sleep(3000);
+    					logLock.lock();
+    					try {
+        					Thread.sleep(3000);
+    						Log.log("info", logPath, "Sending message");
+    					} finally {
+    						logLock.unlock();
+    					}
     					
-    					System.out.println("ENVIANDO MENSAJE");
     					Socket socketDerecha = new Socket(ipDerecha, puertoDerecha);
     					ObjectOutputStream outputDerecha = new ObjectOutputStream (socketDerecha.getOutputStream());
     					outputDerecha.writeObject(message);
     					
+    					logLock.lock();
+    					try {
+        					Thread.sleep(3000);
+    						Log.log("info", logPath, "Message sent to next node");
+    					} finally {
+    						logLock.unlock();
+    					}
+    					
     					if(masterNode) {
+    						
+    						logLock.lock();
+        					try {
+            					Thread.sleep(3000);
+        						Log.log("info", logPath, "Message sending to server");
+        					} finally {
+        						logLock.unlock();
+        					}
+    						
     						Socket socketCentralServer = new Socket(ipCentralServer, puertoCentralServer);
         					ObjectOutputStream outputCentralServer = new ObjectOutputStream (socketCentralServer.getOutputStream());
         					outputCentralServer.writeObject(message);
-        					System.out.println("MENSAJE ENVIADO AL SERVIDOR");
+
+        					logLock.lock();
+        					try {
+            					Thread.sleep(3000);
+        						Log.log("info", logPath, "Message sent to server");
+        					} finally {
+        						logLock.unlock();
+        					}
+        					
     					}
-    					
-    					Thread.sleep(3000);
-    					
-    					System.out.println("MENSAJE ENVIADO");
 					} catch (ClassNotFoundException | InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -144,11 +209,23 @@ public class Node {
     	}
     }
     
-    public static void izquierda(int puertoIzquierda2, int puertoDerecha2, String ipIzquierda) {
-    	
+    public static void izquierda(int puertoIzquierda2, int puertoDerecha2, String ipIzquierda, String logPath, ReentrantLock logLock) {
+		logLock.lock();
+		try {
+			Log.log("info", logPath, "Left thread started");
+		} finally {
+			logLock.unlock();
+		}
     }
     
-    public static void serverCorba() {
+    public static void serverCorba(String logPath, ReentrantLock logLock) {
+		logLock.lock();
+		try {
+			Log.log("info", logPath, "Server Corba started");
+		} finally {
+			logLock.unlock();
+		}
+		
 		try {
 			Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/serverCorba.bat");
 		} catch (IOException e) {
@@ -156,56 +233,26 @@ public class Node {
 		}
     }
     
-    public static void clientCorba(boolean inOut) {
+    public static void clientCorba(boolean inOut, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
+		logLock.lock();
+		try {
+			Log.log("info", logPath, "Client Corba started");
+		} finally {
+			logLock.unlock();
+		}
+		
     	String folderRoute = inOut ? "./src/cameraRing/detectionIn/" : "./src/cameraRing/detectionOut/";
+    	String logInOut = inOut ? "IN" : "OUT";
     	
     	File folder = new File(folderRoute);
     	Path path = Paths.get(folderRoute);
     	
-    	while (true) {
-        	try {
-        		WatchService watcher = path.getFileSystem().newWatchService();
-        		path.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
-        		WatchKey watchKey = watcher.take();
-        		List<WatchEvent<?>> events = watchKey.pollEvents();
-        		for (WatchEvent event : events) {
-        			if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE) {
-        				
-        				String[] list = folder.list();
-        				
-        		    	for (int i = 0; i < list.length; i++) {
-        		    		if (list[i].endsWith(".jpg")) {        	
-        		    			
-        		    			try {
-        		    				Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/clientCorba.bat " + inOut);
-        		    				
-        		    				//READ
-        		    				BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-
-        		    				String line = null;
-        		    				String matricula = null;
-        		    				while ((line = stdInput.readLine()) != null) {
-        		    					matricula = line;
-        		    				}
-        		    				System.out.println(matricula);
-        		    				
-        						} catch (Exception e) {
-        						}
-        		    		}
-        		    	}
-        		    	
-        			}
-        		}
-    		} catch (Exception e) {
-    		}
-    	}
-    }
-    
-    public static void matriculasDetector(boolean inOut) {
-    	String folderRoute = inOut ? "./src/cameraRing/detectionIn/" : "./src/cameraRing/detectionOut/";
-    	
-    	File folder = new File(folderRoute);
-    	Path path = Paths.get(folderRoute);
+		logLock.lock();
+		try {
+			Log.log("info", logPath, "Listening " + logInOut + " folder");
+		} finally {
+			logLock.unlock();
+		}
     	
     	while (true) {
         	try {
@@ -220,13 +267,40 @@ public class Node {
         				
         		    	for (int i = 0; i < list.length; i++) {
         		    		if (list[i].endsWith(".jpg")) {
-        		    			String imageRoute = folderRoute + list[i];
         		    			
+        		    			logLock.lock();
         		    			try {
-        							String cmd = "python ./src/cameraRing/matriculasDetector.py " + imageRoute + " " + inOut;
-        							Runtime.getRuntime().exec(cmd);
-        						} catch (Exception e) {
-        						}
+        		    				Log.log("info", logPath, "Sending matricula to CorbaServer");
+        		    			} finally {
+        		    				logLock.unlock();
+        		    			}
+        		    			
+        		    			matriculasLock.lock();
+        		    			try {
+            		    			try {
+            		    				Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/clientCorba.bat " + inOut);
+            		    				
+            		    				//READ
+            		    				BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+
+            		    				String line = null;
+            		    				String matricula = null;
+            		    				while ((line = stdInput.readLine()) != null) {
+            		    					matricula = line;
+            		    				}
+
+            		    				logLock.lock();
+            		    				try {
+            		    					Log.log("info", logPath, logInOut + ": " + matricula);
+            		    				} finally {
+            		    					logLock.unlock();
+            		    				}
+            		    				
+            						} catch (Exception e) {
+            						}
+								} finally {
+									matriculasLock.unlock();
+								}
         		    		}
         		    	}
         		    	
@@ -241,63 +315,82 @@ public class Node {
 	private static class HandlerDerecha implements Runnable {
 	
 		private int puertoIzquierda, puertoDerecha, puertoCentralServer;
-		private String ipDerecha, ipCentralServer;
-		private boolean masterNode;
+		private String ipDerecha, ipCentralServer, logPath;
+		private boolean masterNode, firstTime;
+		private ReentrantLock logLock, matriculasLock;
 	
-		public HandlerDerecha(int puertoIzquierda, int puertoDerecha, int puertoCentralServer, String ipDerecha, String ipCentralServer, boolean masterNode) {
+		public HandlerDerecha(int puertoIzquierda, int puertoDerecha, int puertoCentralServer, String ipDerecha, String ipCentralServer,
+								boolean masterNode, boolean firstTime, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
 			this.puertoIzquierda = puertoIzquierda;
 			this.puertoDerecha = puertoDerecha;
 			this.puertoCentralServer = puertoCentralServer;
 			this.ipDerecha = ipDerecha;
 			this.ipCentralServer = ipCentralServer;
 			this.masterNode = masterNode;
+			this.firstTime = firstTime;
+			this.logPath = logPath;
+			this.logLock = logLock;
+			this.matriculasLock = matriculasLock;
 		}
 	
 		@Override
 		public void run() {
-			System.out.println("Derecha");
-			derecha(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode);
+			derecha(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode, firstTime, logPath, logLock, matriculasLock);
 		}
 	}
 	
 	private static class HandlerIzquierda implements Runnable {
 		
 		private int puertoIzquierda2, puertoDerecha2;
-		private String ipIzquierda;
+		private String ipIzquierda, logPath;
+		private ReentrantLock logLock;
 	
-		public HandlerIzquierda(int puertoIzquierda2, int puertoDerecha2, String ipIzquierda) {
+		public HandlerIzquierda(int puertoIzquierda2, int puertoDerecha2, String ipIzquierda, String logPath, ReentrantLock logLock) {
 			this.puertoIzquierda2 = puertoIzquierda2;
 			this.puertoDerecha2 = puertoDerecha2;
 			this.ipIzquierda = ipIzquierda;
+			this.logPath = logPath;
+			this.logLock = logLock;
 		}
 	
 		@Override
-		public void run() {
-			System.out.println("Izquierda");
-			izquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda);
+		public void run() {			
+			izquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda, logPath, logLock);
 		}
 	}
 	
-	private static class HandlerServerCorba implements Runnable {		
+	private static class HandlerServerCorba implements Runnable {
+		
+		private String logPath;
+		private ReentrantLock logLock;
+		
+		public HandlerServerCorba(String logPath, ReentrantLock logLock) {
+			this.logPath = logPath;
+			this.logLock = logLock;
+		}
+		
 		@Override
 		public void run() {
-			System.out.println("Server Corba");
-			serverCorba();
+			serverCorba(logPath, logLock);
 		}
 	}
 	
 	private static class HandlerClientCorba implements Runnable {
 		
 		private boolean inOut;
+		private String logPath;
+		private ReentrantLock logLock, matriculasLock;
 		
-		public HandlerClientCorba(boolean inOut) {
+		public HandlerClientCorba(boolean inOut, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
 			this.inOut = inOut;
+			this.logPath = logPath;
+			this.logLock = logLock;
+			this.matriculasLock = matriculasLock;
 		}
 		
 		@Override
 		public void run() {
-			System.out.println("Client Corba");
-			clientCorba(inOut);
+			clientCorba(inOut, logPath, logLock, matriculasLock);
 		}
 	}
 }
