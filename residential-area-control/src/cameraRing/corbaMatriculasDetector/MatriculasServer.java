@@ -40,7 +40,7 @@ class MatriculasImpl extends MatriculasPOA {
     			String imageRoute = folderRoute + list[i];
     			
     			try {
-    				Process proc = Runtime.getRuntime().exec("python ../matriculasDetector.py " + imageRoute + " " + true);
+    				Process proc = Runtime.getRuntime().exec("python ../matriculasDetector.py " + imageRoute);
 					
 					//READ
     				BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -72,7 +72,7 @@ class MatriculasImpl extends MatriculasPOA {
     			String imageRoute = folderRoute + list[i];
     			
     			try {
-    				Process proc = Runtime.getRuntime().exec("python ../matriculasDetector.py " + imageRoute + " " + false);
+    				Process proc = Runtime.getRuntime().exec("python ../matriculasDetector.py " + imageRoute);
 					
 					//READ
     				BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));

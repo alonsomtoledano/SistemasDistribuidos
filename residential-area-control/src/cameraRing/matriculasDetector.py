@@ -12,23 +12,8 @@ matricula = text [1:len(text)]
 
 os.remove(sys.argv[1])
 
-if sys.argv[2] == "true":
-	f = open("../matriculas.txt","a")
-	f.write(matricula + "\n")
+f = open("../matriculas.txt","a")
+f.write(matricula + "\n")
 
-	f.close()
-	print(matricula)
-else:
-	f = open("../matriculas.txt","r")
-	lines = f.readlines()
-	
-	f.close()
-	
-	f = open("../matriculas.txt","w")
-	
-	for line in lines:
-		if line != matricula + "\n":
-			f.write(line)
-			
-	f.close()
-	print(matricula)
+f.close()
+print(matricula)
