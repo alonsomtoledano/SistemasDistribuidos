@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Message implements Serializable {	
 	private List<List<String>> matriculasInLog = new ArrayList<List<String>>();
-	private List<String> matriculasOutLog = new ArrayList<String>();
+	private List<List<String>> matriculasOutLog = new ArrayList<List<String>>();
 	
 	//GETTERS AND SETTERS
 	public List<List<String>> getMatriculasInLog() {
@@ -16,12 +16,10 @@ public class Message implements Serializable {
 		this.matriculasInLog = matriculasInLog;
 	}
 	
-	public List<String> getMatriculasOutLog() {
+	public List<List<String>> getMatriculasOutLog() {
 		return matriculasOutLog;
 	}
-	public void setMatriculasOutLog(List<String> matriculasOutLog) {
+	public void setMatriculasOutLog(List<List<String>> matriculasOutLog) {
 		this.matriculasOutLog = matriculasOutLog;
 	}
-	
-	//METHODS
 }

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Node {
+public class Node2 {
 	
 	public static void main(String[] args) {
 		//PORTS
