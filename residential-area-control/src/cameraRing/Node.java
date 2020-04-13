@@ -268,6 +268,7 @@ public class Node {
     
     public static void clientCorba(boolean inOut, String detectionCorbaPath, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
     	detectionCorbaPath = "\\" + detectionCorbaPath + "\\";
+    	boolean matriculaExist = false;
     	
 		logLock.lock();
 		try {
@@ -331,6 +332,33 @@ public class Node {
             		    					logLock.unlock();
             		    				}
             		    				
+            		    				matriculasLock.lock();
+            		    				try {
+            		    					BufferedReader readerMatriculas  = new BufferedReader(new FileReader("./src/cameraRing/matriculas.txt"));
+                    						String lineMatriculas = readerMatriculas.readLine();
+                    						
+                    				    	
+                    						while (lineMatriculas != null) {                							
+                								if (lineMatriculas.equals(matricula)) {
+                									matriculaExist = true;
+                									break;
+                								}
+                    					    	
+                    							lineMatriculas = readerMatriculas.readLine();
+                    						}
+                    						readerMatriculas.close();
+                    						
+                    						
+                    						if (!matriculaExist) {
+                    							BufferedWriter bw = new BufferedWriter(new FileWriter("./src/cameraRing/matriculas.txt", true));
+                        						bw.write(matricula + "\n");
+                        						bw.close();
+                    						}
+                    						
+                    						matriculaExist = false;
+            		    				} finally {
+            		    					matriculasLock.unlock();
+            		    				}
             						} catch (Exception e) {
             						}
 								} finally {
