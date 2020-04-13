@@ -26,53 +26,20 @@ class MatriculasImpl extends MatriculasPOA {
     orb = orb_val; 
   }
   
-  public String matriculasDetectorIn() {
+  public String matriculasDetector(String folderPath) {
 	String matricula = null;
-	  
-	String folderRoute = "../detectionIn/";
-	File folder = new File(folderRoute);
+	
+	File folder = new File(folderPath);
 
   	try {  				
 		String[] list = folder.list();
 		
     	for (int i = 0; i < list.length; i++) {
     		if (list[i].endsWith(".jpg")) {
-    			String imageRoute = folderRoute + list[i];
+    			String imagePath = folderPath + list[i];
     			
     			try {
-    				Process proc = Runtime.getRuntime().exec("python ../matriculasDetector.py " + imageRoute);
-					
-					//READ
-    				BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-
-    				String line = null;
-    				while ((line = stdInput.readLine()) != null) {
-    					matricula = line;
-    				}    				
-				} catch (Exception e) {
-				}
-    		}
-    	}
-	} catch (Exception e) {
-	}
-  	return matricula;
-  }
-  
-  public String matriculasDetectorOut() {
-	String matricula = "aaa";
-	  
-	String folderRoute = "../detectionOut/";
-	File folder = new File(folderRoute);
-
-  	try {  				
-		String[] list = folder.list();
-		
-    	for (int i = 0; i < list.length; i++) {
-    		if (list[i].endsWith(".jpg")) {
-    			String imageRoute = folderRoute + list[i];
-    			
-    			try {
-    				Process proc = Runtime.getRuntime().exec("python ../matriculasDetector.py " + imageRoute);
+    				Process proc = Runtime.getRuntime().exec("python ../matriculasDetector.py " + imagePath);
 					
 					//READ
     				BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));

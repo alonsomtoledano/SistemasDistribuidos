@@ -11,15 +11,5 @@ text = pytesseract.image_to_string(img)
 matricula = text [1:len(text)]
 
 os.remove(sys.argv[1])
-
-f = open("../matriculas.txt","a")
-
-file = open("../matriculas.txt")
-content = file.read()
-file.close()
-
-if matricula not in content:
-	f.write(matricula + "\n")
 	
 print(matricula)
-f.close()

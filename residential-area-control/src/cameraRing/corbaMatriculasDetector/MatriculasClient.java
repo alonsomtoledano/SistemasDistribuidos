@@ -8,8 +8,9 @@ public class MatriculasClient
   static Matriculas matriculasImpl;
 
   public static void main(String args[]) {
+	  System.out.println("MatriculasClient");
 	  String orbArgs[] = {args[1], args[2], args[3], args[4]};
-	  String inOutArgs = args[0];
+	  String folderPath = args[0];
 	  
       try {
 		ORB orb = ORB.init(orbArgs, null);
@@ -21,11 +22,8 @@ public class MatriculasClient
         String name = "Matriculas";
         matriculasImpl = MatriculasHelper.narrow(ncRef.resolve_str(name));
 
-        if (inOutArgs.equals("true")) {
-            System.out.println(matriculasImpl.matriculasDetectorIn());
-        } else {
-        	System.out.println(matriculasImpl.matriculasDetectorOut());
-        }
+        System.out.println(matriculasImpl.matriculasDetector(folderPath));
+            
         matriculasImpl.shutdown();
 
         } catch (Exception e) {

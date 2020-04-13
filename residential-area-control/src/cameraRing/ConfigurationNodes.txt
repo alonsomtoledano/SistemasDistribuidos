@@ -1,7 +1,3 @@
-///////////////////////////___CentralServer___///////////////////////////
-		//PORTS
-	    int puertoCameraRing = 6000;
-
 ///////////////////////////___Node1___MasterNode___///////////////////////////
 
 		//PORTS
@@ -16,9 +12,10 @@
 	    String ipDerecha = "localhost";
 	    String ipCentralServer = "localhost";
 	    
-	    //CONTROL VARIABLES
-	    boolean masterNode = true;
-	    int nodeNumber = 1;
+	    //NODE VARIABLES
+	    boolean masterNode = true; //IS THIS THE MASTER NODE
+	    boolean inOut = true; //TRUE = IN, FALSE = OUT
+	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
 	    
 ///////////////////////////___Node2___///////////////////////////
 
@@ -34,9 +31,10 @@
 	    String ipDerecha = "localhost";
 	    String ipCentralServer = "localhost";
 	    
-	    //CONTROL VARIABLES
-	    boolean masterNode = false;
-	    int nodeNumber = 2;
+	    //NODE VARIABLES
+	    boolean masterNode = false; //IS THIS THE MASTER NODE
+	    boolean inOut = false; //TRUE = IN, FALSE = OUT
+	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
 	    
 ///////////////////////////___Node3___///////////////////////////
 
@@ -52,6 +50,7 @@
 	    String ipDerecha = "localhost";
 	    String ipCentralServer = "localhost";
 	    
-	    //CONTROL VARIABLES
-	    boolean masterNode = false;
-	    int nodeNumber = 3;
+	    //NODE VARIABLES
+	    boolean masterNode = false; //IS THIS THE MASTER NODE
+	    boolean inOut = true; //TRUE = IN, FALSE = OUT
+	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET

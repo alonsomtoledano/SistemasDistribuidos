@@ -31,6 +31,7 @@ public class Node {
 	    boolean masterNode = true; //IS THIS THE MASTER NODE
 	    boolean inOut = true; //TRUE = IN, FALSE = OUT
 	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
+	    String detectionCorbaPath = "\\localhost\\detectionIn"; //REMOTE IN/OUT FOLDER PATH
 	    
 	    //LOG VARIBLES
 	    String logPath = "./src/cameraRing/node.log";
@@ -48,57 +49,21 @@ public class Node {
     	new Thread(handlerIzquierda).start();
     	
     	if (masterNode) {
-        	HandlerServerCorba handlerServerCorba = new HandlerServerCorba(logPath, logLock);
+    		HandlerServerCorba handlerServerCorba = new HandlerServerCorba(masterNode, logPath, logLock);
         	new Thread(handlerServerCorba).start();
     	}
     	
-    	HandlerClientCorba handlerClientCorba = new HandlerClientCorba(inOut, logPath, logLock, matriculasLock);
+    	HandlerClientCorba handlerClientCorba = new HandlerClientCorba(inOut, detectionCorbaPath, logPath, logLock, matriculasLock);
     	new Thread(handlerClientCorba).start();
-    	
-		objeto(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode, inOut, firstTime, logPath, logLock, matriculasLock);
-    	/*
-    	//Se crea un nuevo mensaje y se hace el get de la lista
-    	Message mensaje = new Message();
-    	List<List<String>> matriculasInLog = mensaje.getMatriculasInLog();
-    	
-    	//Se crea la primera pareja de matricula - hora
-    	List<String> matricula1 = new ArrayList<String>();
-    	matricula1.add("matricula1");
-    	matricula1.add("hora1");
-    	
-    	//Se crea la segunda pareja de matricula - hora
-    	List<String> matricula2 = new ArrayList<String>();
-    	matricula2.add("matricula2");
-    	matricula2.add("hora2");
-    	
-    	//Se añaden las parejas
-    	matriculasInLog.add(matricula1);
-    	matriculasInLog.add(matricula2);
-    	
-    	//Se hace el set
-    	mensaje.setMatriculasInLog(matriculasInLog);
-    	
-    	//Se muestra por pantalla toda la lista
-    	System.out.println(mensaje.getMatriculasInLog());
-    	
-    	//Se muestra por pantalla cada valor
-    	System.out.println(mensaje.getMatriculasInLog().get(0));
-    	System.out.println(mensaje.getMatriculasInLog().get(1));
-    	System.out.println(mensaje.getMatriculasInLog().get(0).get(0));
-    	System.out.println(mensaje.getMatriculasInLog().get(0).get(1));
-    	System.out.println(mensaje.getMatriculasInLog().get(1).get(0));
-    	System.out.println(mensaje.getMatriculasInLog().get(1).get(1));
-    	
-    	//Se hace el get de la lista, se vacía, se hace el set y se muestra por pantalla
-    	matriculasInLog = mensaje.getMatriculasInLog();
-    	matriculasInLog.clear();
-    	mensaje.setMatriculasInLog(matriculasInLog);
-    	System.out.println(mensaje.getMatriculasInLog());*/
 	}
 	
 	//THREAD FUNCTIONS
     public static void derecha(int puertoIzquierda, int puertoDerecha, int puertoCentralServer, String ipDerecha, String ipCentralServer, boolean masterNode, boolean inOut,
     							boolean firstTime, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
+    	String nodeInOut = inOut ? "IN" : "OUT";
+    	List<List<String>> matriculasInLog = null;
+    	List<List<String>> matriculasOutLog = null;
+    	
     	logLock.lock();
 		try {
 			Log.log("info", logPath, "Right thread started");
@@ -156,50 +121,118 @@ public class Node {
     						logLock.unlock();
     					}
     					
-        				logLock.lock();
-        				matriculasLock.lock();
-        				try {
-        					List<List<String>> matriculasInLog = message.getMatriculasInLog();
-        					
-        					BufferedReader reader;
-        					reader = new BufferedReader(new FileReader("./src/cameraRing/matriculas.txt"));
-        					String line = reader.readLine();
-        					while (line != null) {
-        						System.out.println(line);
-        						line = reader.readLine();
-        					}
-        					reader.close();
-        					
-        					List<String> matricula = new ArrayList<String>();
-        			    	matricula.add("matricula");
-        			    	matricula.add("hora");
-
-        					Thread.sleep(3000);
+    					System.out.println("matriculasInLog: " + message.getMatriculasInLog());
+    					System.out.println("matriculasOutLog: " + message.getMatriculasOutLog());
+    					
+    					logLock.lock();
+    					matriculasLock.lock();
+    					try {
+    						if (inOut) {
+    							matriculasInLog = message.getMatriculasInLog();
+    						} else {
+    							matriculasOutLog = message.getMatriculasOutLog();
+    						}
+    						
+    						
+    						List<String> matricula;
+    						int lineLogMatriculasCounter = 0;
+    						int lineLogHoraCounter = 0;
+    						String messageHora = null ;
+    						
+    						BufferedReader readerMatriculas  = new BufferedReader(new FileReader("./src/cameraRing/matriculas.txt"));
+    						String lineMatriculas = readerMatriculas.readLine();
+    						
+    						while (lineMatriculas != null) {
+    							lineLogMatriculasCounter = 0;
+    							lineLogHoraCounter = 0;
+    							
+    							BufferedReader readerLogMatriculas  = new BufferedReader(new FileReader("./src/cameraRing/node.log"));
+    							BufferedReader readerLogHora  = new BufferedReader(new FileReader("./src/cameraRing/node.log"));
+    							String lineLogMatriculas = readerLogMatriculas.readLine();
+    							String lineLogHora = readerLogHora.readLine();
+    							
+    							while (lineLogMatriculas != null) {
+    								if (lineLogMatriculas.contains(nodeInOut + ": " + lineMatriculas)) {
+    									while (lineLogHora != null) {
+    										if (lineLogHoraCounter == lineLogMatriculasCounter - 1) {
+    											messageHora = lineLogHora;
+    											break;
+    										}
+    										lineLogHoraCounter++;
+    										lineLogHora = readerLogHora.readLine();
+    									}
+    								}
+    								lineLogMatriculasCounter++;
+    								lineLogMatriculas = readerLogMatriculas.readLine();
+    							}
+    							readerLogMatriculas.close();
+    							readerLogHora.close();
+    							
+    							messageHora = messageHora.substring(13, messageHora.length() - 19);
+    							
+    							matricula = new ArrayList<String>();
+    							matricula.add(lineMatriculas);
+    					    	matricula.add(messageHora);
+    					    	
+    					    	if (inOut) {
+    					    		matriculasInLog.add(matricula);
+    					    	} else {
+    					    		matriculasOutLog.add(matricula);
+    					    	}
+    					    	
+    							lineMatriculas = readerMatriculas.readLine();
+    						}
+    						readerMatriculas.close();
+    						
+    						if (inOut) {
+    							message.setMatriculasInLog(matriculasInLog);
+    				    	} else {
+    				    		message.setMatriculasInLog(matriculasOutLog);
+    				    	}
+    						
+    						Thread.sleep(3000);
+							Log.log("info", logPath, "Message updated");
+    						
+    						
+    						if(masterNode) {
+    	    					Thread.sleep(3000);
+    							Log.log("info", logPath, "Message sending to server");
+    							
+    							Socket socketCentralServer = new Socket(ipCentralServer, puertoCentralServer);
+    	    					ObjectOutputStream outputCentralServer = new ObjectOutputStream (socketCentralServer.getOutputStream());
+    	    					outputCentralServer.writeObject(message);
+    	    					
+    	    					Thread.sleep(3000);
+    							Log.log("info", logPath, "Message sent to server");
+    							
+    					    	matriculasInLog.clear();
+    					    	message.setMatriculasInLog(matriculasInLog);
+    							
+    	    					Thread.sleep(3000);
+    							Log.log("info", logPath, "Message cleared");
+    						}
+    						
+    						BufferedWriter bw = new BufferedWriter(new FileWriter("./src/cameraRing/matriculas.txt"));
+    						bw.write("");
+    						bw.close();
+    						
+    						Thread.sleep(3000);
+    						Log.log("info", logPath, "Matriculas.txt content deleted");
+    						
+    						Thread.sleep(3000);
     						Log.log("info", logPath, "Sending message");
-        					
-        					Socket socketDerecha = new Socket(ipDerecha, puertoDerecha);
-        					ObjectOutputStream outputDerecha = new ObjectOutputStream (socketDerecha.getOutputStream());
-        					outputDerecha.writeObject(message);
-        					
-        					Thread.sleep(3000);
+    						
+    						Socket socketDerecha = new Socket(ipDerecha, puertoDerecha);
+    						ObjectOutputStream outputDerecha = new ObjectOutputStream (socketDerecha.getOutputStream());
+    						outputDerecha.writeObject(message);
+    						
+    						Thread.sleep(3000);
     						Log.log("info", logPath, "Message sent to next node");
-        					
-        					if(masterNode) {
-        						
-            					Thread.sleep(3000);
-        						Log.log("info", logPath, "Message sending to server");
-        						
-        						Socket socketCentralServer = new Socket(ipCentralServer, puertoCentralServer);
-            					ObjectOutputStream outputCentralServer = new ObjectOutputStream (socketCentralServer.getOutputStream());
-            					outputCentralServer.writeObject(message);
-            					
-            					Thread.sleep(3000);
-        						Log.log("info", logPath, "Message sent to server");
-        					}
-        				} finally {
-        					logLock.unlock();
-        					matriculasLock.unlock();
-        				}
+    						
+    					} finally {
+    						logLock.unlock();
+    						matriculasLock.unlock();
+    					}
 					} catch (ClassNotFoundException | InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -207,122 +240,6 @@ public class Node {
 			} catch (IOException e) {
 			}
     	}
-    }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public static void objeto (int puertoIzquierda, int puertoDerecha, int puertoCentralServer, String ipDerecha, String ipCentralServer, boolean masterNode, boolean inOut,
-								boolean firstTime, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
-    	String nodeInOut = inOut ? "IN" : "OUT";
-    	List<List<String>> matriculasInLog = null;
-    	List<List<String>> matriculasOutLog = null;
-    	
-    	try {			
-			try {
-				Message message = new Message(); //Sustituye para las pruebas al mensaje recibido
-				
-				logLock.lock();
-				matriculasLock.lock();
-				try {
-					if (inOut) {
-						matriculasInLog = message.getMatriculasInLog();
-					} else {
-						matriculasOutLog = message.getMatriculasOutLog();
-					}
-					
-					
-					List<String> matricula;
-					int lineLogMatriculasCounter = 0;
-					int lineLogHoraCounter = 0;
-					String messageHora = null ;
-					
-					BufferedReader readerMatriculas  = new BufferedReader(new FileReader("./src/cameraRing/matriculas.txt"));
-					String lineMatriculas = readerMatriculas.readLine();
-					
-					while (lineMatriculas != null) {
-						lineLogMatriculasCounter = 0;
-						lineLogHoraCounter = 0;
-						
-						BufferedReader readerLogMatriculas  = new BufferedReader(new FileReader("./src/cameraRing/node.log"));
-						BufferedReader readerLogHora  = new BufferedReader(new FileReader("./src/cameraRing/node.log"));
-						String lineLogMatriculas = readerLogMatriculas.readLine();
-						String lineLogHora = readerLogHora.readLine();
-						
-						while (lineLogMatriculas != null) {
-							if (lineLogMatriculas.contains(nodeInOut + ": " + lineMatriculas)) {
-								while (lineLogHora != null) {
-									if (lineLogHoraCounter == lineLogMatriculasCounter - 1) {
-										messageHora = lineLogHora;
-										break;
-									}
-									lineLogHoraCounter++;
-									lineLogHora = readerLogHora.readLine();
-								}
-							}
-							lineLogMatriculasCounter++;
-							lineLogMatriculas = readerLogMatriculas.readLine();
-						}
-						readerLogMatriculas.close();
-						readerLogHora.close();
-						
-						messageHora = messageHora.substring(13, messageHora.length() - 19);
-						
-						matricula = new ArrayList<String>();
-						matricula.add(lineMatriculas);
-				    	matricula.add(messageHora);
-				    	
-				    	if (inOut) {
-				    		matriculasInLog.add(matricula);
-				    	} else {
-				    		matriculasOutLog.add(matricula);
-				    	}
-				    	
-						lineMatriculas = readerMatriculas.readLine();
-					}
-					readerMatriculas.close();
-					
-					if (inOut) {
-						message.setMatriculasInLog(matriculasInLog);
-			    	} else {
-			    		message.setMatriculasInLog(matriculasOutLog);
-			    	}
-					
-					
-					if(masterNode) {
-    					Thread.sleep(3000);
-						Log.log("info", logPath, "Message sending to server");
-						
-						Socket socketCentralServer = new Socket(ipCentralServer, puertoCentralServer);
-    					ObjectOutputStream outputCentralServer = new ObjectOutputStream (socketCentralServer.getOutputStream());
-    					outputCentralServer.writeObject(message);
-    					
-    					Thread.sleep(3000);
-						Log.log("info", logPath, "Message sent to server");
-						
-				    	matriculasInLog.clear();
-				    	message.setMatriculasInLog(matriculasInLog);
-						
-    					Thread.sleep(3000);
-						Log.log("info", logPath, "Message cleared");
-					}
-					
-					Thread.sleep(3000);
-					Log.log("info", logPath, "Sending message");
-					
-					Socket socketDerecha = new Socket(ipDerecha, puertoDerecha);
-					ObjectOutputStream outputDerecha = new ObjectOutputStream (socketDerecha.getOutputStream());
-					outputDerecha.writeObject(message);
-					
-					Thread.sleep(3000);
-					Log.log("info", logPath, "Message sent to next node");
-					
-				} finally {
-					logLock.unlock();
-					matriculasLock.unlock();
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		} catch (IOException e) {
-		}
     }
     
     public static void izquierda(int puertoIzquierda2, int puertoDerecha2, String ipIzquierda, String logPath, ReentrantLock logLock) {
@@ -334,7 +251,7 @@ public class Node {
 		}
     }
     
-    public static void serverCorba(String logPath, ReentrantLock logLock) {
+    public static void serverCorba(boolean masterNode, String logPath, ReentrantLock logLock) {
 		logLock.lock();
 		try {
 			Log.log("info", logPath, "Server Corba started");
@@ -349,7 +266,9 @@ public class Node {
 		}
     }
     
-    public static void clientCorba(boolean inOut, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
+    public static void clientCorba(boolean inOut, String detectionCorbaPath, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
+    	detectionCorbaPath = "\\" + detectionCorbaPath + "\\";
+    	
 		logLock.lock();
 		try {
 			Log.log("info", logPath, "Client Corba started");
@@ -394,7 +313,7 @@ public class Node {
         		    			matriculasLock.lock();
         		    			try {
             		    			try {
-            		    				Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/clientCorba.bat " + inOut);
+            		    				Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/clientCorba.bat " + detectionCorbaPath);
             		    				
             		    				//READ
             		    				BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -480,28 +399,31 @@ public class Node {
 	
 	private static class HandlerServerCorba implements Runnable {
 		
+		private boolean masterNode;
 		private String logPath;
 		private ReentrantLock logLock;
 		
-		public HandlerServerCorba(String logPath, ReentrantLock logLock) {
+		public HandlerServerCorba(boolean masterNode, String logPath, ReentrantLock logLock) {
+			this.masterNode = masterNode;
 			this.logPath = logPath;
 			this.logLock = logLock;
 		}
 		
 		@Override
 		public void run() {
-			serverCorba(logPath, logLock);
+			serverCorba(masterNode, logPath, logLock);
 		}
 	}
 	
 	private static class HandlerClientCorba implements Runnable {
 		
 		private boolean inOut;
-		private String logPath;
+		private String detectionCorbaPath, logPath;
 		private ReentrantLock logLock, matriculasLock;
 		
-		public HandlerClientCorba(boolean inOut, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
+		public HandlerClientCorba(boolean inOut, String detectionCorbaPath, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
 			this.inOut = inOut;
+			this.detectionCorbaPath = detectionCorbaPath;
 			this.logPath = logPath;
 			this.logLock = logLock;
 			this.matriculasLock = matriculasLock;
@@ -509,7 +431,7 @@ public class Node {
 		
 		@Override
 		public void run() {
-			clientCorba(inOut, logPath, logLock, matriculasLock);
+			clientCorba(inOut, detectionCorbaPath, logPath, logLock, matriculasLock);
 		}
 	}
 }
