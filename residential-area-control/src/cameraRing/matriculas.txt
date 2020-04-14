@@ -1,6 +1,0 @@
-AB 7354 B
-\\localhost\detectionIn\
-\\localhost\detectionIn\matricula4.jpg
-\\localhost\detectionIn\matricula1.jpg
-3456 CXT
-null

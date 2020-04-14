@@ -1,306 +1,424 @@
-abr 13, 2020 6:17:07 PM cameraRing.Log log
+abr 14, 2020 4:58:41 PM cameraRing.Log log
 INFORMACIÓN: Right thread started
-abr 13, 2020 6:17:07 PM cameraRing.Log log
+abr 14, 2020 4:58:41 PM cameraRing.Log log
 INFORMACIÓN: Left thread started
-abr 13, 2020 6:17:07 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:17:07 PM cameraRing.Log log
+abr 14, 2020 4:58:41 PM cameraRing.Log log
 INFORMACIÓN: Client Corba started
-abr 13, 2020 6:17:07 PM cameraRing.Log log
+abr 14, 2020 4:58:41 PM cameraRing.Log log
 INFORMACIÓN: Listening IN folder
-abr 13, 2020 6:17:10 PM cameraRing.Log log
+abr 14, 2020 4:58:44 PM cameraRing.Log log
 INFORMACIÓN: Making fist message
-abr 13, 2020 6:17:13 PM cameraRing.Log log
+abr 14, 2020 4:58:47 PM cameraRing.Log log
 INFORMACIÓN: First message sent
-abr 13, 2020 6:17:37 PM cameraRing.Log log
+abr 14, 2020 4:59:11 PM cameraRing.Log log
 INFORMACIÓN: Message recieved
-abr 13, 2020 6:17:40 PM cameraRing.Log log
+abr 14, 2020 4:59:14 PM cameraRing.Log log
 INFORMACIÓN: Message updated
-abr 13, 2020 6:17:43 PM cameraRing.Log log
+abr 14, 2020 4:59:17 PM cameraRing.Log log
 INFORMACIÓN: Message sending to server
-abr 13, 2020 6:17:46 PM cameraRing.Log log
+abr 14, 2020 4:59:20 PM cameraRing.Log log
 INFORMACIÓN: Message sent to server
-abr 13, 2020 6:17:49 PM cameraRing.Log log
+abr 14, 2020 4:59:23 PM cameraRing.Log log
 INFORMACIÓN: Message cleared
-abr 13, 2020 6:17:52 PM cameraRing.Log log
+abr 14, 2020 4:59:26 PM cameraRing.Log log
 INFORMACIÓN: Matriculas.txt content deleted
-abr 13, 2020 6:17:55 PM cameraRing.Log log
+abr 14, 2020 4:59:29 PM cameraRing.Log log
 INFORMACIÓN: Sending message
-abr 13, 2020 6:17:58 PM cameraRing.Log log
+abr 14, 2020 4:59:32 PM cameraRing.Log log
 INFORMACIÓN: Message sent to next node
-abr 13, 2020 6:17:58 PM cameraRing.Log log
-INFORMACIÓN: Sending matricula to CorbaServer
-abr 13, 2020 6:18:00 PM cameraRing.Log log
-INFORMACIÓN: IN: 3456 CXT
-abr 13, 2020 6:18:09 PM cameraRing.Log log
-INFORMACIÓN: Sending matricula to CorbaServer
-abr 13, 2020 6:18:10 PM cameraRing.Log log
-INFORMACIÓN: IN: 0000 000
-abr 13, 2020 6:18:22 PM cameraRing.Log log
-INFORMACIÓN: Message recieved
-abr 13, 2020 6:18:25 PM cameraRing.Log log
-INFORMACIÓN: Message updated
-abr 13, 2020 6:18:28 PM cameraRing.Log log
-INFORMACIÓN: Message sending to server
-abr 13, 2020 6:18:31 PM cameraRing.Log log
-INFORMACIÓN: Message sent to server
-abr 13, 2020 6:18:34 PM cameraRing.Log log
-INFORMACIÓN: Message cleared
-abr 13, 2020 6:18:37 PM cameraRing.Log log
-INFORMACIÓN: Matriculas.txt content deleted
-abr 13, 2020 6:18:40 PM cameraRing.Log log
-INFORMACIÓN: Sending message
-abr 13, 2020 6:18:43 PM cameraRing.Log log
-INFORMACIÓN: Message sent to next node
-abr 13, 2020 6:19:07 PM cameraRing.Log log
-INFORMACIÓN: Message recieved
-abr 13, 2020 6:19:10 PM cameraRing.Log log
-INFORMACIÓN: Message updated
-abr 13, 2020 6:19:13 PM cameraRing.Log log
-INFORMACIÓN: Message sending to server
-abr 13, 2020 6:19:16 PM cameraRing.Log log
-INFORMACIÓN: Message sent to server
-abr 13, 2020 6:19:19 PM cameraRing.Log log
-INFORMACIÓN: Message cleared
-abr 13, 2020 6:19:22 PM cameraRing.Log log
-INFORMACIÓN: Matriculas.txt content deleted
-abr 13, 2020 6:19:25 PM cameraRing.Log log
-INFORMACIÓN: Sending message
-abr 13, 2020 6:19:28 PM cameraRing.Log log
-INFORMACIÓN: Message sent to next node
-abr 13, 2020 6:22:36 PM cameraRing.Log log
+abr 14, 2020 5:02:16 PM cameraRing.Log log
 INFORMACIÓN: Right thread started
-abr 13, 2020 6:22:36 PM cameraRing.Log log
+abr 14, 2020 5:02:16 PM cameraRing.Log log
 INFORMACIÓN: Left thread started
-abr 13, 2020 6:22:36 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:22:36 PM cameraRing.Log log
+abr 14, 2020 5:02:16 PM cameraRing.Log log
 INFORMACIÓN: Client Corba started
-abr 13, 2020 6:22:36 PM cameraRing.Log log
+abr 14, 2020 5:02:16 PM cameraRing.Log log
 INFORMACIÓN: Listening IN folder
-abr 13, 2020 6:22:39 PM cameraRing.Log log
+abr 14, 2020 5:02:19 PM cameraRing.Log log
 INFORMACIÓN: Making fist message
-abr 13, 2020 6:22:42 PM cameraRing.Log log
+abr 14, 2020 5:02:22 PM cameraRing.Log log
 INFORMACIÓN: First message sent
-abr 13, 2020 6:23:06 PM cameraRing.Log log
+abr 14, 2020 5:02:46 PM cameraRing.Log log
 INFORMACIÓN: Message recieved
-abr 13, 2020 6:23:09 PM cameraRing.Log log
+abr 14, 2020 5:02:49 PM cameraRing.Log log
 INFORMACIÓN: Message updated
-abr 13, 2020 6:23:12 PM cameraRing.Log log
+abr 14, 2020 5:02:52 PM cameraRing.Log log
 INFORMACIÓN: Message sending to server
-abr 13, 2020 6:23:15 PM cameraRing.Log log
+abr 14, 2020 5:02:55 PM cameraRing.Log log
 INFORMACIÓN: Message sent to server
-abr 13, 2020 6:23:18 PM cameraRing.Log log
+abr 14, 2020 5:02:58 PM cameraRing.Log log
 INFORMACIÓN: Message cleared
-abr 13, 2020 6:23:21 PM cameraRing.Log log
+abr 14, 2020 5:03:01 PM cameraRing.Log log
 INFORMACIÓN: Matriculas.txt content deleted
-abr 13, 2020 6:23:24 PM cameraRing.Log log
+abr 14, 2020 5:03:04 PM cameraRing.Log log
 INFORMACIÓN: Sending message
-abr 13, 2020 6:23:27 PM cameraRing.Log log
+abr 14, 2020 5:03:07 PM cameraRing.Log log
 INFORMACIÓN: Message sent to next node
-abr 13, 2020 6:23:51 PM cameraRing.Log log
+abr 14, 2020 5:03:31 PM cameraRing.Log log
 INFORMACIÓN: Message recieved
-abr 13, 2020 6:23:54 PM cameraRing.Log log
+abr 14, 2020 5:03:34 PM cameraRing.Log log
 INFORMACIÓN: Message updated
-abr 13, 2020 6:23:57 PM cameraRing.Log log
+abr 14, 2020 5:03:37 PM cameraRing.Log log
 INFORMACIÓN: Message sending to server
-abr 13, 2020 6:24:00 PM cameraRing.Log log
+abr 14, 2020 5:03:40 PM cameraRing.Log log
 INFORMACIÓN: Message sent to server
-abr 13, 2020 6:24:03 PM cameraRing.Log log
+abr 14, 2020 5:03:43 PM cameraRing.Log log
 INFORMACIÓN: Message cleared
-abr 13, 2020 6:24:06 PM cameraRing.Log log
+abr 14, 2020 5:03:46 PM cameraRing.Log log
 INFORMACIÓN: Matriculas.txt content deleted
-abr 13, 2020 6:24:09 PM cameraRing.Log log
+abr 14, 2020 5:03:49 PM cameraRing.Log log
 INFORMACIÓN: Sending message
-abr 13, 2020 6:24:12 PM cameraRing.Log log
+abr 14, 2020 5:03:52 PM cameraRing.Log log
 INFORMACIÓN: Message sent to next node
-abr 13, 2020 6:24:36 PM cameraRing.Log log
+abr 14, 2020 5:04:16 PM cameraRing.Log log
 INFORMACIÓN: Message recieved
-abr 13, 2020 6:24:39 PM cameraRing.Log log
+abr 14, 2020 5:04:19 PM cameraRing.Log log
 INFORMACIÓN: Message updated
-abr 13, 2020 6:24:42 PM cameraRing.Log log
+abr 14, 2020 5:04:22 PM cameraRing.Log log
 INFORMACIÓN: Message sending to server
-abr 13, 2020 6:24:45 PM cameraRing.Log log
+abr 14, 2020 5:04:25 PM cameraRing.Log log
 INFORMACIÓN: Message sent to server
-abr 13, 2020 6:24:48 PM cameraRing.Log log
+abr 14, 2020 5:04:28 PM cameraRing.Log log
 INFORMACIÓN: Message cleared
-abr 13, 2020 6:24:51 PM cameraRing.Log log
+abr 14, 2020 5:04:31 PM cameraRing.Log log
 INFORMACIÓN: Matriculas.txt content deleted
-abr 13, 2020 6:24:54 PM cameraRing.Log log
+abr 14, 2020 5:04:34 PM cameraRing.Log log
 INFORMACIÓN: Sending message
-abr 13, 2020 6:24:57 PM cameraRing.Log log
+abr 14, 2020 5:04:37 PM cameraRing.Log log
 INFORMACIÓN: Message sent to next node
-abr 13, 2020 6:25:21 PM cameraRing.Log log
+abr 14, 2020 5:05:01 PM cameraRing.Log log
 INFORMACIÓN: Message recieved
-abr 13, 2020 6:25:24 PM cameraRing.Log log
+abr 14, 2020 5:05:04 PM cameraRing.Log log
 INFORMACIÓN: Message updated
-abr 13, 2020 6:25:27 PM cameraRing.Log log
+abr 14, 2020 5:05:07 PM cameraRing.Log log
 INFORMACIÓN: Message sending to server
-abr 13, 2020 6:25:30 PM cameraRing.Log log
+abr 14, 2020 5:05:10 PM cameraRing.Log log
 INFORMACIÓN: Message sent to server
-abr 13, 2020 6:25:33 PM cameraRing.Log log
+abr 14, 2020 5:05:13 PM cameraRing.Log log
 INFORMACIÓN: Message cleared
-abr 13, 2020 6:25:36 PM cameraRing.Log log
+abr 14, 2020 5:05:16 PM cameraRing.Log log
 INFORMACIÓN: Matriculas.txt content deleted
-abr 13, 2020 6:25:39 PM cameraRing.Log log
+abr 14, 2020 5:05:19 PM cameraRing.Log log
 INFORMACIÓN: Sending message
-abr 13, 2020 6:25:42 PM cameraRing.Log log
+abr 14, 2020 5:05:22 PM cameraRing.Log log
 INFORMACIÓN: Message sent to next node
-abr 13, 2020 6:27:42 PM cameraRing.Log log
-INFORMACIÓN: Right thread started
-abr 13, 2020 6:27:42 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 6:27:42 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:27:42 PM cameraRing.Log log
-INFORMACIÓN: Client Corba started
-abr 13, 2020 6:27:42 PM cameraRing.Log log
-INFORMACIÓN: Listening IN folder
-abr 13, 2020 6:28:11 PM cameraRing.Log log
-INFORMACIÓN: Sending matricula to CorbaServer
-abr 13, 2020 6:28:13 PM cameraRing.Log log
-INFORMACIÓN: IN: AB 7354 B
-abr 13, 2020 6:29:33 PM cameraRing.Log log
-INFORMACIÓN: Right thread started
-abr 13, 2020 6:29:33 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 6:29:33 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:29:33 PM cameraRing.Log log
-INFORMACIÓN: Client Corba started
-abr 13, 2020 6:29:33 PM cameraRing.Log log
-INFORMACIÓN: Listening IN folder
-abr 13, 2020 6:29:44 PM cameraRing.Log log
-INFORMACIÓN: Sending matricula to CorbaServer
-abr 13, 2020 6:29:45 PM cameraRing.Log log
-INFORMACIÓN: IN: \\localhost\detectionIn\
-abr 13, 2020 6:31:35 PM cameraRing.Log log
-INFORMACIÓN: Right thread started
-abr 13, 2020 6:31:35 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 6:31:35 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:31:35 PM cameraRing.Log log
-INFORMACIÓN: Client Corba started
-abr 13, 2020 6:31:35 PM cameraRing.Log log
-INFORMACIÓN: Listening IN folder
-abr 13, 2020 6:31:49 PM cameraRing.Log log
-INFORMACIÓN: Sending matricula to CorbaServer
-abr 13, 2020 6:31:50 PM cameraRing.Log log
-INFORMACIÓN: IN: \\localhost\detectionIn\
-abr 13, 2020 6:34:36 PM cameraRing.Log log
-INFORMACIÓN: Right thread started
-abr 13, 2020 6:34:36 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 6:34:36 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:34:36 PM cameraRing.Log log
-INFORMACIÓN: Client Corba started
-abr 13, 2020 6:34:36 PM cameraRing.Log log
-INFORMACIÓN: Listening IN folder
-abr 13, 2020 6:35:19 PM cameraRing.Log log
-INFORMACIÓN: Sending matricula to CorbaServer
-abr 13, 2020 6:35:20 PM cameraRing.Log log
-INFORMACIÓN: IN: \\localhost\detectionIn\matricula4.jpg
-abr 13, 2020 6:51:28 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:51:37 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:51:37 PM cameraRing.Log log
-INFORMACIÓN: Client Corba started
-abr 13, 2020 6:51:37 PM cameraRing.Log log
-INFORMACIÓN: Listening IN folder
-abr 13, 2020 6:51:50 PM cameraRing.Log log
-INFORMACIÓN: Right thread started
-abr 13, 2020 6:51:50 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 6:51:50 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:52:51 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 6:52:51 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:53:04 PM cameraRing.Log log
-INFORMACIÓN: Right thread started
-abr 13, 2020 6:53:04 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 6:53:04 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:53:31 PM cameraRing.Log log
-INFORMACIÓN: Right thread started
-abr 13, 2020 6:53:31 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:53:42 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 6:53:42 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:53:47 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 6:53:47 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:53:51 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 6:53:51 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:54:04 PM cameraRing.Log log
-INFORMACIÓN: Server Corba started
-abr 13, 2020 6:56:18 PM cameraRing.Log log
-INFORMACIÓN: Right thread started
-abr 13, 2020 6:56:18 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 6:56:18 PM cameraRing.Log log
-INFORMACIÓN: Client Corba started
-abr 13, 2020 6:56:18 PM cameraRing.Log log
-INFORMACIÓN: Listening IN folder
-abr 13, 2020 6:56:36 PM cameraRing.Log log
-INFORMACIÓN: Sending matricula to CorbaServer
-abr 13, 2020 6:56:37 PM cameraRing.Log log
-INFORMACIÓN: IN: \\localhost\detectionIn\matricula1.jpg
-abr 13, 2020 7:00:57 PM cameraRing.Log log
-INFORMACIÓN: Right thread started
-abr 13, 2020 7:00:57 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 7:00:57 PM cameraRing.Log log
-INFORMACIÓN: Client Corba started
-abr 13, 2020 7:00:57 PM cameraRing.Log log
-INFORMACIÓN: Listening IN folder
-abr 13, 2020 7:01:07 PM cameraRing.Log log
-INFORMACIÓN: Sending matricula to CorbaServer
-abr 13, 2020 7:01:09 PM cameraRing.Log log
-INFORMACIÓN: IN: AB 7354 B
-abr 13, 2020 7:01:54 PM cameraRing.Log log
-INFORMACIÓN: Right thread started
-abr 13, 2020 7:01:54 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 7:01:54 PM cameraRing.Log log
-INFORMACIÓN: Client Corba started
-abr 13, 2020 7:01:54 PM cameraRing.Log log
-INFORMACIÓN: Listening IN folder
-abr 13, 2020 7:02:04 PM cameraRing.Log log
-INFORMACIÓN: Sending matricula to CorbaServer
-abr 13, 2020 7:02:05 PM cameraRing.Log log
-INFORMACIÓN: IN: 3456 CXT
-abr 13, 2020 7:02:41 PM cameraRing.Log log
-INFORMACIÓN: Making fist message
-abr 13, 2020 7:02:44 PM cameraRing.Log log
-INFORMACIÓN: First message sent
-abr 13, 2020 7:03:28 PM cameraRing.Log log
-INFORMACIÓN: Right thread started
-abr 13, 2020 7:03:28 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 7:03:28 PM cameraRing.Log log
-INFORMACIÓN: Client Corba started
-abr 13, 2020 7:03:28 PM cameraRing.Log log
-INFORMACIÓN: Listening IN folder
-abr 13, 2020 7:25:39 PM cameraRing.Log log
-INFORMACIÓN: Right thread started
-abr 13, 2020 7:25:39 PM cameraRing.Log log
-INFORMACIÓN: Left thread started
-abr 13, 2020 7:25:39 PM cameraRing.Log log
-INFORMACIÓN: Client Corba started
-abr 13, 2020 7:25:39 PM cameraRing.Log log
-INFORMACIÓN: Listening IN folder
-abr 13, 2020 7:25:58 PM cameraRing.Log log
-INFORMACIÓN: Sending matricula to CorbaServer
-abr 13, 2020 7:26:00 PM cameraRing.Log log
-INFORMACIÓN: IN: null
+abr 14, 2020 5:05:46 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:05:49 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:05:52 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:05:55 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:05:58 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:06:01 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:06:04 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:06:07 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:06:31 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:06:34 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:06:37 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:06:40 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:06:43 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:06:46 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:06:49 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:06:52 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:07:16 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:07:19 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:07:22 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:07:25 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:07:28 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:07:31 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:07:34 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:07:37 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:08:01 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:08:04 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:08:07 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:08:10 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:08:13 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:08:16 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:08:19 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:08:22 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:08:46 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:08:49 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:08:52 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:08:55 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:08:58 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:09:01 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:09:04 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:09:07 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:09:31 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:09:34 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:09:37 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:09:40 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:09:43 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:09:46 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:09:49 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:09:52 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:10:16 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:10:19 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:10:22 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:10:25 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:10:28 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:10:31 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:10:34 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:10:37 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:11:01 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:11:04 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:11:07 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:11:10 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:11:13 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:11:16 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:11:19 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:11:22 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:11:46 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:11:49 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:11:52 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:11:55 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:11:58 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:12:01 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:12:04 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:12:07 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:12:31 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:12:34 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:12:37 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:12:40 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:12:43 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:12:46 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:12:49 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:12:52 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:13:16 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:13:19 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:13:22 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:13:25 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:13:28 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:13:31 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:13:34 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:13:37 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:14:01 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:14:04 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:14:07 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:14:10 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:14:13 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:14:16 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:14:19 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:14:22 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:14:46 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:14:49 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:14:52 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:14:55 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:14:58 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:15:01 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:15:04 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:15:07 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:15:31 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:15:34 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:15:37 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:15:40 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:15:43 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:15:46 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:15:49 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:15:52 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:16:16 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:16:19 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:16:22 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:16:25 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:16:28 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:16:31 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:16:34 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:16:37 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:17:01 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:17:04 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:17:07 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:17:10 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:17:13 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:17:16 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:17:19 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:17:22 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:17:46 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:17:49 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:17:52 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:17:55 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:17:58 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:18:01 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:18:04 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:18:07 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:18:31 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:18:34 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:18:37 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:18:40 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:18:43 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:18:46 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:18:49 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:18:53 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:19:17 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:19:20 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:19:23 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:19:26 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:19:29 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:19:32 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:19:35 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:19:38 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node
+abr 14, 2020 5:20:02 PM cameraRing.Log log
+INFORMACIÓN: Message recieved
+abr 14, 2020 5:20:05 PM cameraRing.Log log
+INFORMACIÓN: Message updated
+abr 14, 2020 5:20:08 PM cameraRing.Log log
+INFORMACIÓN: Message sending to server
+abr 14, 2020 5:20:11 PM cameraRing.Log log
+INFORMACIÓN: Message sent to server
+abr 14, 2020 5:20:14 PM cameraRing.Log log
+INFORMACIÓN: Message cleared
+abr 14, 2020 5:20:17 PM cameraRing.Log log
+INFORMACIÓN: Matriculas.txt content deleted
+abr 14, 2020 5:20:20 PM cameraRing.Log log
+INFORMACIÓN: Sending message
+abr 14, 2020 5:20:23 PM cameraRing.Log log
+INFORMACIÓN: Message sent to next node

@@ -238,6 +238,7 @@ public class Node {
 					}
     			}
 			} catch (IOException e) {
+				e.printStackTrace();
 			}
     	}
     }
@@ -322,8 +323,7 @@ public class Node {
             		    				String line = null;
             		    				String matricula = null;
             		    				while ((line = stdInput.readLine()) != null) {
-            		    					//matricula = line;
-            		    					System.out.println(line);
+            		    					matricula = line;
             		    				}
 
             		    				logLock.lock();
@@ -361,6 +361,7 @@ public class Node {
             		    					matriculasLock.unlock();
             		    				}
             						} catch (Exception e) {
+            							e.printStackTrace();
             						}
 								} finally {
 									matriculasLock.unlock();
@@ -371,6 +372,7 @@ public class Node {
         			}
         		}
     		} catch (Exception e) {
+    			e.printStackTrace();
     		}
     	}
     }
