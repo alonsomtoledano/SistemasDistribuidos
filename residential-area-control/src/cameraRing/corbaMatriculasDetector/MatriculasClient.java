@@ -23,7 +23,7 @@ public class MatriculasClient
         matriculasImpl = MatriculasHelper.narrow(ncRef.resolve_str(name));
 
         System.out.println(matriculasImpl.matriculasDetector(folderPath));
-            
+
         matriculasImpl.shutdown();
 
         } catch (Exception e) {

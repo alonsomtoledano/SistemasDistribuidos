@@ -16,6 +16,7 @@
 	    boolean masterNode = true; //IS THIS THE MASTER NODE
 	    boolean inOut = true; //TRUE = IN, FALSE = OUT
 	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
+		String detectionCorbaPath = "\\localhost\\detectionIn"; //REMOTE IN/OUT FOLDER PATH
 	    
 ///////////////////////////___Node2___///////////////////////////
 
@@ -35,6 +36,7 @@
 	    boolean masterNode = false; //IS THIS THE MASTER NODE
 	    boolean inOut = false; //TRUE = IN, FALSE = OUT
 	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
+	    String detectionCorbaPath = "\\localhost\\detectionOut"; //REMOTE IN/OUT FOLDER PATH
 	    
 ///////////////////////////___Node3___///////////////////////////
 
@@ -54,3 +56,4 @@
 	    boolean masterNode = false; //IS THIS THE MASTER NODE
 	    boolean inOut = true; //TRUE = IN, FALSE = OUT
 	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
+	    String detectionCorbaPath = "\\localhost\\detectionIn2"; //REMOTE IN/OUT FOLDER PATH

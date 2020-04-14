@@ -28,7 +28,7 @@ class MatriculasImpl extends MatriculasPOA {
   
   public String matriculasDetector(String folderPath) {
 	String matricula = null;
-	
+	String imagePath = "hola";
 	File folder = new File(folderPath);
 
   	try {  				
@@ -36,7 +36,7 @@ class MatriculasImpl extends MatriculasPOA {
 		
     	for (int i = 0; i < list.length; i++) {
     		if (list[i].endsWith(".jpg")) {
-    			String imagePath = folderPath + list[i];
+    			imagePath = folderPath + list[i];
     			
     			try {
     				Process proc = Runtime.getRuntime().exec("python ../matriculasDetector.py " + imagePath);
@@ -54,7 +54,8 @@ class MatriculasImpl extends MatriculasPOA {
     	}
 	} catch (Exception e) {
 	}
-  	return matricula;
+  	//return matricula;
+  	return imagePath;
   }
     
   public void shutdown() {

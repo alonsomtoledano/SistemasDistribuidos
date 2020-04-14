@@ -48,10 +48,10 @@ public class Node {
     	HandlerIzquierda handlerIzquierda = new HandlerIzquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda, logPath, logLock);
     	new Thread(handlerIzquierda).start();
     	
-    	if (masterNode) {
-    		HandlerServerCorba handlerServerCorba = new HandlerServerCorba(masterNode, logPath, logLock);
-        	new Thread(handlerServerCorba).start();
-    	}
+//    	if (masterNode) {
+//    		HandlerServerCorba handlerServerCorba = new HandlerServerCorba(masterNode, logPath, logLock);
+//        	new Thread(handlerServerCorba).start();
+//    	}
     	
     	HandlerClientCorba handlerClientCorba = new HandlerClientCorba(inOut, detectionCorbaPath, logPath, logLock, matriculasLock);
     	new Thread(handlerClientCorba).start();
@@ -269,7 +269,7 @@ public class Node {
     public static void clientCorba(boolean inOut, String detectionCorbaPath, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
     	detectionCorbaPath = "\\" + detectionCorbaPath + "\\";
     	boolean matriculaExist = false;
-    	
+
 		logLock.lock();
 		try {
 			Log.log("info", logPath, "Client Corba started");
@@ -322,7 +322,8 @@ public class Node {
             		    				String line = null;
             		    				String matricula = null;
             		    				while ((line = stdInput.readLine()) != null) {
-            		    					matricula = line;
+            		    					//matricula = line;
+            		    					System.out.println(line);
             		    				}
 
             		    				logLock.lock();
