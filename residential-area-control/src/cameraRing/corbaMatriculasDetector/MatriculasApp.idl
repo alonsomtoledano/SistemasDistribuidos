@@ -2,7 +2,7 @@ module MatriculasApp
 {
   interface Matriculas
   {
-  string matriculasDetector(in string folderPath);
+  string matriculasDetector(in string folderPath, in string matriculasCentralServerPath);
   oneway void shutdown();
   };
 };

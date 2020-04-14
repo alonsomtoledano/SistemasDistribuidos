@@ -23,6 +23,7 @@ public class centralServer {
 	    
 	    HandlerCameraRing handlerCameraRing = new HandlerCameraRing(puertoCameraRing, logPath, logLock);
     	new Thread(handlerCameraRing).start();
+    	System.out.println();
 	}
 	
 	//THREAD FUNCTIONS

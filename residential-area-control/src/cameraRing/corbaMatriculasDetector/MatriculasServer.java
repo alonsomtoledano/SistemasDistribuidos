@@ -26,7 +26,7 @@ class MatriculasImpl extends MatriculasPOA {
     orb = orb_val; 
   }
   
-  public String matriculasDetector(String folderPath) {
+  public String matriculasDetector(String folderPath, String matriculasCentralServerPath) {
 	String matricula = null;
 	File folder = new File(folderPath);
 
@@ -38,7 +38,7 @@ class MatriculasImpl extends MatriculasPOA {
     			String imagePath = folderPath + list[i];
     			
     			try {
-    				Process proc = Runtime.getRuntime().exec("python ../matriculasDetector.py " + imagePath);
+    				Process proc = Runtime.getRuntime().exec("python ../matriculasDetector.py " + imagePath + " " + list[i] + " " + matriculasCentralServerPath);
 					
 					//READ
     				BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));

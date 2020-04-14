@@ -32,6 +32,7 @@ public class Node {
 	    boolean inOut = true; //TRUE = IN, FALSE = OUT
 	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
 	    String detectionCorbaPath = "\\localhost\\detectionIn"; //REMOTE IN/OUT FOLDER PATH
+	    String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
 	    
 	    //LOG VARIBLES
 	    String logPath = "./src/cameraRing/node.log";
@@ -48,7 +49,7 @@ public class Node {
     	HandlerIzquierda handlerIzquierda = new HandlerIzquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda, logPath, logLock);
     	new Thread(handlerIzquierda).start();
     	
-    	HandlerClientCorba handlerClientCorba = new HandlerClientCorba(inOut, detectionCorbaPath, logPath, logLock, matriculasLock);
+    	HandlerClientCorba handlerClientCorba = new HandlerClientCorba(inOut, detectionCorbaPath, matriculasCentralServerPath, logPath, logLock, matriculasLock);
     	new Thread(handlerClientCorba).start();
 	}
 	
@@ -233,7 +234,6 @@ public class Node {
 					}
     			}
 			} catch (IOException e) {
-				e.printStackTrace();
 			}
     	}
     }
@@ -247,8 +247,9 @@ public class Node {
 		}
     }
     
-    public static void clientCorba(boolean inOut, String detectionCorbaPath, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
+    public static void clientCorba(boolean inOut, String detectionCorbaPath, String matriculasCentralServerPath, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
     	detectionCorbaPath = "\\" + detectionCorbaPath + "\\";
+    	matriculasCentralServerPath = "\\" + matriculasCentralServerPath + "\\";
     	boolean matriculaExist = false;
 
 		logLock.lock();
@@ -295,7 +296,7 @@ public class Node {
         		    			matriculasLock.lock();
         		    			try {
             		    			try {
-            		    				Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/clientCorba.bat " + detectionCorbaPath);
+            		    				Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/clientCorba.bat " + detectionCorbaPath + " " + matriculasCentralServerPath);
             		    				
             		    				//READ
             		    				BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -411,12 +412,13 @@ public class Node {
 	private static class HandlerClientCorba implements Runnable {
 		
 		private boolean inOut;
-		private String detectionCorbaPath, logPath;
+		private String detectionCorbaPath, matriculasCentralServerPath, logPath;
 		private ReentrantLock logLock, matriculasLock;
 		
-		public HandlerClientCorba(boolean inOut, String detectionCorbaPath, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
+		public HandlerClientCorba(boolean inOut, String detectionCorbaPath, String matriculasCentralServerPath, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
 			this.inOut = inOut;
 			this.detectionCorbaPath = detectionCorbaPath;
+			this.matriculasCentralServerPath = matriculasCentralServerPath;
 			this.logPath = logPath;
 			this.logLock = logLock;
 			this.matriculasLock = matriculasLock;
@@ -424,7 +426,7 @@ public class Node {
 		
 		@Override
 		public void run() {
-			clientCorba(inOut, detectionCorbaPath, logPath, logLock, matriculasLock);
+			clientCorba(inOut, detectionCorbaPath, matriculasCentralServerPath, logPath, logLock, matriculasLock);
 		}
 	}
 }

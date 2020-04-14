@@ -528,3 +528,123 @@ abr 14, 2020 6:03:09 PM cameraRing.Log log
 INFORMACIÓN: Sending message
 abr 14, 2020 6:03:12 PM cameraRing.Log log
 INFORMACIÓN: Message sent to next node
+abr 14, 2020 6:29:28 PM cameraRing.Log log
+INFORMACIÓN: Right thread started
+abr 14, 2020 6:29:28 PM cameraRing.Log log
+INFORMACIÓN: Left thread started
+abr 14, 2020 6:29:28 PM cameraRing.Log log
+INFORMACIÓN: Client Corba started
+abr 14, 2020 6:29:28 PM cameraRing.Log log
+INFORMACIÓN: Listening IN folder
+abr 14, 2020 6:29:55 PM cameraRing.Log log
+INFORMACIÓN: Right thread started
+abr 14, 2020 6:29:55 PM cameraRing.Log log
+INFORMACIÓN: Left thread started
+abr 14, 2020 6:29:55 PM cameraRing.Log log
+INFORMACIÓN: Client Corba started
+abr 14, 2020 6:29:55 PM cameraRing.Log log
+INFORMACIÓN: Listening IN folder
+abr 14, 2020 6:30:54 PM cameraRing.Log log
+INFORMACIÓN: Left thread started
+abr 14, 2020 6:30:54 PM cameraRing.Log log
+INFORMACIÓN: Client Corba started
+abr 14, 2020 6:30:54 PM cameraRing.Log log
+INFORMACIÓN: Listening IN folder
+abr 14, 2020 6:30:54 PM cameraRing.Log log
+INFORMACIÓN: Right thread started
+abr 14, 2020 6:32:33 PM cameraRing.Log log
+INFORMACIÓN: Right thread started
+abr 14, 2020 6:32:33 PM cameraRing.Log log
+INFORMACIÓN: Left thread started
+abr 14, 2020 6:32:33 PM cameraRing.Log log
+INFORMACIÓN: Client Corba started
+abr 14, 2020 6:32:33 PM cameraRing.Log log
+INFORMACIÓN: Listening IN folder
+abr 14, 2020 6:33:57 PM cameraRing.Log log
+INFORMACIÓN: Right thread started
+abr 14, 2020 6:33:57 PM cameraRing.Log log
+INFORMACIÓN: Left thread started
+abr 14, 2020 6:33:57 PM cameraRing.Log log
+INFORMACIÓN: Client Corba started
+abr 14, 2020 6:33:57 PM cameraRing.Log log
+INFORMACIÓN: Listening IN folder
+abr 14, 2020 6:34:24 PM cameraRing.Log log
+INFORMACIÓN: Sending matricula to CorbaServer
+abr 14, 2020 6:34:24 PM cameraRing.Log log
+INFORMACIÓN: IN: MatriculasClient
+abr 14, 2020 6:35:33 PM cameraRing.Log log
+INFORMACIÓN: Right thread started
+abr 14, 2020 6:35:33 PM cameraRing.Log log
+INFORMACIÓN: Left thread started
+abr 14, 2020 6:35:33 PM cameraRing.Log log
+INFORMACIÓN: Client Corba started
+abr 14, 2020 6:35:33 PM cameraRing.Log log
+INFORMACIÓN: Listening IN folder
+abr 14, 2020 6:35:39 PM cameraRing.Log log
+INFORMACIÓN: Sending matricula to CorbaServer
+abr 14, 2020 6:35:39 PM cameraRing.Log log
+INFORMACIÓN: IN: MatriculasClient
+abr 14, 2020 6:36:16 PM cameraRing.Log log
+INFORMACIÓN: Sending matricula to CorbaServer
+abr 14, 2020 6:36:16 PM cameraRing.Log log
+INFORMACIÓN: IN: MatriculasClient
+abr 14, 2020 6:39:57 PM cameraRing.Log log
+INFORMACIÓN: Right thread started
+abr 14, 2020 6:39:57 PM cameraRing.Log log
+INFORMACIÓN: Left thread started
+abr 14, 2020 6:39:57 PM cameraRing.Log log
+INFORMACIÓN: Client Corba started
+abr 14, 2020 6:39:57 PM cameraRing.Log log
+INFORMACIÓN: Listening IN folder
+abr 14, 2020 6:40:08 PM cameraRing.Log log
+INFORMACIÓN: Sending matricula to CorbaServer
+abr 14, 2020 6:40:08 PM cameraRing.Log log
+INFORMACIÓN: IN: null
+abr 14, 2020 6:41:10 PM cameraRing.Log log
+INFORMACIÓN: Right thread started
+abr 14, 2020 6:41:10 PM cameraRing.Log log
+INFORMACIÓN: Left thread started
+abr 14, 2020 6:41:10 PM cameraRing.Log log
+INFORMACIÓN: Client Corba started
+abr 14, 2020 6:41:10 PM cameraRing.Log log
+INFORMACIÓN: Listening IN folder
+abr 14, 2020 6:41:13 PM cameraRing.Log log
+INFORMACIÓN: Sending matricula to CorbaServer
+abr 14, 2020 6:41:15 PM cameraRing.Log log
+INFORMACIÓN: IN: 	at MatriculasClient.main(MatriculasClient.java:26)
+abr 14, 2020 6:41:45 PM cameraRing.Log log
+INFORMACIÓN: Right thread started
+abr 14, 2020 6:41:45 PM cameraRing.Log log
+INFORMACIÓN: Left thread started
+abr 14, 2020 6:41:45 PM cameraRing.Log log
+INFORMACIÓN: Client Corba started
+abr 14, 2020 6:41:45 PM cameraRing.Log log
+INFORMACIÓN: Listening IN folder
+abr 14, 2020 6:41:48 PM cameraRing.Log log
+INFORMACIÓN: Sending matricula to CorbaServer
+abr 14, 2020 6:41:49 PM cameraRing.Log log
+INFORMACIÓN: IN: null
+abr 14, 2020 6:49:12 PM cameraRing.Log log
+INFORMACIÓN: Right thread started
+abr 14, 2020 6:49:12 PM cameraRing.Log log
+INFORMACIÓN: Left thread started
+abr 14, 2020 6:49:12 PM cameraRing.Log log
+INFORMACIÓN: Client Corba started
+abr 14, 2020 6:49:12 PM cameraRing.Log log
+INFORMACIÓN: Listening IN folder
+abr 14, 2020 6:49:24 PM cameraRing.Log log
+INFORMACIÓN: Sending matricula to CorbaServer
+abr 14, 2020 6:49:27 PM cameraRing.Log log
+INFORMACIÓN: IN: null
+abr 14, 2020 7:07:27 PM cameraRing.Log log
+INFORMACIÓN: Right thread started
+abr 14, 2020 7:07:28 PM cameraRing.Log log
+INFORMACIÓN: Left thread started
+abr 14, 2020 7:07:28 PM cameraRing.Log log
+INFORMACIÓN: Client Corba started
+abr 14, 2020 7:07:28 PM cameraRing.Log log
+INFORMACIÓN: Listening IN folder
+abr 14, 2020 7:07:36 PM cameraRing.Log log
+INFORMACIÓN: Sending matricula to CorbaServer
+abr 14, 2020 7:07:38 PM cameraRing.Log log
+INFORMACIÓN: IN: null
