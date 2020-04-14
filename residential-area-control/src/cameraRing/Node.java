@@ -48,11 +48,6 @@ public class Node {
     	HandlerIzquierda handlerIzquierda = new HandlerIzquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda, logPath, logLock);
     	new Thread(handlerIzquierda).start();
     	
-//    	if (masterNode) {
-//    		HandlerServerCorba handlerServerCorba = new HandlerServerCorba(masterNode, logPath, logLock);
-//        	new Thread(handlerServerCorba).start();
-//    	}
-    	
     	HandlerClientCorba handlerClientCorba = new HandlerClientCorba(inOut, detectionCorbaPath, logPath, logLock, matriculasLock);
     	new Thread(handlerClientCorba).start();
 	}
@@ -187,7 +182,7 @@ public class Node {
     						if (inOut) {
     							message.setMatriculasInLog(matriculasInLog);
     				    	} else {
-    				    		message.setMatriculasInLog(matriculasOutLog);
+    				    		message.setMatriculasOutLog(matriculasOutLog);
     				    	}
     						
     						Thread.sleep(3000);
@@ -249,21 +244,6 @@ public class Node {
 			Log.log("info", logPath, "Left thread started");
 		} finally {
 			logLock.unlock();
-		}
-    }
-    
-    public static void serverCorba(boolean masterNode, String logPath, ReentrantLock logLock) {
-		logLock.lock();
-		try {
-			Log.log("info", logPath, "Server Corba started");
-		} finally {
-			logLock.unlock();
-		}
-		
-		try {
-			Process proc = Runtime.getRuntime().exec("./src/cameraRing/corbaMatriculasDetector/serverCorba.bat");
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
     }
     
@@ -425,24 +405,6 @@ public class Node {
 		@Override
 		public void run() {			
 			izquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda, logPath, logLock);
-		}
-	}
-	
-	private static class HandlerServerCorba implements Runnable {
-		
-		private boolean masterNode;
-		private String logPath;
-		private ReentrantLock logLock;
-		
-		public HandlerServerCorba(boolean masterNode, String logPath, ReentrantLock logLock) {
-			this.masterNode = masterNode;
-			this.logPath = logPath;
-			this.logLock = logLock;
-		}
-		
-		@Override
-		public void run() {
-			serverCorba(masterNode, logPath, logLock);
 		}
 	}
 	
