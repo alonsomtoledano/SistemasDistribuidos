@@ -43,7 +43,7 @@ public class Node {
 	    ReentrantLock matriculasLock = new ReentrantLock();
 		
 	    //CODE
-		HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode, inOut,
+		HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoIzquierda2, puertoDerecha, puertoCentralServer, ip, ipIzquierda, ipDerecha, ipCentralServer, masterNode, inOut,
 															firstTime, logPath, logLock, matriculasLock);
     	new Thread(handlerDerecha).start();
     	
@@ -55,8 +55,8 @@ public class Node {
 	}
 	
 	//THREAD FUNCTIONS
-    public static void derecha(int puertoIzquierda, int puertoDerecha, int puertoCentralServer, String ipDerecha, String ipCentralServer, boolean masterNode, boolean inOut,
-    							boolean firstTime, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
+    public static void derecha(int puertoIzquierda, int puertoIzquierda2, int puertoDerecha, int puertoCentralServer, String ip, String ipIzquierda, String ipDerecha, String ipCentralServer,
+    							boolean masterNode, boolean inOut, boolean firstTime, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
     	String nodeInOut = inOut ? "IN" : "OUT";
     	List<List<String>> matriculasInLog = null;
     	List<List<String>> matriculasOutLog = null;
@@ -195,12 +195,15 @@ public class Node {
     	    					Thread.sleep(3000);
     							Log.log("info", logPath, "Message sending to server");
     							
-    							Socket socketCentralServer = new Socket(ipCentralServer, puertoCentralServer);
-    	    					ObjectOutputStream outputCentralServer = new ObjectOutputStream (socketCentralServer.getOutputStream());
-    	    					outputCentralServer.writeObject(message);
-    	    					
-    	    					Thread.sleep(3000);
-    							Log.log("info", logPath, "Message sent to server");
+    							try {
+    								Socket socketCentralServer = new Socket(ipCentralServer, puertoCentralServer);
+        	    					ObjectOutputStream outputCentralServer = new ObjectOutputStream (socketCentralServer.getOutputStream());
+        	    					outputCentralServer.writeObject(message);
+        	    					
+        	    					Thread.sleep(3000);
+        							Log.log("info", logPath, "Message sent to server");
+								} catch (Exception e) {
+								}
     							
     					    	matriculasInLog.clear();
     					    	message.setMatriculasInLog(matriculasInLog);
@@ -235,7 +238,29 @@ public class Node {
 					}
     			}
 			} catch (IOException e) {
-				System.out.println("NODO CAIDO");
+				try {
+					Socket socketIzquierda = new Socket(ipIzquierda, puertoIzquierda2);
+        			ObjectOutputStream outputIzquierda = new ObjectOutputStream (socketIzquierda.getOutputStream());
+    				
+					logLock.lock();
+					try {
+						Log.log("info", logPath, "Sending FallingConfiguration");
+					} finally {
+						logLock.unlock();
+					}
+					
+        			FallConfiguration fallConfiguration = new FallConfiguration(puertoDerecha, puertoIzquierda2, ip);
+    				outputIzquierda.writeObject(fallConfiguration);
+    				
+    				logLock.lock();
+					try {
+						Log.log("info", logPath, "FallingConfiguration sent to next node");
+					} finally {
+						logLock.unlock();
+					}
+    				
+				} catch (Exception e1) {
+				}
 			}
     	}
     }
@@ -266,6 +291,8 @@ public class Node {
     					} finally {
     						logLock.unlock();
     					}
+    					
+    					System.out.println(fallConfiguration.getIp());
     					
     					logLock.lock();
     					try {
@@ -415,16 +442,19 @@ public class Node {
 	//THREAD HANDLERS
 	private static class HandlerDerecha implements Runnable {
 	
-		private int puertoIzquierda, puertoDerecha, puertoCentralServer;
-		private String ipDerecha, ipCentralServer, logPath;
+		private int puertoIzquierda, puertoIzquierda2, puertoDerecha, puertoCentralServer;
+		private String ip, ipIzquierda, ipDerecha, ipCentralServer, logPath;
 		private boolean masterNode, inOut, firstTime;
 		private ReentrantLock logLock, matriculasLock;
 	
-		public HandlerDerecha(int puertoIzquierda, int puertoDerecha, int puertoCentralServer, String ipDerecha, String ipCentralServer,
+		public HandlerDerecha(int puertoIzquierda, int puertoIzquierda2, int puertoDerecha, int puertoCentralServer, String ip, String ipIzquierda, String ipDerecha, String ipCentralServer,
 								boolean masterNode, boolean inOut, boolean firstTime, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
 			this.puertoIzquierda = puertoIzquierda;
+			this.puertoIzquierda2 = puertoIzquierda2;
 			this.puertoDerecha = puertoDerecha;
 			this.puertoCentralServer = puertoCentralServer;
+			this.ip = ip;
+			this.ipIzquierda = ipIzquierda;
 			this.ipDerecha = ipDerecha;
 			this.ipCentralServer = ipCentralServer;
 			this.masterNode = masterNode;
@@ -437,7 +467,7 @@ public class Node {
 	
 		@Override
 		public void run() {
-			derecha(puertoIzquierda, puertoDerecha, puertoCentralServer, ipDerecha, ipCentralServer, masterNode, inOut, firstTime, logPath, logLock, matriculasLock);
+			derecha(puertoIzquierda, puertoIzquierda2, puertoDerecha, puertoCentralServer, ip, ipIzquierda, ipDerecha, ipCentralServer, masterNode, inOut, firstTime, logPath, logLock, matriculasLock);
 		}
 	}
 	

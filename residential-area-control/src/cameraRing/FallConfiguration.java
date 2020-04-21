@@ -8,6 +8,12 @@ public class FallConfiguration implements Serializable {
 	private String ip;
 	private boolean masterNode;
 	
+	public FallConfiguration(int puertoDerecha, int puertoIzquierda2, String ip) {
+		this.puertoDerecha = puertoDerecha;
+		this.puertoIzquierda2 = puertoIzquierda2;
+		this.ip = ip;
+	}
+	
 	//GETTERS AND SETTERS
 	public int getPuertoDerecha() {
 		return puertoDerecha;

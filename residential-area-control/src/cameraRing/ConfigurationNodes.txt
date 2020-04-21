@@ -8,6 +8,7 @@
 	    int puertoCentralServer = 6000;
 	    
 	    //IP
+	    String ip = "localhost";
 	    String ipIzquierda = "localhost";
 	    String ipDerecha = "localhost";
 	    String ipCentralServer = "localhost";
@@ -17,6 +18,7 @@
 	    boolean inOut = true; //TRUE = IN, FALSE = OUT
 	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
 		String detectionCorbaPath = "\\localhost\\detectionIn"; //REMOTE IN/OUT FOLDER PATH
+		String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
 	    
 ///////////////////////////___Node2___///////////////////////////
 
@@ -28,6 +30,7 @@
 	    int puertoCentralServer = 6000;
 	    
 	    //IP
+	    String ip = "localhost";
 	    String ipIzquierda = "localhost";
 	    String ipDerecha = "localhost";
 	    String ipCentralServer = "localhost";
@@ -37,6 +40,7 @@
 	    boolean inOut = false; //TRUE = IN, FALSE = OUT
 	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
 	    String detectionCorbaPath = "\\localhost\\detectionOut"; //REMOTE IN/OUT FOLDER PATH
+	    String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
 	    
 ///////////////////////////___Node3___///////////////////////////
 
@@ -48,6 +52,7 @@
 	    int puertoCentralServer = 6000;
 	    
 	    //IP
+	    String ip = "localhost";
 	    String ipIzquierda = "localhost";
 	    String ipDerecha = "localhost";
 	    String ipCentralServer = "localhost";
@@ -57,3 +62,4 @@
 	    boolean inOut = true; //TRUE = IN, FALSE = OUT
 	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
 	    String detectionCorbaPath = "\\localhost\\detectionIn2"; //REMOTE IN/OUT FOLDER PATH
+	    String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
