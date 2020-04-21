@@ -14,6 +14,7 @@ public class centralServer {
 	public static void main(String[] args) {
 		//PORTS
 	    int puertoCameraRing = 6000;
+	    int puertoAdministration = 6001;
 	    
 	    //LOG VARIBLES
 	    String logPath = "./src/cameraRing/node.log";
@@ -23,7 +24,9 @@ public class centralServer {
 	    
 	    HandlerCameraRing handlerCameraRing = new HandlerCameraRing(puertoCameraRing, logPath, logLock);
     	new Thread(handlerCameraRing).start();
-    	System.out.println();
+
+    	HandlerAdministration handlerAdministration = new HandlerAdministration(puertoAdministration, logPath, logLock);
+    	new Thread(handlerAdministration).start();
 	}
 	
 	//THREAD FUNCTIONS
@@ -67,6 +70,47 @@ public class centralServer {
 			}
     	}
     }
+    
+    public static void administration(int puertoAdministration, String logPath, ReentrantLock logLock) {
+    	logLock.lock();
+		try {
+			Log.log("info", logPath, "Administration thread started");
+		} finally {
+			logLock.unlock();
+		}
+    	
+    	while(true) {
+    		try {
+    			ServerSocket socketAdministration = new ServerSocket(puertoAdministration);
+    			Socket sAdministration;
+    			    			
+    			while((sAdministration = socketAdministration.accept()) != null) {
+    				ObjectInputStream inputAdministration = new ObjectInputStream(sAdministration.getInputStream());
+    				
+    				logLock.lock();
+					try {
+    					try {
+							Thread.sleep(3000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						Log.log("info", logPath, "Message recieved");
+					} finally {
+						logLock.unlock();
+					}
+    				
+    				try {
+    					Message message = (Message)inputAdministration.readObject();
+    					System.out.println("matriculasInLog: " + message.getMatriculasInLog());
+    					System.out.println("matriculasOutLog: " + message.getMatriculasOutLog());
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+    			}
+			} catch (IOException e) {
+			}
+    	}
+    }
 	
 	//THREAD HANDLERS
 	private static class HandlerCameraRing implements Runnable {
@@ -83,6 +127,23 @@ public class centralServer {
 		
 		public void run() {
 			cameraRing(puertoCameraRing, logPath, logLock);
+		}
+	}
+	
+	private static class HandlerAdministration implements Runnable {
+		
+		private int puertoAdministration;
+		String logPath;
+		ReentrantLock logLock;
+		
+		public HandlerAdministration(int puertoAdministration, String logPath, ReentrantLock logLock) {
+			this.puertoAdministration = puertoAdministration;
+			this.logPath = logPath;
+			this.logLock = logLock;
+		}
+		
+		public void run() {
+			administration(puertoAdministration, logPath, logLock);
 		}
 	}
 }
