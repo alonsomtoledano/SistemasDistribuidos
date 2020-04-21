@@ -4,13 +4,14 @@ import java.io.Serializable;
 
 public class FallConfiguration implements Serializable {
 	private int puertoDerecha;
-	private int puertoIzquierda2;
+	private int puertoDerecha2;
 	private String ip;
-	private boolean masterNode;
+	private boolean masterNode = false;
+	private boolean closeRing = false;
 	
-	public FallConfiguration(int puertoDerecha, int puertoIzquierda2, String ip) {
+	public FallConfiguration(int puertoDerecha, int puertoDerecha2, String ip) {
 		this.puertoDerecha = puertoDerecha;
-		this.puertoIzquierda2 = puertoIzquierda2;
+		this.puertoDerecha2 = puertoDerecha2;
 		this.ip = ip;
 	}
 	
@@ -22,11 +23,11 @@ public class FallConfiguration implements Serializable {
 		this.puertoDerecha = puertoDerecha;
 	}
 	
-	public int getPuertoIzquierda2() {
-		return puertoIzquierda2;
+	public int getPuertoDerecha2() {
+		return puertoDerecha2;
 	}
-	public void setPuertoIzquierda2(int puertoIzquierda2) {
-		this.puertoIzquierda2 = puertoIzquierda2;
+	public void setPuertoDerecha2(int puertoIzquierda2) {
+		this.puertoDerecha2 = puertoIzquierda2;
 	}
 	
 	public String getIp() {
@@ -36,10 +37,17 @@ public class FallConfiguration implements Serializable {
 		this.ip = ip;
 	}
 	
-	public boolean isMasterNode() {
+	public boolean getMasterNode() {
 		return masterNode;
 	}
 	public void setMasterNode(boolean masterNode) {
 		this.masterNode = masterNode;
+	}
+
+	public boolean getCloseRing() {
+		return closeRing;
+	}
+	public void setCloseRing(boolean closeRing) {
+		this.closeRing = closeRing;
 	}
 }

@@ -43,11 +43,11 @@ public class Node {
 	    ReentrantLock matriculasLock = new ReentrantLock();
 		
 	    //CODE
-		HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoIzquierda2, puertoDerecha, puertoCentralServer, ip, ipIzquierda, ipDerecha, ipCentralServer, masterNode, inOut,
-															firstTime, logPath, logLock, matriculasLock);
+		HandlerDerecha handlerDerecha = new HandlerDerecha(puertoIzquierda, puertoIzquierda2, puertoDerecha, puertoDerecha2, puertoCentralServer, ip, ipIzquierda, ipDerecha,
+															ipCentralServer, masterNode, inOut, firstTime, logPath, logLock, matriculasLock);
     	new Thread(handlerDerecha).start();
     	
-    	HandlerIzquierda handlerIzquierda = new HandlerIzquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda, logPath, logLock);
+    	HandlerIzquierda handlerIzquierda = new HandlerIzquierda(puertoIzquierda, puertoIzquierda2, puertoDerecha2, ip, ipIzquierda, ipDerecha, masterNode, firstTime, logPath, logLock);
     	new Thread(handlerIzquierda).start();
     	
     	HandlerClientCorba handlerClientCorba = new HandlerClientCorba(inOut, detectionCorbaPath, matriculasCentralServerPath, logPath, logLock, matriculasLock);
@@ -55,7 +55,7 @@ public class Node {
 	}
 	
 	//THREAD FUNCTIONS
-    public static void derecha(int puertoIzquierda, int puertoIzquierda2, int puertoDerecha, int puertoCentralServer, String ip, String ipIzquierda, String ipDerecha, String ipCentralServer,
+    public static void derecha(int puertoIzquierda, int puertoIzquierda2, int puertoDerecha, int puertoDerecha2, int puertoCentralServer, String ip, String ipIzquierda, String ipDerecha, String ipCentralServer,
     							boolean masterNode, boolean inOut, boolean firstTime, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
     	String nodeInOut = inOut ? "IN" : "OUT";
     	List<List<String>> matriculasInLog = null;
@@ -244,16 +244,18 @@ public class Node {
     				
 					logLock.lock();
 					try {
+						Thread.sleep(3000);
 						Log.log("info", logPath, "Sending FallingConfiguration");
 					} finally {
 						logLock.unlock();
 					}
 					
-        			FallConfiguration fallConfiguration = new FallConfiguration(puertoDerecha, puertoIzquierda2, ip);
+        			FallConfiguration fallConfiguration = new FallConfiguration(puertoDerecha, puertoDerecha2, ip);
     				outputIzquierda.writeObject(fallConfiguration);
     				
     				logLock.lock();
 					try {
+						Thread.sleep(3000);
 						Log.log("info", logPath, "FallingConfiguration sent to next node");
 					} finally {
 						logLock.unlock();
@@ -265,7 +267,8 @@ public class Node {
     	}
     }
     
-    public static void izquierda(int puertoIzquierda2, int puertoDerecha2, String ipIzquierda, String logPath, ReentrantLock logLock) {
+    public static void izquierda(int puertoIzquierda, int puertoIzquierda2, int puertoDerecha2, String ip, String ipIzquierda, String ipDerecha, boolean masterNode,
+    								boolean firstTime, String logPath, ReentrantLock logLock) {
 		logLock.lock();
 		try {
 			Log.log("info", logPath, "Left thread started");
@@ -292,30 +295,68 @@ public class Node {
     						logLock.unlock();
     					}
     					
-    					System.out.println(fallConfiguration.getIp());
-    					
-    					logLock.lock();
-    					try {
-        					Thread.sleep(3000);
-    						Log.log("info", logPath, "Sending FallConfiguration");
-    					} finally {
-    						logLock.unlock();
-    					}
-    					
-    					try(Socket socketIzquierda = new Socket(ipIzquierda, puertoIzquierda2);){
-    						ObjectOutputStream outputIzquierda = new ObjectOutputStream( socketIzquierda.getOutputStream());
-                            outputIzquierda.writeObject(fallConfiguration);
-                            
-                            logLock.lock();
+    					if (fallConfiguration.getCloseRing()) {
+    						
+    						if (fallConfiguration.getMasterNode()) {
+    							masterNode = true;
+    							firstTime = false;
+    						}
+    						
+    						ipDerecha = fallConfiguration.getIp();
+    						
+    					} else {
+    						
+    						if (masterNode) {
+        						fallConfiguration.setMasterNode(true);
+        						
+        						logLock.lock();
+            					try {
+                					Thread.sleep(3000);
+            						Log.log("info", logPath, "FallConfiguration masterNode set true");
+            					} finally {
+            						logLock.unlock();
+            					}
+        					}
+        					
+        					logLock.lock();
         					try {
             					Thread.sleep(3000);
-        						Log.log("info", logPath, "FallConfiguration  sent to next node");
+        						Log.log("info", logPath, "Sending FallConfiguration");
         					} finally {
         						logLock.unlock();
         					}
-                    	}catch(Exception e) {
-                    		System.out.println("Este se tiene que configurar");
-	           			}
+        					
+        					try(Socket socketIzquierda = new Socket(ipIzquierda, puertoIzquierda2);) {
+        						
+        						ObjectOutputStream outputIzquierda = new ObjectOutputStream(socketIzquierda.getOutputStream());
+                                outputIzquierda.writeObject(fallConfiguration);
+                                
+                                logLock.lock();
+            					try {
+                					Thread.sleep(3000);
+            						Log.log("info", logPath, "FallConfiguration sent to next node");
+            					} finally {
+            						logLock.unlock();
+            					}
+            					
+                        	}catch(Exception e) {
+                        		
+                        		ipIzquierda = fallConfiguration.getIp();
+                        		puertoIzquierda2 = fallConfiguration.getPuertoDerecha2();
+                        		puertoIzquierda = fallConfiguration.getPuertoDerecha();
+                        		
+                        		logLock.lock();
+            					try {
+                					Thread.sleep(3000);
+            						Log.log("info", logPath, "Node configurated");
+            					} finally {
+            						logLock.unlock();
+            					}
+            					
+            					fallConfiguration.setCloseRing(true);
+            					fallConfiguration.setIp(ip);
+    	           			}
+    					}
 
 					} catch (ClassNotFoundException | InterruptedException e) {
 						e.printStackTrace();
@@ -442,16 +483,17 @@ public class Node {
 	//THREAD HANDLERS
 	private static class HandlerDerecha implements Runnable {
 	
-		private int puertoIzquierda, puertoIzquierda2, puertoDerecha, puertoCentralServer;
+		private int puertoIzquierda, puertoIzquierda2, puertoDerecha, puertoDerecha2, puertoCentralServer;
 		private String ip, ipIzquierda, ipDerecha, ipCentralServer, logPath;
 		private boolean masterNode, inOut, firstTime;
 		private ReentrantLock logLock, matriculasLock;
 	
-		public HandlerDerecha(int puertoIzquierda, int puertoIzquierda2, int puertoDerecha, int puertoCentralServer, String ip, String ipIzquierda, String ipDerecha, String ipCentralServer,
-								boolean masterNode, boolean inOut, boolean firstTime, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
+		public HandlerDerecha(int puertoIzquierda, int puertoIzquierda2, int puertoDerecha, int puertoDerecha2, int puertoCentralServer, String ip, String ipIzquierda, String ipDerecha,
+								String ipCentralServer, boolean masterNode, boolean inOut, boolean firstTime, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
 			this.puertoIzquierda = puertoIzquierda;
 			this.puertoIzquierda2 = puertoIzquierda2;
 			this.puertoDerecha = puertoDerecha;
+			this.puertoDerecha2 = puertoDerecha2;
 			this.puertoCentralServer = puertoCentralServer;
 			this.ip = ip;
 			this.ipIzquierda = ipIzquierda;
@@ -467,27 +509,35 @@ public class Node {
 	
 		@Override
 		public void run() {
-			derecha(puertoIzquierda, puertoIzquierda2, puertoDerecha, puertoCentralServer, ip, ipIzquierda, ipDerecha, ipCentralServer, masterNode, inOut, firstTime, logPath, logLock, matriculasLock);
+			derecha(puertoIzquierda, puertoIzquierda2, puertoDerecha, puertoDerecha2, puertoCentralServer, ip, ipIzquierda, ipDerecha, ipCentralServer,
+					masterNode, inOut, firstTime, logPath, logLock, matriculasLock);
 		}
 	}
 	
 	private static class HandlerIzquierda implements Runnable {
 		
-		private int puertoIzquierda2, puertoDerecha2;
-		private String ipIzquierda, logPath;
+		private int puertoIzquierda, puertoIzquierda2, puertoDerecha2;
+		private String ip, ipIzquierda, ipDerecha, logPath;
+		private boolean masterNode, firstTime;
 		private ReentrantLock logLock;
 	
-		public HandlerIzquierda(int puertoIzquierda2, int puertoDerecha2, String ipIzquierda, String logPath, ReentrantLock logLock) {
+		public HandlerIzquierda(int puertoIzquierda, int puertoIzquierda2, int puertoDerecha2, String ip, String ipIzquierda, String ipDerecha, boolean masterNode, boolean firstTime,
+								String logPath, ReentrantLock logLock) {
+			this.puertoIzquierda = puertoIzquierda;
 			this.puertoIzquierda2 = puertoIzquierda2;
 			this.puertoDerecha2 = puertoDerecha2;
+			this.ip = ip;
 			this.ipIzquierda = ipIzquierda;
+			this.ipDerecha = ipDerecha;
+			this.masterNode = masterNode;
+			this.firstTime = firstTime;
 			this.logPath = logPath;
 			this.logLock = logLock;
 		}
 	
 		@Override
 		public void run() {			
-			izquierda(puertoIzquierda2, puertoDerecha2, ipIzquierda, logPath, logLock);
+			izquierda(puertoIzquierda, puertoIzquierda2, puertoDerecha2, ip, ipIzquierda, ipDerecha, masterNode, firstTime, logPath, logLock);
 		}
 	}
 	
