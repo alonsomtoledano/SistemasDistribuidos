@@ -257,134 +257,44 @@ public class Node {
     			while((sDerecha = socketDerecha.accept()) != null) {
     				ObjectInputStream inputDerecha = new ObjectInputStream(sDerecha.getInputStream());
     				try {
-    					Message message = (Message)inputIzquierda.readObject();
+    					FallConfiguration fallConfiguration = (FallConfiguration)inputDerecha.readObject();
     					
     					logLock.lock();
     					try {
         					Thread.sleep(3000);
-    						Log.log("info", logPath, "Message recieved");
+    						Log.log("info", logPath, "FallConfiguration recieved");
     					} finally {
     						logLock.unlock();
     					}
-    					
-    					System.out.println("matriculasInLog: " + message.getMatriculasInLog());
-    					System.out.println("matriculasOutLog: " + message.getMatriculasOutLog());
     					
     					logLock.lock();
-    					matriculasLock.lock();
     					try {
-    						if (inOut) {
-    							matriculasInLog = message.getMatriculasInLog();
-    						} else {
-    							matriculasOutLog = message.getMatriculasOutLog();
-    						}
-    						
-    						
-    						List<String> matricula;
-    						int lineLogMatriculasCounter = 0;
-    						int lineLogHoraCounter = 0;
-    						String messageHora = null ;
-    						
-    						BufferedReader readerMatriculas  = new BufferedReader(new FileReader("./src/cameraRing/matriculas.txt"));
-    						String lineMatriculas = readerMatriculas.readLine();
-    						
-    						while (lineMatriculas != null) {
-    							lineLogMatriculasCounter = 0;
-    							lineLogHoraCounter = 0;
-    							
-    							BufferedReader readerLogMatriculas  = new BufferedReader(new FileReader("./src/cameraRing/node.log"));
-    							BufferedReader readerLogHora  = new BufferedReader(new FileReader("./src/cameraRing/node.log"));
-    							String lineLogMatriculas = readerLogMatriculas.readLine();
-    							String lineLogHora = readerLogHora.readLine();
-    							
-    							while (lineLogMatriculas != null) {
-    								if (lineLogMatriculas.contains(nodeInOut + ": " + lineMatriculas)) {
-    									while (lineLogHora != null) {
-    										if (lineLogHoraCounter == lineLogMatriculasCounter - 1) {
-    											messageHora = lineLogHora;
-    											break;
-    										}
-    										lineLogHoraCounter++;
-    										lineLogHora = readerLogHora.readLine();
-    									}
-    								}
-    								lineLogMatriculasCounter++;
-    								lineLogMatriculas = readerLogMatriculas.readLine();
-    							}
-    							readerLogMatriculas.close();
-    							readerLogHora.close();
-    							
-    							messageHora = messageHora.substring(13, messageHora.length() - 19);
-    							
-    							matricula = new ArrayList<String>();
-    							matricula.add(lineMatriculas);
-    					    	matricula.add(messageHora);
-    					    	
-    					    	if (inOut) {
-    					    		matriculasInLog.add(matricula);
-    					    	} else {
-    					    		matriculasOutLog.add(matricula);
-    					    	}
-    					    	
-    							lineMatriculas = readerMatriculas.readLine();
-    						}
-    						readerMatriculas.close();
-    						
-    						if (inOut) {
-    							message.setMatriculasInLog(matriculasInLog);
-    				    	} else {
-    				    		message.setMatriculasOutLog(matriculasOutLog);
-    				    	}
-    						
-    						Thread.sleep(3000);
-							Log.log("info", logPath, "Message updated");
-    						
-    						
-    						if(masterNode) {
-    	    					Thread.sleep(3000);
-    							Log.log("info", logPath, "Message sending to server");
-    							
-    							Socket socketCentralServer = new Socket(ipCentralServer, puertoCentralServer);
-    	    					ObjectOutputStream outputCentralServer = new ObjectOutputStream (socketCentralServer.getOutputStream());
-    	    					outputCentralServer.writeObject(message);
-    	    					
-    	    					Thread.sleep(3000);
-    							Log.log("info", logPath, "Message sent to server");
-    							
-    					    	matriculasInLog.clear();
-    					    	message.setMatriculasInLog(matriculasInLog);
-    							
-    	    					Thread.sleep(3000);
-    							Log.log("info", logPath, "Message cleared");
-    						}
-    						
-    						BufferedWriter bw = new BufferedWriter(new FileWriter("./src/cameraRing/matriculas.txt"));
-    						bw.write("");
-    						bw.close();
-    						
-    						Thread.sleep(3000);
-    						Log.log("info", logPath, "Matriculas.txt content deleted");
-    						
-    						Thread.sleep(3000);
-    						Log.log("info", logPath, "Sending message");
-    						
-    						Socket socketDerecha = new Socket(ipDerecha, puertoDerecha);
-    						ObjectOutputStream outputDerecha = new ObjectOutputStream (socketDerecha.getOutputStream());
-    						outputDerecha.writeObject(message);
-    						
-    						Thread.sleep(3000);
-    						Log.log("info", logPath, "Message sent to next node");
-    						
+        					Thread.sleep(3000);
+    						Log.log("info", logPath, "Sending FallConfiguration");
     					} finally {
     						logLock.unlock();
-    						matriculasLock.unlock();
     					}
+    					
+    					try(Socket socketIzquierda = new Socket(ipIzquierda, puertoIzquierda2);){
+    						ObjectOutputStream outputIzquierda = new ObjectOutputStream( socketIzquierda.getOutputStream());
+                            outputIzquierda.writeObject(fallConfiguration);
+                            
+                            logLock.lock();
+        					try {
+            					Thread.sleep(3000);
+        						Log.log("info", logPath, "FallConfiguration  sent to next node");
+        					} finally {
+        						logLock.unlock();
+        					}
+                    	}catch(Exception e) {
+                    		System.out.println("Este se tiene que configurar");
+	           			}
+
 					} catch (ClassNotFoundException | InterruptedException e) {
 						e.printStackTrace();
 					}
     			}
 			} catch (IOException e) {
-				System.out.println("NODO CAIDO");
 			}
     	}
     }
