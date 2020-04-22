@@ -16,10 +16,10 @@ public class Node {
 	
 	public static void main(String[] args) {
 		//PORTS
-	    int puertoIzquierda = 6003;
+	    int puertoIzquierda = 6004;
 	    int puertoDerecha = 6001;
-	    int puertoIzquierda2 = 6006;
-	    int puertoDerecha2 = 6004;
+	    int puertoIzquierda2 = 6008;
+	    int puertoDerecha2 = 6005;
 	    int puertoCentralServer = 6000;
 	    
 	    //IP
@@ -32,8 +32,8 @@ public class Node {
 	    boolean masterNode = true; //IS THIS THE MASTER NODE
 	    boolean inOut = true; //TRUE = IN, FALSE = OUT
 	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
-	    String detectionCorbaPath = "\\localhost\\detectionIn"; //REMOTE IN/OUT FOLDER PATH
-	    String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
+		String detectionCorbaPath = "\\localhost\\detectionIn"; //REMOTE IN/OUT FOLDER PATH
+		String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
 	    
 	    //LOG VARIBLES
 	    String logPath = "./src/cameraRing/node.log";
@@ -58,9 +58,10 @@ public class Node {
     public static void derecha(int puertoIzquierda, int puertoIzquierda2, int puertoDerecha, int puertoDerecha2, int puertoCentralServer, String ip, String ipIzquierda, String ipDerecha, String ipCentralServer,
     							boolean masterNode, boolean inOut, boolean firstTime, String logPath, ReentrantLock logLock, ReentrantLock matriculasLock) {
     	String nodeInOut = inOut ? "IN" : "OUT";
+    	boolean oneError = true;
     	List<List<String>> matriculasInLog = null;
     	List<List<String>> matriculasOutLog = null;
-    	
+
     	logLock.lock();
 		try {
 			Log.log("info", logPath, "Right thread started");
@@ -104,12 +105,13 @@ public class Node {
     					logLock.unlock();
     				}
     			}
-    			
+
     			while((sIzquierda = socketIzquierda.accept()) != null) {
     				ObjectInputStream inputIzquierda = new ObjectInputStream(sIzquierda.getInputStream());
+
     				try {
     					Message message = (Message)inputIzquierda.readObject();
-    					
+
     					logLock.lock();
     					try {
         					Thread.sleep(3000);
@@ -220,11 +222,14 @@ public class Node {
     						Log.log("info", logPath, "Matriculas.txt content deleted");
     						
     						Thread.sleep(3000);
-    						Log.log("info", logPath, "Sending message");
+    						Log.log("info", logPath, "Sending message to next node");
     						
-    						Socket socketDerecha = new Socket(ipDerecha, puertoDerecha);
+    						Socket socketDerecha = new Socket(ipDerecha, puertoDerecha);/////////////////////////////////////////////////////////////////////////////
     						ObjectOutputStream outputDerecha = new ObjectOutputStream (socketDerecha.getOutputStream());
     						outputDerecha.writeObject(message);
+    						
+    		    			System.out.println("PUESTO A TRUE");
+    		    			oneError = true;
     						
     						Thread.sleep(3000);
     						Log.log("info", logPath, "Message sent to next node");
@@ -238,30 +243,34 @@ public class Node {
 					}
     			}
 			} catch (IOException e) {
-				try {
-					Socket socketIzquierda = new Socket(ipIzquierda, puertoIzquierda2);
-        			ObjectOutputStream outputIzquierda = new ObjectOutputStream (socketIzquierda.getOutputStream());
-    				
-					logLock.lock();
+				if (oneError) {
+					oneError = false;
+
 					try {
-						Thread.sleep(3000);
-						Log.log("info", logPath, "Sending FallingConfiguration");
-					} finally {
-						logLock.unlock();
+						Socket socketIzquierda = new Socket(ipIzquierda, puertoIzquierda2);
+	        			ObjectOutputStream outputIzquierda = new ObjectOutputStream (socketIzquierda.getOutputStream());
+	    				
+						logLock.lock();
+						try {
+							Thread.sleep(3000);
+							Log.log("info", logPath, "Sending FallingConfiguration");
+						} finally {
+							logLock.unlock();
+						}
+						
+	        			FallConfiguration fallConfiguration = new FallConfiguration(puertoDerecha, puertoDerecha2, ip);
+	    				outputIzquierda.writeObject(fallConfiguration);
+	    				
+	    				logLock.lock();
+						try {
+							Thread.sleep(3000);
+							Log.log("info", logPath, "FallingConfiguration sent to next node");
+						} finally {
+							logLock.unlock();
+						}
+	    				
+					} catch (Exception e1) {
 					}
-					
-        			FallConfiguration fallConfiguration = new FallConfiguration(puertoDerecha, puertoDerecha2, ip);
-    				outputIzquierda.writeObject(fallConfiguration);
-    				
-    				logLock.lock();
-					try {
-						Thread.sleep(3000);
-						Log.log("info", logPath, "FallingConfiguration sent to next node");
-					} finally {
-						logLock.unlock();
-					}
-    				
-				} catch (Exception e1) {
 				}
 			}
     	}
@@ -303,6 +312,14 @@ public class Node {
     						}
     						
     						ipDerecha = fallConfiguration.getIp();
+    						
+    						logLock.lock();
+        					try {
+            					Thread.sleep(3000);
+        						Log.log("info", logPath, "Final node configurated");
+        					} finally {
+        						logLock.unlock();
+        					}
     						
     					} else {
     						
@@ -353,8 +370,24 @@ public class Node {
             						logLock.unlock();
             					}
             					
-            					fallConfiguration.setCloseRing(true);
-            					fallConfiguration.setIp(ip);
+            					try(Socket socketIzquierda = new Socket(ipIzquierda, puertoIzquierda2);) {
+            						
+                					fallConfiguration.setCloseRing(true);
+                					fallConfiguration.setIp(ip);
+            						
+            						ObjectOutputStream outputIzquierda = new ObjectOutputStream(socketIzquierda.getOutputStream());
+                                    outputIzquierda.writeObject(fallConfiguration);
+                                    
+                                    logLock.lock();
+                					try {
+                    					Thread.sleep(3000);
+                						Log.log("info", logPath, "Last FallConfiguration sent to next node");
+                					} finally {
+                						logLock.unlock();
+                					}
+                					
+								} catch (Exception e2) {
+								}
     	           			}
     					}
 
