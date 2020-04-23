@@ -41,16 +41,16 @@ public class Node {
     static ReentrantLock logLock = new ReentrantLock();
     static ReentrantLock matriculasLock = new ReentrantLock();
     
+    //THREADS
     static HandlerDerecha handlerDerecha = new HandlerDerecha();
+	static HandlerIzquierda handlerIzquierda = new HandlerIzquierda();
+	static HandlerClientCorba handlerClientCorba = new HandlerClientCorba();
 	
 	public static void main(String[] args) {		
-	    //CODE
     	new Thread(handlerDerecha).start();
     	
-    	HandlerIzquierda handlerIzquierda = new HandlerIzquierda();
     	new Thread(handlerIzquierda).start();
     	
-    	HandlerClientCorba handlerClientCorba = new HandlerClientCorba();
     	new Thread(handlerClientCorba).start();
 	}
 	
@@ -59,6 +59,7 @@ public class Node {
     	String nodeInOut = inOut ? "IN" : "OUT";
     	boolean oneError = true;
         boolean errorFlag = false;
+        
     	List<List<String>> matriculasInLog = null;
     	List<List<String>> matriculasOutLog = null;
 
@@ -84,7 +85,7 @@ public class Node {
         			logLock.lock();
         			try {
             			try {
-							Thread.sleep(3000);
+							Thread.sleep(2000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -99,7 +100,7 @@ public class Node {
     				logLock.lock();
     				try {
     					try {
-							Thread.sleep(3000);
+							Thread.sleep(2000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -122,7 +123,7 @@ public class Node {
 
         					logLock.lock();
         					try {
-            					Thread.sleep(3000);
+            					Thread.sleep(2000);
         						Log.log("info", logPath, "Message recieved");
         					} finally {
         						logLock.unlock();
@@ -134,12 +135,8 @@ public class Node {
         					logLock.lock();
         					matriculasLock.lock();
         					try {
-        						if (inOut) {
-        							matriculasInLog = message.getMatriculasInLog();
-        						} else {
-        							matriculasOutLog = message.getMatriculasOutLog();
-        						}
-        						
+        						matriculasInLog = message.getMatriculasInLog();
+        						matriculasOutLog = message.getMatriculasOutLog();        						
         						
         						List<String> matricula;
         						int lineLogMatriculasCounter = 0;
@@ -197,12 +194,12 @@ public class Node {
         				    		message.setMatriculasOutLog(matriculasOutLog);
         				    	}
         						
-        						Thread.sleep(3000);
+								Thread.sleep(2000);
     							Log.log("info", logPath, "Message updated");
         						
         						
         						if(masterNode) {
-        	    					Thread.sleep(3000);
+        	    					Thread.sleep(2000);
         							Log.log("info", logPath, "Message sending to server");
         							
         							try {
@@ -210,15 +207,17 @@ public class Node {
             	    					ObjectOutputStream outputCentralServer = new ObjectOutputStream (socketCentralServer.getOutputStream());
             	    					outputCentralServer.writeObject(message);
             	    					
-            	    					Thread.sleep(3000);
+            	    					Thread.sleep(2000);
             							Log.log("info", logPath, "Message sent to server");
     								} catch (Exception e) {
     								}
         							
         					    	matriculasInLog.clear();
+        							matriculasOutLog.clear();
         					    	message.setMatriculasInLog(matriculasInLog);
+        					    	message.setMatriculasOutLog(matriculasOutLog);
         							
-        	    					Thread.sleep(3000);
+        	    					Thread.sleep(2000);
         							Log.log("info", logPath, "Message cleared");
         						}
         						
@@ -226,10 +225,10 @@ public class Node {
         						bw.write("");
         						bw.close();
         						
-        						Thread.sleep(3000);
+        						Thread.sleep(2000);
         						Log.log("info", logPath, "Matriculas.txt content deleted");
         						
-        						Thread.sleep(3000);
+        						Thread.sleep(2000);
         						Log.log("info", logPath, "Sending message to next node");
         						
         						Socket socketDerecha = new Socket(ipDerecha, puertoDerecha);
@@ -238,7 +237,7 @@ public class Node {
         						
         		    			oneError = true;
         						
-        						Thread.sleep(3000);
+        						Thread.sleep(2000);
         						Log.log("info", logPath, "Message sent to next node");
         						
         					} finally {
@@ -269,7 +268,7 @@ public class Node {
 	        			
 						logLock.lock();
 						try {
-							Thread.sleep(3000);
+							Thread.sleep(2000);
 							Log.log("info", logPath, "Sending FallingConfiguration");
 						} finally {
 							logLock.unlock();
@@ -280,7 +279,7 @@ public class Node {
 	    				
 	    				logLock.lock();
 						try {
-							Thread.sleep(3000);
+							Thread.sleep(2000);
 							Log.log("info", logPath, "FallingConfiguration sent to next node");
 						} finally {
 							logLock.unlock();
@@ -293,12 +292,10 @@ public class Node {
 	    						ObjectOutputStream outputDerechaAux = new ObjectOutputStream (socketDerechaAux.getOutputStream());
 	    						Message messageAux = new Message();
 	    						outputDerechaAux.writeObject(messageAux);
-
-	    		    			oneError = true;
 	    		    			
 	    		    			logLock.lock();
 	    						try {
-	    							Thread.sleep(3000);
+	    							Thread.sleep(2000);
 	    							Log.log("info", logPath, "Message sent to next node");
 	    						} finally {
 	    							logLock.unlock();
@@ -327,17 +324,17 @@ public class Node {
     	
     	while (true) {
     		try {
-    			ServerSocket socketDerecha3 = new ServerSocket(puertoDerecha2);
-    			Socket sDerecha3;
+    			ServerSocket socketDerecha = new ServerSocket(puertoDerecha2);
+    			Socket sDerecha;
     			
-    			while((sDerecha3 = socketDerecha3.accept()) != null) {
-    				ObjectInputStream inputDerecha3 = new ObjectInputStream(sDerecha3.getInputStream());
+    			while((sDerecha = socketDerecha.accept()) != null) {
+    				ObjectInputStream inputDerecha3 = new ObjectInputStream(sDerecha.getInputStream());
     				try {
     					FallConfiguration fallConfiguration = (FallConfiguration)inputDerecha3.readObject();
     					
     					logLock.lock();
     					try {
-        					Thread.sleep(3000);
+        					Thread.sleep(2000);
     						Log.log("info", logPath, "FallConfiguration recieved");
     					} finally {
     						logLock.unlock();
@@ -345,7 +342,7 @@ public class Node {
     					
     					if (fallConfiguration.getCloseRing()) {
     						
-    						if (fallConfiguration.getMasterNode()) {
+    						if (!fallConfiguration.getMasterNode()) {
     							masterNode = true;
     							firstTime = false;
     						}
@@ -354,20 +351,24 @@ public class Node {
     						
     						logLock.lock();
         					try {
-            					Thread.sleep(3000);
+            					Thread.sleep(2000);
         						Log.log("info", logPath, "Final node configurated");
         					} finally {
         						logLock.unlock();
         					}
-    						
+        					
+        					socketDerecha.close();
+        					sDerecha.close();
+							
+        					handlerIzquierda.interrupt();
+							new Thread(handlerIzquierda).start();
     					} else {
-    						System.out.println("Aqui no deberia entrar");
     						if (masterNode) {
         						fallConfiguration.setMasterNode(true);
         						
         						logLock.lock();
             					try {
-                					Thread.sleep(3000);
+                					Thread.sleep(2000);
             						Log.log("info", logPath, "FallConfiguration masterNode set true");
             					} finally {
             						logLock.unlock();
@@ -376,7 +377,7 @@ public class Node {
         					
         					logLock.lock();
         					try {
-            					Thread.sleep(3000);
+            					Thread.sleep(2000);
         						Log.log("info", logPath, "Sending FallConfiguration");
         					} finally {
         						logLock.unlock();
@@ -389,7 +390,7 @@ public class Node {
                                 
                                 logLock.lock();
             					try {
-                					Thread.sleep(3000);
+                					Thread.sleep(2000);
             						Log.log("info", logPath, "FallConfiguration sent to next node");
             					} finally {
             						logLock.unlock();
@@ -403,7 +404,7 @@ public class Node {
                         		
                         		logLock.lock();
             					try {
-                					Thread.sleep(3000);
+                					Thread.sleep(2000);
             						Log.log("info", logPath, "Node configurated");
             					} finally {
             						logLock.unlock();
@@ -412,7 +413,7 @@ public class Node {
             					System.out.println("ip: " + ip);
     							System.out.println("puertoIzquierda: " + puertoIzquierda);
     							
-    							handlerDerecha.interrupt();/////////////////////////////////////////////////////////////////////////////////
+    							handlerDerecha.interrupt();
     							new Thread(handlerDerecha).start();
     							
             					try(Socket socketIzquierda = new Socket(ipIzquierda, puertoIzquierda2);) {
@@ -425,7 +426,7 @@ public class Node {
                                     
                                     logLock.lock();
                 					try {
-                    					Thread.sleep(3000);
+                    					Thread.sleep(2000);
                 						Log.log("info", logPath, "Last FallConfiguration sent to next node");
                 					} finally {
                 						logLock.unlock();
@@ -573,6 +574,10 @@ public class Node {
 		@Override
 		public void run() {			
 			izquierda();
+		}
+		
+		public void interrupt() {
+			Thread.currentThread().interrupt();
 		}
 	}
 	
