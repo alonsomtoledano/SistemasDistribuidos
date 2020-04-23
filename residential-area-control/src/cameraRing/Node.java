@@ -46,6 +46,8 @@ public class Node {
 	static HandlerIzquierda handlerIzquierda = new HandlerIzquierda();
 	static HandlerClientCorba handlerClientCorba = new HandlerClientCorba();
 	
+	static Message auxMessage = new Message();
+	
 	public static void main(String[] args) {		
     	new Thread(handlerDerecha).start();
     	
@@ -113,7 +115,7 @@ public class Node {
     			if (masterNode && firstTime) {
     				socketIzquierda.close();
     				firstTime = false;
-    			} else {    					
+    			} else {
         			while ((sIzquierda = socketIzquierda.accept()) != null) {
         				
         				ObjectInputStream inputIzquierda = new ObjectInputStream(sIzquierda.getInputStream());
@@ -231,6 +233,8 @@ public class Node {
         						Thread.sleep(2000);
         						Log.log("info", logPath, "Sending message to next node");
         						
+        						auxMessage = message;
+        						
         						Socket socketDerecha = new Socket(ipDerecha, puertoDerecha);
         						ObjectOutputStream outputDerecha = new ObjectOutputStream (socketDerecha.getOutputStream());
         						outputDerecha.writeObject(message);
@@ -290,8 +294,7 @@ public class Node {
 							try {
 								Socket socketDerechaAux = new Socket(ipDerecha, puertoDerecha);
 	    						ObjectOutputStream outputDerechaAux = new ObjectOutputStream (socketDerechaAux.getOutputStream());
-	    						Message messageAux = new Message();
-	    						outputDerechaAux.writeObject(messageAux);
+	    						outputDerechaAux.writeObject(auxMessage);
 	    		    			
 	    		    			logLock.lock();
 	    						try {
