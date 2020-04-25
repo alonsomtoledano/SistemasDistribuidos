@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import encryptation.Encryptation;
 
 public class AccessService {
 	Connection connection;
@@ -57,12 +58,16 @@ public class AccessService {
 	}
 	
 	public void vehicleExit(String matricula, long time) {
-		String sqlUpdate = "update vehicles set left = ? where licensePlate = ?";
+		String sqlUpdate = "update vehicles set timeOut = ? where licensePlate = ?";
 		try {
+			matricula = Encryptation.Encrypt(matricula);
+			
 			PreparedStatement ps1 = connection.prepareStatement(sqlUpdate);
 			ps1.setLong(1, time);
 			ps1.setString(2, matricula);
 			ps1.executeUpdate();
+			
+			System.out.println("Vehicle updated\n");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

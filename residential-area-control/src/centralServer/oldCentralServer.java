@@ -16,10 +16,15 @@ public class oldCentralServer {
 	//PORTS
     static int puertoCameraRing = 6000;
 	static int proxyRequestPort = 4005;
+	
+	//IP
 	static String proxyRequestHost = "127.0.0.1";
+	
+	//NODE VARIABLES
+	static boolean newLicensePlate = false;
     
     //LOG VARIBLES
-    static String logPath = "./src/cameraRing/logs/centralServer.log";
+    static String logPath = "./src/centralServer/logs/centralServer.log";
     static String INFO = "info";
     static String ERROR = "error";
     static String className;
@@ -30,6 +35,7 @@ public class oldCentralServer {
     
     //THREADS
     static HandlerCameraRing handlerCameraRing = new HandlerCameraRing();
+    static HandlerPublicAdministration handlerPublicAdministration = new HandlerPublicAdministration();
 
 	public static void main(String[] args) {
 		//LOG DATA
@@ -38,6 +44,7 @@ public class oldCentralServer {
 		
 		//THREADS
     	new Thread(handlerCameraRing).start();
+    	new Thread(handlerPublicAdministration).start();
 	}
 	
 	//THREAD FUNCTIONS
@@ -80,34 +87,15 @@ public class oldCentralServer {
     						for (int i = 0; i < message.getMatriculasInLog().size(); i++) {
         						addPlate(message.getMatriculasInLog().get(i).get(0), Long.parseLong(message.getMatriculasInLog().get(i).get(2)));
         					}
+    						newLicensePlate = true;
     					}
     					
     					if (!message.getMatriculasOutLog().isEmpty()) {
     						for (int i = 0; i < message.getMatriculasOutLog().size(); i++) {
-        						addPlate(message.getMatriculasOutLog().get(i).get(0), Long.parseLong(message.getMatriculasOutLog().get(i).get(2)));
+    							vehicleExit(message.getMatriculasOutLog().get(i).get(0), Long.parseLong(message.getMatriculasOutLog().get(i).get(2)));
         					}
-    					}
-    					
-    					int serverPort = 4007;
-    					try {
-    						ServerSocket proxyRequest = new ServerSocket(serverPort);
-    						while (true) {
-    							Socket proxyAccept = proxyRequest.accept();
-    							ServerHandler threadServerAccept = new ServerHandler(proxyAccept);
-
-    							new Thread(threadServerAccept).start();
-    						}
-
-    					} catch (IOException e) {
-    						time = ProxyClock.getError();
-    						logLock.lock();
-    						try {
-    							Log.log(ERROR, logPath, Log.getStackTrace(e), className, time);
-    							System.out.println("Exception. For more info visit " + logPath);
-    						} finally {
-    							logLock.unlock();
-    						}
-    					}
+    						newLicensePlate = true;
+    					}     					
     					
 					} catch (ClassNotFoundException | InterruptedException e) {
 						e.printStackTrace();
@@ -116,6 +104,30 @@ public class oldCentralServer {
 			} catch (IOException e) {
 			}
     	}
+    }
+    
+    public static void publicAdministration() {
+		int serverPort = 4007;
+		try {
+			
+			ServerSocket proxyRequest = new ServerSocket(serverPort);
+			while (true) {
+				Socket proxyAccept = proxyRequest.accept();
+				ServerHandler threadServerAccept = new ServerHandler(proxyAccept);
+
+				new Thread(threadServerAccept).start();
+			}
+
+		} catch (IOException e) {
+			time = ProxyClock.getError();
+			logLock.lock();
+			try {
+				Log.log(ERROR, logPath, Log.getStackTrace(e), className, time);
+				System.out.println("Exception. For more info visit " + logPath);
+			} finally {
+				logLock.unlock();
+			}
+		}
     }
     
 	public static void addPlate(String plate, long licensePlateTime) {
@@ -203,6 +215,13 @@ public class oldCentralServer {
 		}
 	}
 	
+	private static class HandlerPublicAdministration implements Runnable {
+		@Override
+		public void run() {
+			publicAdministration();
+		}
+	}
+	
 	private static class ServerHandler implements Runnable {
 		private final Socket socketToProxy;
 
@@ -269,7 +288,7 @@ public class oldCentralServer {
 					}
 					System.out.println("Is resident");
 					psl.addLicensePlate(plate.getContent(), licensePlateTime.getLongNumber(), "Yes");
-					System.out.println("Info added to database");
+					System.out.println("Info added to database\n");
 					logLock.lock();
 					try {
 						Log.log(INFO,logPath, "Added info to database", className, time);
@@ -286,7 +305,7 @@ public class oldCentralServer {
 					}
 					System.out.println("Is not resident");
 					psl.addLicensePlate(plate.getContent(), licensePlateTime.getLongNumber(), "No");
-					System.out.println("Info added to database");
+					System.out.println("Info added to database\n");
 					logLock.lock();
 					try {
 						Log.log(INFO,logPath, "Added info to database", className, time);

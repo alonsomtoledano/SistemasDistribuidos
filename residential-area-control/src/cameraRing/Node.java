@@ -71,6 +71,9 @@ public class Node {
     public static void derecha() {
     	String nodeInOut = inOut ? "IN" : "OUT";
     	boolean oneError = true;
+    	String messageMatricula;
+		String messageImage;
+		String messageHora;
         
     	List<List<String>> matriculasInLog = null;
     	List<List<String>> matriculasOutLog = null;
@@ -157,9 +160,15 @@ public class Node {
         							}
         							readerLogMatriculas.close();
         							
-        							String messageMatricula = matriculaInfo.substring(10, 18);
-        							String messageImage = matriculaInfo.substring(19, 33);
-        							String messageHora = matriculaInfo.substring(40, matriculaInfo.length());
+        							if (inOut) {
+        								messageMatricula = matriculaInfo.substring(10, 18);
+            							messageImage = matriculaInfo.substring(19, 33);
+            							messageHora = matriculaInfo.substring(40, matriculaInfo.length());
+        							} else {
+        								messageMatricula = matriculaInfo.substring(11, 19);
+            							messageImage = matriculaInfo.substring(20, 34);
+            							messageHora = matriculaInfo.substring(41, matriculaInfo.length());
+        							}
         							
         							matricula = new ArrayList<String>();
         							matricula.add(messageMatricula);
