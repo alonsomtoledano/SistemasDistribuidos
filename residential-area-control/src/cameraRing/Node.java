@@ -157,7 +157,7 @@ public class Node {
         							}
         							readerLogMatriculas.close();
         							
-        							String messageMatricula = matriculaInfo.substring(9, 18);
+        							String messageMatricula = matriculaInfo.substring(10, 18);
         							String messageImage = matriculaInfo.substring(19, 33);
         							String messageHora = matriculaInfo.substring(40, matriculaInfo.length());
         							

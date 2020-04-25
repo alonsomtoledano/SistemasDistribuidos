@@ -15,8 +15,8 @@ import parking.service.ProxyServiceWriteData;
 public class Proxy {
 	//PORTS
 	static int server1Port = 5000;
-	static int centralNodePort = 5900;
-	static int centralNodeBackUpPort = 5901;
+	static int centralNodePort = 5900; //PUERTO DEL NODO CENTRAL///////////////////////////////////////////////////////////////////////////////
+	static int centralNodeBackUpPort = 5901; //PUERTO DEL NODO CENTRAL BACKUP///////////////////////////////////////////////////////////////////////////////
 	//IP
 	static String serverHost = "127.0.0.1";
 	//LOG VARIABLES

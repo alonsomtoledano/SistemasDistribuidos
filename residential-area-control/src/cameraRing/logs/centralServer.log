@@ -40,3 +40,35 @@ abr. 25, 2020 12:40:56 P. M. centralServer.java
 INFO: CameraRing thread started
 abr. 25, 2020 12:43:09 P. M. centralServer.java
 INFO: Message recieved
+abr. 25, 2020 6:23:20 P. M. oldCentralServer.java
+INFO: CameraRing thread started
+abr. 25, 2020 6:39:51 P. M. oldCentralServer.java
+INFO: Message recieved
+abr. 25, 2020 6:43:13 P. M. oldCentralServer.java
+INFO: CameraRing thread started
+abr. 25, 2020 6:44:12 P. M. oldCentralServer.java
+INFO: Message recieved
+abr. 25, 2020 6:44:16 P. M. oldCentralServer.java
+INFO: Data sent to PROXYREQUEST
+ene. 01, 1970 1:00:00 A. M. oldCentralServer.java
+INFO: CameraRing thread started
+abr. 25, 2020 6:53:13 P. M. oldCentralServer.java
+INFO: CameraRing thread started
+abr. 25, 2020 6:54:16 P. M. oldCentralServer.java
+INFO: Message recieved
+abr. 25, 2020 6:54:20 P. M. oldCentralServer.java
+INFO: Data sent to PROXYREQUEST
+abr. 25, 2020 7:02:42 P. M. oldCentralServer.java
+INFO: CameraRing thread started
+abr. 25, 2020 7:03:41 P. M. oldCentralServer.java
+INFO: Message recieved
+abr. 25, 2020 7:03:45 P. M. oldCentralServer.java
+INFO: Data sent to PROXYREQUEST
+abr. 25, 2020 7:03:54 P. M. oldCentralServer.java
+INFO: SERVER RUN
+abr. 25, 2020 7:03:55 P. M. oldCentralServer.java
+INFO: Received data from ProxyResponse
+abr. 25, 2020 7:03:55 P. M. oldCentralServer.java
+INFO: Is not resident
+abr. 25, 2020 7:03:55 P. M. oldCentralServer.java
+INFO: Added info to database

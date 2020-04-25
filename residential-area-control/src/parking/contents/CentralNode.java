@@ -120,6 +120,8 @@ public class CentralNode {
 				String data = messageDataFromProxy.getData();
 				long date = messageDateFromProxy.getLongNumber();
 				
+				//ESCRIBIR EN LA BASE DE DATOS DATA Y DATE////////////////////////////////////////////////////////////////////////////////////////////////
+				
 				Date d = new Date(date);
 				
 				System.out.println("Data from proxy: " + data);

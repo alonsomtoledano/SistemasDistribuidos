@@ -3,9 +3,9 @@ package parking.contents;
 import java.io.Serializable;
 
 public class Message implements Serializable{
-	private String data;
-	private int number;
-	private long longNumber;
+	private String data; //MATRICULA
+	private int number; 
+	private long longNumber; //HORA
 	private boolean status;
 
 	public Message(String data) {

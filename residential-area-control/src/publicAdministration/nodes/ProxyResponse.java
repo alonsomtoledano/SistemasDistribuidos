@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import clock.ProxyClock;
 import log.Log;
-import publicAdministration.Message;
+import cameraRing.Message;
 
 public class ProxyResponse {
 	static String clientHost = "127.0.0.1";

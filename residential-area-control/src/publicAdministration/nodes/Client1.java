@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import clock.ProxyClock;
 import log.Log;
-import publicAdministration.Message;
+import cameraRing.Message;
 
 public class Client1 {
 
