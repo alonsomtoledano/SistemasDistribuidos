@@ -6,35 +6,43 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.locks.ReentrantLock;
 
-import cameraRing.Log;
+import log.Log;
 import cameraRing.Message;
+import clock.ProxyClock;
 
 public class centralServer {
+	
+	//PORTS
+    static int puertoCameraRing = 6000;
+    
+    //LOG VARIBLES
+    static String logPath = "./src/cameraRing/logs/centralServer.log";
+    static String INFO = "info";
+    static String ERROR = "error";
+    static String className;
+    static long time;
+    
+    //LOCKS
+    static ReentrantLock logLock = new ReentrantLock();
+    
+    static HandlerCameraRing handlerCameraRing = new HandlerCameraRing();
 
 	public static void main(String[] args) {
-		//PORTS
-	    int puertoCameraRing = 6000;
-	    int puertoAdministration = 6001;
-	    
-	    //LOG VARIBLES
-	    String logPath = "./src/cameraRing/node.log";
-	    
-	    //LOCKS
-	    ReentrantLock logLock = new ReentrantLock();
-	    
-	    HandlerCameraRing handlerCameraRing = new HandlerCameraRing(puertoCameraRing, logPath, logLock);
+		//LOG DATA
+		Class thisClass = new Object(){}.getClass();
+		className = thisClass.getEnclosingClass().getSimpleName();
+		
+		//THREADS
     	new Thread(handlerCameraRing).start();
-
-    	HandlerAdministration handlerAdministration = new HandlerAdministration(puertoAdministration, logPath, logLock);
-    	new Thread(handlerAdministration).start();
 	}
 	
 	//THREAD FUNCTIONS
-    public static void cameraRing(int puertoCameraRing, String logPath, ReentrantLock logLock) {
-    	logLock.lock();
+    public static void cameraRing() {	
+		time = ProxyClock.getError();
+		logLock.lock();
 		try {
-			Log.log("info", logPath, "CameraRing thread started");
-		} finally {
+			Log.log(INFO, logPath, "CameraRing thread started", className, time);
+		}finally {
 			logLock.unlock();
 		}
     	
@@ -45,65 +53,27 @@ public class centralServer {
     			    			
     			while((sCameraRing = socketCameraRing.accept()) != null) {
     				ObjectInputStream inputCameraRing = new ObjectInputStream(sCameraRing.getInputStream());
-    				
-    				logLock.lock();
+					
+					time = ProxyClock.getError();
+					logLock.lock();
 					try {
-    					try {
-							Thread.sleep(3000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						Log.log("info", logPath, "Message recieved");
-					} finally {
+						Log.log(INFO, logPath, "Message recieved", className, time);
+					}finally {
 						logLock.unlock();
 					}
     				
     				try {
     					Message message = (Message)inputCameraRing.readObject();
-    					System.out.println("matriculasInLog: " + message.getMatriculasInLog());
+    					
+    					Thread.sleep(2000);
+            			System.out.println("\n");
+            			System.out.println("***********************************");
+            			System.out.println("MESSAGE RECEIVED");
+            			System.out.println("matriculasInLog: " + message.getMatriculasInLog());
     					System.out.println("matriculasOutLog: " + message.getMatriculasOutLog());
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
-					}
-    			}
-			} catch (IOException e) {
-			}
-    	}
-    }
-    
-    public static void administration(int puertoAdministration, String logPath, ReentrantLock logLock) {
-    	logLock.lock();
-		try {
-			Log.log("info", logPath, "Administration thread started");
-		} finally {
-			logLock.unlock();
-		}
-    	
-    	while(true) {
-    		try {
-    			ServerSocket socketAdministration = new ServerSocket(puertoAdministration);
-    			Socket sAdministration;
-    			    			
-    			while((sAdministration = socketAdministration.accept()) != null) {
-    				ObjectInputStream inputAdministration = new ObjectInputStream(sAdministration.getInputStream());
-    				
-    				logLock.lock();
-					try {
-    					try {
-							Thread.sleep(3000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						Log.log("info", logPath, "Message recieved");
-					} finally {
-						logLock.unlock();
-					}
-    				
-    				try {
-    					Message message = (Message)inputAdministration.readObject();
-    					System.out.println("matriculasInLog: " + message.getMatriculasInLog());
-    					System.out.println("matriculasOutLog: " + message.getMatriculasOutLog());
-					} catch (ClassNotFoundException e) {
+    					System.out.println("***********************************");
+    					
+					} catch (ClassNotFoundException | InterruptedException e) {
 						e.printStackTrace();
 					}
     			}
@@ -114,36 +84,9 @@ public class centralServer {
 	
 	//THREAD HANDLERS
 	private static class HandlerCameraRing implements Runnable {
-		
-		private int puertoCameraRing;
-		String logPath;
-		ReentrantLock logLock;
-		
-		public HandlerCameraRing(int puertoCameraRing, String logPath, ReentrantLock logLock) {
-			this.puertoCameraRing = puertoCameraRing;
-			this.logPath = logPath;
-			this.logLock = logLock;
-		}
-		
+		@Override
 		public void run() {
-			cameraRing(puertoCameraRing, logPath, logLock);
-		}
-	}
-	
-	private static class HandlerAdministration implements Runnable {
-		
-		private int puertoAdministration;
-		String logPath;
-		ReentrantLock logLock;
-		
-		public HandlerAdministration(int puertoAdministration, String logPath, ReentrantLock logLock) {
-			this.puertoAdministration = puertoAdministration;
-			this.logPath = logPath;
-			this.logLock = logLock;
-		}
-		
-		public void run() {
-			administration(puertoAdministration, logPath, logLock);
+			cameraRing();
 		}
 	}
 }

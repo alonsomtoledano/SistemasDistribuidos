@@ -1,87 +1,87 @@
 ///////////////////////////___Node1___MasterNode___///////////////////////////
 
 		//PORTS
-	    int puertoIzquierda = 6004;
-	    int puertoDerecha = 6001;
-	    int puertoIzquierda2 = 6008;
-	    int puertoDerecha2 = 6005;
-	    int puertoCentralServer = 6000;
+	    static int puertoIzquierda = 6004;
+	    static int puertoDerecha = 6001;
+	    static int puertoIzquierda2 = 6008;
+	    static int puertoDerecha2 = 6005;
+	    static int puertoCentralServer = 6000;
 	    
 	    //IP
-	    String ip = "localhost";
-	    String ipIzquierda = "localhost";
-	    String ipDerecha = "localhost";
-	    String ipCentralServer = "localhost";
+	    static String ip = "localhost";
+	    static String ipIzquierda = "localhost";
+	    static String ipDerecha = "localhost";
+	    static String ipCentralServer = "localhost";
 	    
 	    //NODE VARIABLES
-	    boolean masterNode = true; //IS THIS THE MASTER NODE
-	    boolean inOut = true; //TRUE = IN, FALSE = OUT
-	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
-		String detectionCorbaPath = "\\localhost\\detectionIn"; //REMOTE IN/OUT FOLDER PATH
-		String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
+	    static boolean masterNode = true; //IS THIS THE MASTER NODE
+	    static boolean inOut = true; //TRUE = IN, FALSE = OUT
+	    static boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
+		static String detectionCorbaPath = "\\localhost\\detectionIn"; //REMOTE IN/OUT FOLDER PATH
+		static String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
 	    
 ///////////////////////////___Node2___///////////////////////////
 
 		//PORTS
-	    int puertoIzquierda = 6001;
-	    int puertoDerecha = 6002;
-	    int puertoIzquierda2 = 6005;
-	    int puertoDerecha2 = 6006;
-	    int puertoCentralServer = 6000;
+	    static int puertoIzquierda = 6001;
+	    static int puertoDerecha = 6002;
+	    static int puertoIzquierda2 = 6005;
+	    static int puertoDerecha2 = 6006;
+	    static int puertoCentralServer = 6000;
 	    
 	    //IP
-	    String ip = "localhost";
-	    String ipIzquierda = "localhost";
-	    String ipDerecha = "localhost";
-	    String ipCentralServer = "localhost";
+	    static String ip = "localhost";
+	    static String ipIzquierda = "localhost";
+	    static String ipDerecha = "localhost";
+	    static String ipCentralServer = "localhost";
 	    
 	    //NODE VARIABLES
-	    boolean masterNode = false; //IS THIS THE MASTER NODE
-	    boolean inOut = false; //TRUE = IN, FALSE = OUT
-	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
-	    String detectionCorbaPath = "\\localhost\\detectionOut"; //REMOTE IN/OUT FOLDER PATH
-	    String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
+	    static boolean masterNode = false; //IS THIS THE MASTER NODE
+	    static boolean inOut = false; //TRUE = IN, FALSE = OUT
+	    static boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
+	    static String detectionCorbaPath = "\\localhost\\detectionOut"; //REMOTE IN/OUT FOLDER PATH
+	    static String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
 	    
 ///////////////////////////___Node3___///////////////////////////
 
 		//PORTS
-	    int puertoIzquierda = 6002;
-	    int puertoDerecha = 6003;
-	    int puertoIzquierda2 = 6006;
-	    int puertoDerecha2 = 6007;
-	    int puertoCentralServer = 6000;
+	    static int puertoIzquierda = 6002;
+	    static int puertoDerecha = 6003;
+	    static int puertoIzquierda2 = 6006;
+	    static int puertoDerecha2 = 6007;
+	    static int puertoCentralServer = 6000;
 	    
 	    //IP
-	    String ip = "localhost";
-	    String ipIzquierda = "localhost";
-	    String ipDerecha = "localhost";
-	    String ipCentralServer = "localhost";
+	    static String ip = "localhost";
+	    static String ipIzquierda = "localhost";
+	    static String ipDerecha = "localhost";
+	    static String ipCentralServer = "localhost";
 	    
 	    //NODE VARIABLES
-	    boolean masterNode = false; //IS THIS THE MASTER NODE
-	    boolean inOut = true; //TRUE = IN, FALSE = OUT
-	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
-	    String detectionCorbaPath = "\\localhost\\detectionIn2"; //REMOTE IN/OUT FOLDER PATH
-	    String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
+	    static boolean masterNode = false; //IS THIS THE MASTER NODE
+	    static boolean inOut = true; //TRUE = IN, FALSE = OUT
+	    static boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
+	    static String detectionCorbaPath = "\\localhost\\detectionIn2"; //REMOTE IN/OUT FOLDER PATH
+	    static String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
 	    
 ///////////////////////////___Node4___///////////////////////////
 
 		//PORTS
-	    int puertoIzquierda = 6003;
-	    int puertoDerecha = 6004;
-	    int puertoIzquierda2 = 6007;
-	    int puertoDerecha2 = 6008;
-	    int puertoCentralServer = 6000;
+	    static int puertoIzquierda = 6003;
+	    static int puertoDerecha = 6004;
+	    static int puertoIzquierda2 = 6007;
+	    static int puertoDerecha2 = 6008;
+	    static int puertoCentralServer = 6000;
 	    
 	    //IP
-	    String ip = "localhost";
-	    String ipIzquierda = "localhost";
-	    String ipDerecha = "localhost";
-	    String ipCentralServer = "localhost";
+	    static String ip = "localhost";
+	    static String ipIzquierda = "localhost";
+	    static String ipDerecha = "localhost";
+	    static String ipCentralServer = "localhost";
 	    
 	    //NODE VARIABLES
-	    boolean masterNode = false; //IS THIS THE MASTER NODE
-	    boolean inOut = false; //TRUE = IN, FALSE = OUT
-	    boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
-	    String detectionCorbaPath = "\\localhost\\detectionOut2"; //REMOTE IN/OUT FOLDER PATH
-	    String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
+	    static boolean masterNode = false; //IS THIS THE MASTER NODE
+	    static boolean inOut = false; //TRUE = IN, FALSE = OUT
+	    static boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
+	    static String detectionCorbaPath = "\\localhost\\detectionOut2"; //REMOTE IN/OUT FOLDER PATH
+	    static String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH

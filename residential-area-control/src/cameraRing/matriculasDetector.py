@@ -15,6 +15,8 @@ text = pytesseract.image_to_string(img)
 
 matricula = text [1:len(text)]
 
+matricula = matricula + " " + imageName
+
 shutil.move(originPath, destinyPath)
 	
 print(matricula)

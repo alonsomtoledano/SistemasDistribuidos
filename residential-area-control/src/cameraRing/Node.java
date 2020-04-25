@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
+import clock.ProxyClock;
+import log.Log;
+
 public class Node {
 	
 	//PORTS
@@ -35,7 +38,11 @@ public class Node {
     static String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
     
     //LOG VARIBLES
-    static String logPath = "./src/cameraRing/node.log";
+    static String logPath = "./src/cameraRing/logs/node.log";
+    static String INFO = "info";
+    static String ERROR = "error";
+    static String className;
+    static long time;
     
     //LOCKS
     static ReentrantLock logLock = new ReentrantLock();
@@ -46,13 +53,17 @@ public class Node {
 	static HandlerIzquierda handlerIzquierda = new HandlerIzquierda();
 	static HandlerClientCorba handlerClientCorba = new HandlerClientCorba();
 	
+	//SAVE MESSAGE STATE
 	static Message auxMessage = new Message();
 	
-	public static void main(String[] args) {		
+	public static void main(String[] args) {	
+		//LOG DATA
+		Class thisClass = new Object(){}.getClass();
+		className = thisClass.getEnclosingClass().getSimpleName();
+		
+		//THREADS
     	new Thread(handlerDerecha).start();
-    	
     	new Thread(handlerIzquierda).start();
-    	
     	new Thread(handlerClientCorba).start();
 	}
 	
@@ -60,56 +71,41 @@ public class Node {
     public static void derecha() {
     	String nodeInOut = inOut ? "IN" : "OUT";
     	boolean oneError = true;
-        boolean errorFlag = false;
         
     	List<List<String>> matriculasInLog = null;
     	List<List<String>> matriculasOutLog = null;
 
-    	logLock.lock();
+		time = ProxyClock.getError();
+		logLock.lock();
 		try {
-			Log.log("info", logPath, "Right thread started");
-		} finally {
+			Log.log(INFO, logPath, "Right thread started", className, time);
+		}finally {
 			logLock.unlock();
 		}
     	
     	while (true) {
     		try {
-    			System.out.println("Creando nuevo socket: " + puertoIzquierda);
     			ServerSocket socketIzquierda = new ServerSocket(puertoIzquierda);
     			Socket sIzquierda;
-    			
-    			System.out.println("Escuchando en el puerto izquierda: " + puertoIzquierda);
     			
     			if(masterNode && firstTime) {
         			Socket socketDerecha = new Socket(ipDerecha, puertoDerecha);
         			ObjectOutputStream outputDerecha = new ObjectOutputStream (socketDerecha.getOutputStream());
         			
-        			logLock.lock();
-        			try {
-            			try {
-							Thread.sleep(2000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-        				Log.log("info", logPath, "Making fist message");
-        			} finally {
-        				logLock.unlock();
-        			}
-        			
     				Message message = new Message();
     				outputDerecha.writeObject(message);
     				
-    				logLock.lock();
-    				try {
-    					try {
-							Thread.sleep(2000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-    					Log.log("info", logPath, "First message sent");
-    				} finally {
-    					logLock.unlock();
-    				}
+        			time = ProxyClock.getError();
+        			logLock.lock();
+        			try {
+        				Log.log(INFO, logPath, "First message sent", className, time);
+        			}finally {
+        				logLock.unlock();
+        			}
+        			
+        			Thread.sleep(2000);
+        			System.out.println("FIRST MESSAGE SENT TO NEXT NODE\n");
+        			
     			}
     			
     			if (masterNode && firstTime) {
@@ -122,17 +118,19 @@ public class Node {
 
         				try {
         					Message message = (Message)inputIzquierda.readObject();
-
-        					logLock.lock();
-        					try {
-            					Thread.sleep(2000);
-        						Log.log("info", logPath, "Message recieved");
-        					} finally {
-        						logLock.unlock();
-        					}
         					
+        					time = ProxyClock.getError();
+                			logLock.lock();
+                			try {
+                				Log.log(INFO, logPath, "Message received", className, time);
+                			}finally {
+                				logLock.unlock();
+                			}
+                			
+                			Thread.sleep(2000);
+                			System.out.println("MESSAGE RECEIVED");
         					System.out.println("matriculasInLog: " + message.getMatriculasInLog());
-        					System.out.println("matriculasOutLog: " + message.getMatriculasOutLog());
+        					System.out.println("matriculasOutLog: " + message.getMatriculasOutLog() + "\n");
         					
         					logLock.lock();
         					matriculasLock.lock();
@@ -141,43 +139,31 @@ public class Node {
         						matriculasOutLog = message.getMatriculasOutLog();        						
         						
         						List<String> matricula;
-        						int lineLogMatriculasCounter = 0;
-        						int lineLogHoraCounter = 0;
-        						String messageHora = null ;
+        						String matriculaInfo = null;
         						
         						BufferedReader readerMatriculas  = new BufferedReader(new FileReader("./src/cameraRing/matriculas.txt"));
         						String lineMatriculas = readerMatriculas.readLine();
         						
         						while (lineMatriculas != null) {
-        							lineLogMatriculasCounter = 0;
-        							lineLogHoraCounter = 0;
         							
-        							BufferedReader readerLogMatriculas  = new BufferedReader(new FileReader("./src/cameraRing/node.log"));
-        							BufferedReader readerLogHora  = new BufferedReader(new FileReader("./src/cameraRing/node.log"));
+        							BufferedReader readerLogMatriculas  = new BufferedReader(new FileReader(logPath));
         							String lineLogMatriculas = readerLogMatriculas.readLine();
-        							String lineLogHora = readerLogHora.readLine();
         							
         							while (lineLogMatriculas != null) {
         								if (lineLogMatriculas.contains(nodeInOut + ": " + lineMatriculas)) {
-        									while (lineLogHora != null) {
-        										if (lineLogHoraCounter == lineLogMatriculasCounter - 1) {
-        											messageHora = lineLogHora;
-        											break;
-        										}
-        										lineLogHoraCounter++;
-        										lineLogHora = readerLogHora.readLine();
-        									}
+        									matriculaInfo = lineLogMatriculas;
         								}
-        								lineLogMatriculasCounter++;
         								lineLogMatriculas = readerLogMatriculas.readLine();
         							}
         							readerLogMatriculas.close();
-        							readerLogHora.close();
         							
-        							messageHora = messageHora.substring(13, messageHora.length() - 19);
+        							String messageMatricula = matriculaInfo.substring(9, 18);
+        							String messageImage = matriculaInfo.substring(19, 33);
+        							String messageHora = matriculaInfo.substring(40, matriculaInfo.length());
         							
         							matricula = new ArrayList<String>();
-        							matricula.add(lineMatriculas);
+        							matricula.add(messageMatricula);
+        							matricula.add(messageImage);
         					    	matricula.add(messageHora);
         					    	
         					    	if (inOut) {
@@ -195,22 +181,25 @@ public class Node {
         				    	} else {
         				    		message.setMatriculasOutLog(matriculasOutLog);
         				    	}
+    							
+    							time = ProxyClock.getError();
+                				Log.log(INFO, logPath, "Message updated", className, time);
+                				
+                				Thread.sleep(2000);
+                				System.out.println("MESSAGE UPDATED\n");
         						
-								Thread.sleep(2000);
-    							Log.log("info", logPath, "Message updated");
-        						
-        						
-        						if(masterNode) {
-        	    					Thread.sleep(2000);
-        							Log.log("info", logPath, "Message sending to server");
-        							
+        						if(masterNode) {        							
         							try {
         								Socket socketCentralServer = new Socket(ipCentralServer, puertoCentralServer);
             	    					ObjectOutputStream outputCentralServer = new ObjectOutputStream (socketCentralServer.getOutputStream());
             	    					outputCentralServer.writeObject(message);
             	    					
-            	    					Thread.sleep(2000);
-            							Log.log("info", logPath, "Message sent to server");
+            	    					time = ProxyClock.getError();
+                        				Log.log(INFO, logPath, "Message sent to server", className, time);
+                        				
+                        				Thread.sleep(2000);
+                        				System.out.println("MESSAGE SENT TO SERVER\n");
+                        				
     								} catch (Exception e) {
     								}
         							
@@ -219,19 +208,19 @@ public class Node {
         					    	message.setMatriculasInLog(matriculasInLog);
         					    	message.setMatriculasOutLog(matriculasOutLog);
         							
-        	    					Thread.sleep(2000);
-        							Log.log("info", logPath, "Message cleared");
+        					    	time = ProxyClock.getError();
+                    				Log.log(INFO, logPath, "Message cleared", className, time);
+                    				
+                    				Thread.sleep(2000);
+                    				System.out.println("MESSAGE CLEARED\n");
         						}
         						
         						BufferedWriter bw = new BufferedWriter(new FileWriter("./src/cameraRing/matriculas.txt"));
         						bw.write("");
         						bw.close();
         						
-        						Thread.sleep(2000);
-        						Log.log("info", logPath, "Matriculas.txt content deleted");
-        						
-        						Thread.sleep(2000);
-        						Log.log("info", logPath, "Sending message to next node");
+        						time = ProxyClock.getError();
+                				Log.log(INFO, logPath, "Matriculas.txt content deleted", className, time);
         						
         						auxMessage = message;
         						
@@ -241,14 +230,17 @@ public class Node {
         						
         		    			oneError = true;
         						
-        						Thread.sleep(2000);
-        						Log.log("info", logPath, "Message sent to next node");
+        						time = ProxyClock.getError();
+                				Log.log(INFO, logPath, "Message sent to next node", className, time);
+                				
+                				Thread.sleep(2000);
+                				System.out.println("MESSAGE SENT TO NEXT NODE\n");
         						
         					} finally {
         						logLock.unlock();
         						matriculasLock.unlock();
         					}
-    					} catch (ClassNotFoundException | InterruptedException e) {
+    					} catch (ClassNotFoundException e) {
     						e.printStackTrace();
     					}
         				socketIzquierda.close();
@@ -258,10 +250,17 @@ public class Node {
         			}
     			}
 
-			} catch (IOException e) {
+			} catch (IOException | InterruptedException e) {
+				
+				time = ProxyClock.getError();
+    			logLock.lock();
+    			try {
+    				Log.log(ERROR, logPath, "Node fallen", className, time);
+    			}finally {
+    				logLock.unlock();
+    			}
 				
 				boolean ringClosed = false;
-				errorFlag = true;
 				
 				if (oneError) {
 					oneError = false;
@@ -269,40 +268,43 @@ public class Node {
 					try {					
 						Socket socketIzquierda = new Socket(ipIzquierda, puertoIzquierda2);
 	        			ObjectOutputStream outputIzquierda = new ObjectOutputStream (socketIzquierda.getOutputStream());
-	        			
-						logLock.lock();
-						try {
-							Thread.sleep(2000);
-							Log.log("info", logPath, "Sending FallingConfiguration");
-						} finally {
-							logLock.unlock();
-						}
 						
 	        			FallConfiguration fallConfiguration = new FallConfiguration(puertoDerecha, puertoDerecha2, ip);
 	    				outputIzquierda.writeObject(fallConfiguration);
 	    				
-	    				logLock.lock();
-						try {
-							Thread.sleep(2000);
-							Log.log("info", logPath, "FallingConfiguration sent to next node");
-						} finally {
-							logLock.unlock();
-						}
+	    				
+	    				time = ProxyClock.getError();
+	        			logLock.lock();
+	        			try {
+	        				Log.log(ERROR, logPath, "FallingConfiguration sent to next node", className, time);
+	        			}finally {
+	        				logLock.unlock();
+	        			}
+	        			
+	        			Thread.sleep(2000);
+	        			System.out.println("Node Fallen");
+        				System.out.println("FALLING CONFIGURATION SENT TO NEXT NODE\n");
 						
 						while (!ringClosed) {
-							System.out.println("try to send new object");
+							
+							Thread.sleep(2000);
+							System.out.println("TRY TO SEND MESSAGE\n");
+							
 							try {
 								Socket socketDerechaAux = new Socket(ipDerecha, puertoDerecha);
 	    						ObjectOutputStream outputDerechaAux = new ObjectOutputStream (socketDerechaAux.getOutputStream());
 	    						outputDerechaAux.writeObject(auxMessage);
 	    		    			
-	    		    			logLock.lock();
-	    						try {
-	    							Thread.sleep(2000);
-	    							Log.log("info", logPath, "Message sent to next node");
-	    						} finally {
-	    							logLock.unlock();
-	    						}
+	    	    				time = ProxyClock.getError();
+	    	        			logLock.lock();
+	    	        			try {
+	    	        				Log.log(ERROR, logPath, "Message sent to next node", className, time);
+	    	        			}finally {
+	    	        				logLock.unlock();
+	    	        			}
+	    	        			
+	    	        			Thread.sleep(2000);
+	            				System.out.println("MESSAGE SENT TO NEXT NODE\n");
 	    						
 	    						ringClosed = true;
 							} catch (Exception e2) {
@@ -317,14 +319,15 @@ public class Node {
     }
     
     public static void izquierda() {
+    	
+		time = ProxyClock.getError();
 		logLock.lock();
 		try {
-			Log.log("info", logPath, "Left thread started");
-		} finally {
+			Log.log(INFO, logPath, "Left thread started", className, time);
+		}finally {
 			logLock.unlock();
 		}
 		
-    	
     	while (true) {
     		try {
     			ServerSocket socketDerecha = new ServerSocket(puertoDerecha2);
@@ -335,13 +338,16 @@ public class Node {
     				try {
     					FallConfiguration fallConfiguration = (FallConfiguration)inputDerecha3.readObject();
     					
+    					time = ProxyClock.getError();
     					logLock.lock();
     					try {
-        					Thread.sleep(2000);
-    						Log.log("info", logPath, "FallConfiguration recieved");
-    					} finally {
+    						Log.log(INFO, logPath, "FallConfiguration received", className, time);
+    					}finally {
     						logLock.unlock();
     					}
+    					
+    					Thread.sleep(2000);
+        				System.out.println("FALL CONFIGURATION RECEIVED\n");
     					
     					if (fallConfiguration.getCloseRing()) {
     						
@@ -351,14 +357,17 @@ public class Node {
     						}
     						
     						ipDerecha = fallConfiguration.getIp();
-    						
-    						logLock.lock();
+        					
+        					time = ProxyClock.getError();
+        					logLock.lock();
         					try {
-            					Thread.sleep(2000);
-        						Log.log("info", logPath, "Final node configurated");
-        					} finally {
+        						Log.log(INFO, logPath, "Final node configurated", className, time);
+        					}finally {
         						logLock.unlock();
         					}
+        					
+        					Thread.sleep(2000);
+        					System.out.println("FINAL NODE CONFIGURATED\n");
         					
         					socketDerecha.close();
         					sDerecha.close();
@@ -368,53 +377,51 @@ public class Node {
     					} else {
     						if (masterNode) {
         						fallConfiguration.setMasterNode(true);
-        						
-        						logLock.lock();
+            					
+            					time = ProxyClock.getError();
+            					logLock.lock();
             					try {
-                					Thread.sleep(2000);
-            						Log.log("info", logPath, "FallConfiguration masterNode set true");
-            					} finally {
+            						Log.log(INFO, logPath, "FallConfiguration masterNode set true", className, time);
+            					}finally {
             						logLock.unlock();
             					}
-        					}
-        					
-        					logLock.lock();
-        					try {
+            					
             					Thread.sleep(2000);
-        						Log.log("info", logPath, "Sending FallConfiguration");
-        					} finally {
-        						logLock.unlock();
+            					System.out.println("MASTER NODE DETECTED\n");
         					}
         					
         					try(Socket socketIzquierda = new Socket(ipIzquierda, puertoIzquierda2);) {
         						
         						ObjectOutputStream outputIzquierda = new ObjectOutputStream(socketIzquierda.getOutputStream());
                                 outputIzquierda.writeObject(fallConfiguration);
-                                
-                                logLock.lock();
+            					
+            					time = ProxyClock.getError();
+            					logLock.lock();
             					try {
-                					Thread.sleep(2000);
-            						Log.log("info", logPath, "FallConfiguration sent to next node");
-            					} finally {
+            						Log.log(INFO, logPath, "FallConfiguration sent to next node", className, time);
+            					}finally {
             						logLock.unlock();
             					}
+            					
+            					Thread.sleep(2000);
+                				System.out.println("FALLING CONFIGURATION SENT TO NEXT NODE\n");
             					
                         	}catch(Exception e) {
                         		
                         		ipIzquierda = fallConfiguration.getIp();
                         		puertoIzquierda2 = fallConfiguration.getPuertoDerecha2();
                         		puertoIzquierda = fallConfiguration.getPuertoDerecha();
-                        		
-                        		logLock.lock();
+            					
+            					time = ProxyClock.getError();
+            					logLock.lock();
             					try {
-                					Thread.sleep(2000);
-            						Log.log("info", logPath, "Node configurated");
-            					} finally {
+            						Log.log(INFO, logPath, "Node configurated", className, time);
+            					}finally {
             						logLock.unlock();
             					}
             					
-            					System.out.println("ip: " + ip);
-    							System.out.println("puertoIzquierda: " + puertoIzquierda);
+            					Thread.sleep(2000);
+            					System.out.println("NODE CONFIGURATED\n");
     							
     							handlerDerecha.interrupt();
     							new Thread(handlerDerecha).start();
@@ -426,14 +433,17 @@ public class Node {
             						
             						ObjectOutputStream outputIzquierda = new ObjectOutputStream(socketIzquierda.getOutputStream());
                                     outputIzquierda.writeObject(fallConfiguration);
-                                    
-                                    logLock.lock();
+                					
+                					time = ProxyClock.getError();
+                					logLock.lock();
                 					try {
-                    					Thread.sleep(2000);
-                						Log.log("info", logPath, "Last FallConfiguration sent to next node");
-                					} finally {
+                						Log.log(INFO, logPath, "FallConfiguration sent to last node", className, time);
+                					}finally {
                 						logLock.unlock();
                 					}
+                					
+                					Thread.sleep(2000);
+                    				System.out.println("FALLING CONFIGURATION SENT TO LAST NODE\n");
                 					
 								} catch (Exception e2) {
 								}
@@ -454,10 +464,11 @@ public class Node {
     	matriculasCentralServerPath = "\\" + matriculasCentralServerPath + "\\";
     	boolean matriculaExist = false;
 
+    	time = ProxyClock.getError();
 		logLock.lock();
 		try {
-			Log.log("info", logPath, "Client Corba started");
-		} finally {
+			Log.log(INFO, logPath, "Client Corba started", className, time);
+		}finally {
 			logLock.unlock();
 		}
 		
@@ -466,11 +477,12 @@ public class Node {
     	
     	File folder = new File(folderRoute);
     	Path path = Paths.get(folderRoute);
-    	
+		
+    	time = ProxyClock.getError();
 		logLock.lock();
 		try {
-			Log.log("info", logPath, "Listening " + logInOut + " folder");
-		} finally {
+			Log.log(INFO, logPath, "Listening " + logInOut + " folder", className, time);
+		}finally {
 			logLock.unlock();
 		}
     	
@@ -488,12 +500,16 @@ public class Node {
         		    	for (int i = 0; i < list.length; i++) {
         		    		if (list[i].endsWith(".jpg")) {
         		    			
+        		    	    	time = ProxyClock.getError();
         		    			logLock.lock();
         		    			try {
-        		    				Log.log("info", logPath, "Sending matricula to CorbaServer");
-        		    			} finally {
+        		    				Log.log(INFO, logPath, "Sending license plate to CorbaServer", className, time);
+        		    			}finally {
         		    				logLock.unlock();
         		    			}
+        		    			
+        		    			Thread.sleep(2000);
+	            				System.out.println("SENDING LICENSE PLATE TO CORRBA SERVER\n");
         		    			
         		    			matriculasLock.lock();
         		    			try {
@@ -508,14 +524,18 @@ public class Node {
             		    				while ((line = stdInput.readLine()) != null) {
             		    					matricula = line;
             		    				}
-
-            		    				logLock.lock();
-            		    				try {
-            		    					Log.log("info", logPath, logInOut + ": " + matricula);
-            		    				} finally {
-            		    					logLock.unlock();
-            		    				}
             		    				
+                		    	    	time = ProxyClock.getError();
+                		    			logLock.lock();
+                		    			try {
+                		    				Log.log(INFO, logPath, logInOut + ": " + matricula + " TIME: " + time, className, time);
+                		    			}finally {
+                		    				logLock.unlock();
+                		    			}
+            		    				
+                		    			Thread.sleep(2000);
+        	            				System.out.println("RECEIVED LICENSE PLATE: " + matricula + " FROM CORBA SERVER\n");
+                		    			
             		    				matriculasLock.lock();
             		    				try {
             		    					BufferedReader readerMatriculas  = new BufferedReader(new FileReader("./src/cameraRing/matriculas.txt"));
@@ -531,7 +551,6 @@ public class Node {
                     							lineMatriculas = readerMatriculas.readLine();
                     						}
                     						readerMatriculas.close();
-                    						
                     						
                     						if (!matriculaExist) {
                     							BufferedWriter bw = new BufferedWriter(new FileWriter("./src/cameraRing/matriculas.txt", true));
@@ -551,7 +570,6 @@ public class Node {
 								}
         		    		}
         		    	}
-        		    	
         			}
         		}
     		} catch (Exception e) {

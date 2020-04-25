@@ -1,0 +1,212 @@
+abr. 25, 2020 12:20:11 P. M. Node.java
+INFO: Right thread started
+abr. 25, 2020 12:20:11 P. M. Node.java
+INFO: Left thread started
+abr. 25, 2020 12:20:11 P. M. Node.java
+INFO: Client Corba started
+abr. 25, 2020 12:20:13 P. M. Node.java
+INFO: First message sent
+abr. 25, 2020 12:20:13 P. M. Node.java
+INFO: Listening IN folder
+abr. 25, 2020 12:20:43 P. M. Node.java
+INFO: Message received
+abr. 25, 2020 12:20:48 P. M. Node.java
+INFO: Message updated
+abr. 25, 2020 12:20:52 P. M. Node.java
+INFO: Message sent to server
+abr. 25, 2020 12:20:56 P. M. Node.java
+INFO: Message cleared
+abr. 25, 2020 12:20:59 P. M. Node.java
+INFO: Matriculas.txt content deleted
+abr. 25, 2020 12:21:01 P. M. Node.java
+INFO: Message sent to next node
+abr. 25, 2020 12:21:32 P. M. Node.java
+INFO: Message received
+abr. 25, 2020 12:21:36 P. M. Node.java
+INFO: Message updated
+abr. 25, 2020 12:21:41 P. M. Node.java
+INFO: Message sent to server
+abr. 25, 2020 12:21:45 P. M. Node.java
+INFO: Message cleared
+abr. 25, 2020 12:21:47 P. M. Node.java
+INFO: Matriculas.txt content deleted
+abr. 25, 2020 12:21:50 P. M. Node.java
+INFO: Message sent to next node
+abr. 25, 2020 12:22:20 P. M. Node.java
+INFO: Message received
+abr. 25, 2020 12:22:26 P. M. Node.java
+INFO: Message updated
+abr. 25, 2020 12:22:28 P. M. Node.java
+INFO: Message sent to server
+abr. 25, 2020 12:22:34 P. M. Node.java
+INFO: Message cleared
+abr. 25, 2020 12:22:38 P. M. Node.java
+INFO: Matriculas.txt content deleted
+abr. 25, 2020 12:22:39 P. M. Node.java
+INFO: Message sent to next node
+abr. 25, 2020 12:22:57 P. M. Node.java
+INFO: Sending license plate to CorbaServer
+abr. 25, 2020 12:23:02 P. M. Node.java
+INFO: IN: 3456 CXT matricula4.jpg TIME: 1587810182828
+abr. 25, 2020 12:23:10 P. M. Node.java
+INFO: Message received
+abr. 25, 2020 12:23:13 P. M. Node.java
+INFO: Message updated
+abr. 25, 2020 12:23:17 P. M. Node.java
+INFO: Message sent to server
+abr. 25, 2020 12:23:22 P. M. Node.java
+INFO: Message cleared
+abr. 25, 2020 12:23:25 P. M. Node.java
+INFO: Matriculas.txt content deleted
+abr. 25, 2020 12:23:28 P. M. Node.java
+INFO: Message sent to next node
+abr. 25, 2020 12:23:59 P. M. Node.java
+INFO: Message received
+abr. 25, 2020 12:24:02 P. M. Node.java
+INFO: Message updated
+abr. 25, 2020 12:24:06 P. M. Node.java
+INFO: Message sent to server
+abr. 25, 2020 12:24:10 P. M. Node.java
+INFO: Message cleared
+abr. 25, 2020 12:24:14 P. M. Node.java
+INFO: Matriculas.txt content deleted
+abr. 25, 2020 12:24:18 P. M. Node.java
+INFO: Node fallen
+abr. 25, 2020 12:24:20 P. M. Node.java
+INFO: FallingConfiguration sent to next node
+abr. 25, 2020 12:24:34 P. M. Node.java
+INFO: FallConfiguration received
+abr. 25, 2020 12:24:38 P. M. Node.java
+INFO: Message sent to next node
+abr. 25, 2020 12:24:39 P. M. Node.java
+INFO: Final node configurated
+abr. 25, 2020 12:24:42 P. M. Node.java
+INFO: Left thread started
+abr. 25, 2020 12:24:58 P. M. Node.java
+INFO: Message received
+abr. 25, 2020 12:25:02 P. M. Node.java
+INFO: Message updated
+abr. 25, 2020 12:25:07 P. M. Node.java
+INFO: Message sent to server
+abr. 25, 2020 12:25:11 P. M. Node.java
+INFO: Message cleared
+abr. 25, 2020 12:25:15 P. M. Node.java
+INFO: Matriculas.txt content deleted
+abr. 25, 2020 12:25:17 P. M. Node.java
+INFO: Message sent to next node
+abr. 25, 2020 12:26:12 P. M. Node.java
+INFO: Right thread started
+abr. 25, 2020 12:26:12 P. M. Node.java
+INFO: Left thread started
+abr. 25, 2020 12:26:12 P. M. Node.java
+INFO: Client Corba started
+abr. 25, 2020 12:26:15 P. M. Node.java
+INFO: First message sent
+abr. 25, 2020 12:26:15 P. M. Node.java
+INFO: Listening IN folder
+abr. 25, 2020 12:35:05 P. M. Node.java
+INFO: Left thread started
+abr. 25, 2020 12:35:05 P. M. Node.java
+INFO: Right thread started
+abr. 25, 2020 12:35:05 P. M. Node.java
+INFO: Client Corba started
+abr. 25, 2020 12:35:06 P. M. Node.java
+INFO: First message sent
+abr. 25, 2020 12:35:06 P. M. Node.java
+INFO: Listening IN folder
+abr. 25, 2020 12:35:13 P. M. Node.java
+INFO: Sending license plate to CorbaServer
+abr. 25, 2020 12:35:18 P. M. Node.java
+INFO: IN: AB 7354 B matricula1.jpg TIME: 1587810918746
+abr. 25, 2020 12:35:37 P. M. Node.java
+INFO: Message received
+abr. 25, 2020 12:35:42 P. M. Node.java
+INFO: Message updated
+abr. 25, 2020 12:35:46 P. M. Node.java
+INFO: Message sent to server
+abr. 25, 2020 12:35:50 P. M. Node.java
+INFO: Message cleared
+abr. 25, 2020 12:35:53 P. M. Node.java
+INFO: Matriculas.txt content deleted
+abr. 25, 2020 12:35:55 P. M. Node.java
+INFO: Message sent to next node
+abr. 25, 2020 12:36:26 P. M. Node.java
+INFO: Message received
+abr. 25, 2020 12:36:29 P. M. Node.java
+INFO: Message updated
+abr. 25, 2020 12:36:34 P. M. Node.java
+INFO: Message sent to server
+abr. 25, 2020 12:36:39 P. M. Node.java
+INFO: Message cleared
+abr. 25, 2020 12:36:42 P. M. Node.java
+INFO: Matriculas.txt content deleted
+abr. 25, 2020 12:36:45 P. M. Node.java
+INFO: Message sent to next node
+ene. 01, 1970 1:00:00 A. M. Node.java
+INFO: Left thread started
+ene. 01, 1970 1:00:00 A. M. Node.java
+INFO: Client Corba started
+ene. 01, 1970 1:00:00 A. M. Node.java
+INFO: Right thread started
+ene. 01, 1970 1:00:00 A. M. Node.java
+INFO: Listening IN folder
+ene. 01, 1970 1:00:00 A. M. Node.java
+INFO: First message sent
+abr. 25, 2020 12:38:07 P. M. Node.java
+INFO: Left thread started
+abr. 25, 2020 12:38:07 P. M. Node.java
+INFO: Right thread started
+abr. 25, 2020 12:38:07 P. M. Node.java
+INFO: Client Corba started
+abr. 25, 2020 12:38:08 P. M. Node.java
+INFO: First message sent
+abr. 25, 2020 12:38:08 P. M. Node.java
+INFO: Listening IN folder
+abr. 25, 2020 12:38:21 P. M. Node.java
+INFO: Sending license plate to CorbaServer
+abr. 25, 2020 12:38:26 P. M. Node.java
+INFO: IN: 1111 AAA matricula2.jpg TIME: 1587811106357
+abr. 25, 2020 12:38:39 P. M. Node.java
+INFO: Message received
+abr. 25, 2020 12:41:08 P. M. Node.java
+INFO: Left thread started
+abr. 25, 2020 12:41:08 P. M. Node.java
+INFO: Right thread started
+abr. 25, 2020 12:41:08 P. M. Node.java
+INFO: Client Corba started
+abr. 25, 2020 12:41:10 P. M. Node.java
+INFO: First message sent
+abr. 25, 2020 12:41:10 P. M. Node.java
+INFO: Listening IN folder
+abr. 25, 2020 12:41:24 P. M. Node.java
+INFO: Sending license plate to CorbaServer
+abr. 25, 2020 12:41:30 P. M. Node.java
+INFO: IN: 1111 AAA matricula1.jpg TIME: 1587811290449
+abr. 25, 2020 12:41:40 P. M. Node.java
+INFO: Message received
+abr. 25, 2020 12:42:29 P. M. Node.java
+INFO: Right thread started
+abr. 25, 2020 12:42:29 P. M. Node.java
+INFO: Left thread started
+abr. 25, 2020 12:42:29 P. M. Node.java
+INFO: Client Corba started
+abr. 25, 2020 12:42:32 P. M. Node.java
+INFO: First message sent
+abr. 25, 2020 12:42:32 P. M. Node.java
+INFO: Listening IN folder
+abr. 25, 2020 12:42:46 P. M. Node.java
+INFO: Sending license plate to CorbaServer
+abr. 25, 2020 12:42:51 P. M. Node.java
+INFO: IN: 1111 AAA matricula1.jpg TIME: 1587811371787
+abr. 25, 2020 12:43:02 P. M. Node.java
+INFO: Message received
+abr. 25, 2020 12:43:06 P. M. Node.java
+INFO: Message updated
+abr. 25, 2020 12:43:10 P. M. Node.java
+INFO: Message sent to server
+abr. 25, 2020 12:43:13 P. M. Node.java
+INFO: Message cleared
+abr. 25, 2020 12:43:18 P. M. Node.java
+INFO: Matriculas.txt content deleted
+abr. 25, 2020 12:43:20 P. M. Node.java
+INFO: Message sent to next node

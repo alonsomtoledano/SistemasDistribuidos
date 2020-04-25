@@ -1,0 +1,110 @@
+abr. 24, 2020 12:05:03 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 12:14:49 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 12:14:51 P. M. ProxyRequest.java
+INFO: Received data from client and DNI and license plate encrypted
+abr. 24, 2020 12:14:51 P. M. ProxyRequest.java
+INFO: Data sent to server
+abr. 24, 2020 12:14:53 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 12:14:56 P. M. ProxyRequest.java
+INFO: java.io.EOFException
+	at java.base/java.io.ObjectInputStream$PeekInputStream.readFully(ObjectInputStream.java:2763)
+	at java.base/java.io.ObjectInputStream$BlockDataInputStream.readShort(ObjectInputStream.java:3258)
+	at java.base/java.io.ObjectInputStream.readStreamHeader(ObjectInputStream.java:873)
+	at java.base/java.io.ObjectInputStream.<init>(ObjectInputStream.java:350)
+	at publicAdministration.nodes.ProxyRequest$ClientHandler.run(ProxyRequest.java:82)
+	at java.base/java.lang.Thread.run(Thread.java:835)
+
+abr. 24, 2020 12:21:02 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 12:21:03 P. M. ProxyRequest.java
+INFO: Received data from client and DNI and license plate encrypted
+abr. 24, 2020 12:21:03 P. M. ProxyRequest.java
+INFO: Data sent to server
+abr. 24, 2020 12:21:05 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 12:21:07 P. M. ProxyRequest.java
+INFO: java.io.EOFException
+	at java.base/java.io.ObjectInputStream$PeekInputStream.readFully(ObjectInputStream.java:2763)
+	at java.base/java.io.ObjectInputStream$BlockDataInputStream.readShort(ObjectInputStream.java:3258)
+	at java.base/java.io.ObjectInputStream.readStreamHeader(ObjectInputStream.java:873)
+	at java.base/java.io.ObjectInputStream.<init>(ObjectInputStream.java:350)
+	at publicAdministration.nodes.ProxyRequest$ClientHandler.run(ProxyRequest.java:82)
+	at java.base/java.lang.Thread.run(Thread.java:835)
+
+abr. 24, 2020 12:21:40 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 12:21:42 P. M. ProxyRequest.java
+INFO: Received data from client and DNI encrypted
+abr. 24, 2020 12:21:42 P. M. ProxyRequest.java
+INFO: Data sent to server
+abr. 24, 2020 12:21:45 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 12:21:46 P. M. ProxyRequest.java
+INFO: java.io.EOFException
+	at java.base/java.io.ObjectInputStream$PeekInputStream.readFully(ObjectInputStream.java:2763)
+	at java.base/java.io.ObjectInputStream$BlockDataInputStream.readShort(ObjectInputStream.java:3258)
+	at java.base/java.io.ObjectInputStream.readStreamHeader(ObjectInputStream.java:873)
+	at java.base/java.io.ObjectInputStream.<init>(ObjectInputStream.java:350)
+	at publicAdministration.nodes.ProxyRequest$ClientHandler.run(ProxyRequest.java:82)
+	at java.base/java.lang.Thread.run(Thread.java:835)
+
+abr. 24, 2020 12:22:25 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 12:22:28 P. M. ProxyRequest.java
+INFO: Received data from client and license plate encrypted
+abr. 24, 2020 12:22:28 P. M. ProxyRequest.java
+INFO: Data sent to server
+abr. 24, 2020 12:22:32 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 12:22:35 P. M. ProxyRequest.java
+INFO: java.io.EOFException
+	at java.base/java.io.ObjectInputStream$PeekInputStream.readFully(ObjectInputStream.java:2763)
+	at java.base/java.io.ObjectInputStream$BlockDataInputStream.readShort(ObjectInputStream.java:3258)
+	at java.base/java.io.ObjectInputStream.readStreamHeader(ObjectInputStream.java:873)
+	at java.base/java.io.ObjectInputStream.<init>(ObjectInputStream.java:350)
+	at publicAdministration.nodes.ProxyRequest$ClientHandler.run(ProxyRequest.java:82)
+	at java.base/java.lang.Thread.run(Thread.java:835)
+
+abr. 24, 2020 5:49:21 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 6:00:17 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 6:04:11 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 6:04:12 P. M. ProxyRequest.java
+INFO: Received data from client and DNI and license plate encrypted
+abr. 24, 2020 6:04:12 P. M. ProxyRequest.java
+INFO: Data sent to server
+abr. 24, 2020 6:05:14 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 6:05:17 P. M. ProxyRequest.java
+INFO: Received data from client and DNI and license plate encrypted
+abr. 24, 2020 6:05:17 P. M. ProxyRequest.java
+INFO: Data sent to server
+abr. 24, 2020 6:05:53 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 6:05:56 P. M. ProxyRequest.java
+INFO: Received data from client and DNI and license plate encrypted
+abr. 24, 2020 6:05:56 P. M. ProxyRequest.java
+INFO: Data sent to server
+abr. 24, 2020 6:06:34 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 6:06:37 P. M. ProxyRequest.java
+INFO: Received data from client and DNI encrypted
+abr. 24, 2020 6:06:37 P. M. ProxyRequest.java
+INFO: Data sent to server
+abr. 24, 2020 6:07:22 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 6:07:24 P. M. ProxyRequest.java
+INFO: Received data from client and license plate encrypted
+abr. 24, 2020 6:07:24 P. M. ProxyRequest.java
+INFO: Data sent to server
+abr. 24, 2020 6:08:23 P. M. ProxyRequest.java
+INFO: PROXY START
+abr. 24, 2020 6:08:25 P. M. ProxyRequest.java
+INFO: Received data from client and license plate encrypted
+abr. 24, 2020 6:08:25 P. M. ProxyRequest.java
+INFO: Data sent to server

@@ -1,0 +1,148 @@
+abr. 24, 2020 2:47:55 P. M. Server1.java
+INFO: SERVER 1 START
+abr. 24, 2020 2:47:57 P. M. Server1.java
+INFO: SERVER 1 authentication sent to PROXY
+abr. 24, 2020 2:48:04 P. M. Server1.java
+INFO: new thread SERVER 1 start
+abr. 24, 2020 2:48:06 P. M. Server1.java
+INFO: SERVER 1 correct authenticaction
+abr. 24, 2020 2:48:09 P. M. Server1.java
+INFO: SERVER 1 listening to events
+abr. 24, 2020 2:48:48 P. M. Server1.java
+INFO: SERVER 1 file update
+abr. 24, 2020 2:48:48 P. M. Server1.java
+INFO: SERVER 1 request getTime to PROXYCLOCK
+abr. 24, 2020 2:48:48 P. M. Server1.java
+INFO: SERVER 1 received adjustTime from PROXYCLOCK
+abr. 24, 2020 2:48:49 P. M. Server1.java
+INFO: SERVER 1 write data to file inputLog.txt
+abr. 24, 2020 2:48:51 P. M. Server1.java
+INFO: SERVER 1 send data to PROXY
+abr. 24, 2020 2:48:51 P. M. Server1.java
+INFO: ***************************************
+abr. 24, 2020 2:48:54 P. M. Server1.java
+INFO: SERVER 1 file update
+abr. 24, 2020 2:48:54 P. M. Server1.java
+INFO: SERVER 1 request getTime to PROXYCLOCK
+abr. 24, 2020 2:48:54 P. M. Server1.java
+INFO: SERVER 1 received adjustTime from PROXYCLOCK
+abr. 24, 2020 2:48:55 P. M. Server1.java
+INFO: SERVER 1 write data to file inputLog.txt
+abr. 24, 2020 2:48:57 P. M. Server1.java
+INFO: SERVER 1 send data to PROXY
+abr. 24, 2020 2:48:57 P. M. Server1.java
+INFO: ***************************************
+abr. 24, 2020 2:50:55 P. M. Server1.java
+INFO: SERVER 1 file update
+abr. 24, 2020 2:50:55 P. M. Server1.java
+INFO: SERVER 1 request getTime to PROXYCLOCK
+abr. 24, 2020 2:50:55 P. M. Server1.java
+INFO: SERVER 1 received adjustTime from PROXYCLOCK
+abr. 24, 2020 2:50:56 P. M. Server1.java
+INFO: SERVER 1 write data to fileoutputLog.txt
+abr. 24, 2020 2:50:58 P. M. Server1.java
+INFO: SERVER 1 send data to PROXY
+abr. 24, 2020 2:50:58 P. M. Server1.java
+INFO: ***************************************
+abr. 24, 2020 2:51:01 P. M. Server1.java
+INFO: SERVER 1 file update
+abr. 24, 2020 2:51:01 P. M. Server1.java
+INFO: SERVER 1 request getTime to PROXYCLOCK
+abr. 24, 2020 2:51:01 P. M. Server1.java
+INFO: SERVER 1 received adjustTime from PROXYCLOCK
+abr. 24, 2020 2:51:03 P. M. Server1.java
+INFO: SERVER 1 write data to fileoutputLog.txt
+abr. 24, 2020 2:51:05 P. M. Server1.java
+INFO: SERVER 1 send data to PROXY
+abr. 24, 2020 2:51:05 P. M. Server1.java
+INFO: ***************************************
+abr. 24, 2020 2:57:33 P. M. Server1.java
+INFO: SERVER 1 START
+abr. 24, 2020 2:57:37 P. M. Server1.java
+INFO: SERVER 1 authentication sent to PROXY
+abr. 24, 2020 2:57:42 P. M. Server1.java
+INFO: new thread SERVER 1 start
+abr. 24, 2020 2:57:45 P. M. Server1.java
+INFO: SERVER 1 correct authenticaction
+abr. 24, 2020 2:57:46 P. M. Server1.java
+INFO: SERVER 1 listening to events
+abr. 24, 2020 2:58:35 P. M. Server1.java
+INFO: SERVER 1 file update
+abr. 24, 2020 2:58:35 P. M. Server1.java
+INFO: SERVER 1 request getTime to PROXYCLOCK
+abr. 24, 2020 2:58:35 P. M. Server1.java
+INFO: SERVER 1 received adjustTime from PROXYCLOCK
+abr. 24, 2020 2:58:35 P. M. Server1.java
+INFO: java.io.FileNotFoundException: .\src\parking\filesOutput\SERVER1\inputLog17171.txt (El sistema no puede encontrar el archivo especificado)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:213)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:155)
+	at parking.contents.Server1.data(Server1.java:458)
+	at parking.contents.Server1.sendData(Server1.java:345)
+	at parking.contents.Server1.inputLogHandler(Server1.java:277)
+	at parking.contents.Server1$ProxyHandler.run(Server1.java:121)
+	at java.base/java.lang.Thread.run(Thread.java:835)
+
+abr. 24, 2020 2:58:39 P. M. Server1.java
+INFO: SERVER 1 write data to file backupInputLog.txt
+abr. 24, 2020 2:58:40 P. M. Server1.java
+INFO: SERVER 1 send data to PROXY
+abr. 24, 2020 2:58:40 P. M. Server1.java
+INFO: ***************************************
+abr. 24, 2020 2:58:42 P. M. Server1.java
+INFO: SERVER 1 file update
+abr. 24, 2020 2:58:42 P. M. Server1.java
+INFO: SERVER 1 request getTime to PROXYCLOCK
+abr. 24, 2020 2:58:42 P. M. Server1.java
+INFO: SERVER 1 received adjustTime from PROXYCLOCK
+abr. 24, 2020 2:58:44 P. M. Server1.java
+INFO: java.io.FileNotFoundException: .\src\parking\filesOutput\SERVER1\inputLog17171.txt (El sistema no puede encontrar el archivo especificado)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:213)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:155)
+	at parking.contents.Server1.data(Server1.java:458)
+	at parking.contents.Server1.sendData(Server1.java:345)
+	at parking.contents.Server1.inputLogHandler(Server1.java:277)
+	at parking.contents.Server1$ProxyHandler.run(Server1.java:121)
+	at java.base/java.lang.Thread.run(Thread.java:835)
+
+abr. 24, 2020 2:58:47 P. M. Server1.java
+INFO: SERVER 1 write data to file backupInputLog.txt
+abr. 24, 2020 2:58:48 P. M. Server1.java
+INFO: SERVER 1 send data to PROXY
+abr. 24, 2020 2:58:48 P. M. Server1.java
+INFO: ***************************************
+abr. 24, 2020 3:07:01 P. M. Server1.java
+INFO: SERVER 1 START
+abr. 24, 2020 3:07:03 P. M. Server1.java
+INFO: SERVER 1 authentication sent to PROXY
+abr. 24, 2020 3:07:10 P. M. Server1.java
+INFO: new thread SERVER 1 start
+abr. 24, 2020 3:07:11 P. M. Server1.java
+INFO: SERVER 1 correct authenticaction
+abr. 24, 2020 3:07:14 P. M. Server1.java
+INFO: SERVER 1 listening to events
+abr. 24, 2020 3:07:54 P. M. Server1.java
+INFO: SERVER 1 file update
+abr. 24, 2020 3:07:54 P. M. Server1.java
+INFO: SERVER 1 request getTime to PROXYCLOCK
+abr. 24, 2020 3:07:54 P. M. Server1.java
+INFO: SERVER 1 received adjustTime from PROXYCLOCK
+abr. 24, 2020 3:07:56 P. M. Server1.java
+INFO: SERVER 1 write data to fileoutputLog.txt
+abr. 24, 2020 3:07:58 P. M. Server1.java
+INFO: SERVER 1 send data to PROXY
+abr. 24, 2020 3:07:58 P. M. Server1.java
+INFO: ***************************************
+abr. 24, 2020 3:08:00 P. M. Server1.java
+INFO: SERVER 1 file update
+abr. 24, 2020 3:08:00 P. M. Server1.java
+INFO: SERVER 1 request getTime to PROXYCLOCK
+abr. 24, 2020 3:08:00 P. M. Server1.java
+INFO: SERVER 1 received adjustTime from PROXYCLOCK
+abr. 24, 2020 3:08:02 P. M. Server1.java
+INFO: SERVER 1 write data to fileoutputLog.txt
+abr. 24, 2020 3:08:04 P. M. Server1.java
+INFO: SERVER 1 send data to PROXY
+abr. 24, 2020 3:08:04 P. M. Server1.java
+INFO: ***************************************
