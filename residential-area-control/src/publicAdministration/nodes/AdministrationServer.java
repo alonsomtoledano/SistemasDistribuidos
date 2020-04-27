@@ -310,10 +310,13 @@ public class AdministrationServer {
 
 							Message plate = (Message) in.readObject();
 							Message time = (Message) in.readObject();
-							doAddPlate(plate.getContent(), time.getLongNumber());
+							Message image = (Message) in.readObject();
+							doAddPlate(plate.getContent(), image.getContent(), time.getLongNumber());
 						} else if (clientCommand.getContent().equals("sanction")) {
 							Message plate = (Message) in.readObject();
-							doAddSanction(plate.getContent());
+							Message image = (Message) in.readObject();
+							Message date = (Message) in.readObject();
+							doAddSanction(plate.getContent(), image.getContent(), date.getLongNumber());
 						}
 					}
 
@@ -330,7 +333,7 @@ public class AdministrationServer {
 			}
 		}
 
-		public void doAddPlate(String plate, long time) {
+		public void doAddPlate(String plate, String image, long time) {
 			CitizensService psl = new CitizensService();
 			System.out.println("Add plate: " + plate);
 			try {
@@ -348,6 +351,7 @@ public class AdministrationServer {
 				}
 
 				Message timeMsg = new Message(time);
+				Message imageMsg = new Message(image);
 				ObjectOutputStream out1 = new ObjectOutputStream(socketToproxyResponse.getOutputStream());
 				if (psl.findResident(plate)) {
 					Message result = new Message("yes");
@@ -361,6 +365,7 @@ public class AdministrationServer {
 					out1.writeObject(result);
 					out1.writeObject(plateMsg);
 					out1.writeObject(timeMsg);
+					out1.writeObject(imageMsg);
 				} else {
 					Message result = new Message("no");
 					logLock.lock();
@@ -372,6 +377,7 @@ public class AdministrationServer {
 					out1.writeObject(result);
 					out1.writeObject(plateMsg);
 					out1.writeObject(timeMsg);
+					out1.writeObject(imageMsg);
 				}
 				logLock.lock();
 				try {
@@ -396,10 +402,10 @@ public class AdministrationServer {
 			}
 		}
 
-		public void doAddSanction(String plate) {
+		public void doAddSanction(String plate, String image, long date) {
 			System.out.println("Add Sanction: " + plate);
 			CitizensService psl = new CitizensService();
-			psl.addSanction(plate);
+			psl.addSanction(plate, image, date);
 			timeClock = ProxyClock.getError();
 			logLock.lock();
 			try {

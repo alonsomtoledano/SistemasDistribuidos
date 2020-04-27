@@ -117,6 +117,7 @@ public class ProxyRequest {
 				ObjectInputStream in = new ObjectInputStream(socketFromServer.getInputStream());
 				Message plate = (Message) in.readObject();
 				Message time = (Message) in.readObject();
+				Message image = (Message) in.readObject();
 				System.out.println("Add plate: " + plate.getContent());
 				timeClock = ProxyClock.getError();
 				logLock.lock();
@@ -142,6 +143,7 @@ public class ProxyRequest {
 				out.writeObject(command);
 				out.writeObject(encryptedPlateMessage);
 				out.writeObject(time);
+				out.writeObject(image);
 
 				timeClock = ProxyClock.getError();
 				logLock.lock();
@@ -170,6 +172,8 @@ public class ProxyRequest {
 			try {
 				ObjectInputStream in = new ObjectInputStream(socketFromServer.getInputStream());
 				Message plate = (Message) in.readObject();
+				Message image = (Message) in.readObject();
+				Message date = (Message) in.readObject();
 				System.out.println("Add sanction: " + plate.getContent());
 				timeClock = ProxyClock.getError();
 				logLock.lock();
@@ -194,6 +198,8 @@ public class ProxyRequest {
 				Message command = new Message("sanction");
 				out.writeObject(command);
 				out.writeObject(encryptedPlateMessage);
+				out.writeObject(image);
+				out.writeObject(date);
 
 				logLock.lock();
 				try {

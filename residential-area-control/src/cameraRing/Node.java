@@ -23,19 +23,21 @@ public class Node {
     static int puertoIzquierda2 = 6008;
     static int puertoDerecha2 = 6005;
     static int puertoCentralServer = 6000;
+    static int puertoCentralServerBackup = 6999;
     
     //IP
     static String ip = "localhost";
     static String ipIzquierda = "localhost";
     static String ipDerecha = "localhost";
     static String ipCentralServer = "localhost";
+    static String ipCentralServerBackup = "localhost";
     
     //NODE VARIABLES
     static boolean masterNode = true; //IS THIS THE MASTER NODE
     static boolean inOut = true; //TRUE = IN, FALSE = OUT
     static boolean firstTime = true; // IS THE FIRST TIME THAT THE SYSTEM IS SET
-    static String detectionCorbaPath = "\\localhost\\detectionIn"; //REMOTE IN/OUT FOLDER PATH
-    static String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
+	static String detectionCorbaPath = "\\localhost\\detectionIn"; //REMOTE IN/OUT FOLDER PATH
+	static String matriculasCentralServerPath = "\\localhost\\matriculasCentralServer"; //REMOTE MATRICULAS FOLDER PATH
     
     //LOG VARIBLES
     static String logPath = "./src/cameraRing/logs/node.log";
@@ -197,7 +199,7 @@ public class Node {
                 				Thread.sleep(2000);
                 				System.out.println("MESSAGE UPDATED\n");
         						
-        						if(masterNode) {        							
+        						if(masterNode) {
         							try {
         								Socket socketCentralServer = new Socket(ipCentralServer, puertoCentralServer);
             	    					ObjectOutputStream outputCentralServer = new ObjectOutputStream (socketCentralServer.getOutputStream());
@@ -210,6 +212,18 @@ public class Node {
                         				System.out.println("MESSAGE SENT TO SERVER\n");
                         				
     								} catch (Exception e) {
+    									time = ProxyClock.getError();
+                        				Log.log(INFO, logPath, "Central Server Fallen, conecting to Server Backup", className, time);
+    									
+                        				Socket socketCentralServerBackup = new Socket(ipCentralServerBackup, puertoCentralServerBackup);
+            	    					ObjectOutputStream outputCentralServerBackup = new ObjectOutputStream (socketCentralServerBackup.getOutputStream());
+            	    					outputCentralServerBackup.writeObject(message);
+            	    					
+            	    					time = ProxyClock.getError();
+                        				Log.log(INFO, logPath, "Message sent to server backup", className, time);
+                        				
+                        				Thread.sleep(2000);
+                        				System.out.println("MESSAGE SENT TO SERVER BACKUP\n");
     								}
         							
         					    	matriculasInLog.clear();

@@ -134,16 +134,18 @@ public class CitizensService {
 		return result;
 	}
 
-	public void addSanction(String plate) {
+	public void addSanction(String plate, String image, long date) {
 		try {
-			String sqlInsert = "INSERT INTO sanctioned (licensePlate) VALUES(?)";
+			String sqlInsert = "INSERT INTO sanctioned (licensePlate, image, date) VALUES(?, ?, ?)";
 			PreparedStatement psInsert = connection.prepareStatement(sqlInsert);
 
 			psInsert.setString(1, plate);
+			psInsert.setString(2, image);
+			psInsert.setLong(3, date);
 			psInsert.executeUpdate();
 
 		} catch (SQLException e) {
-			e.getMessage();
+			e.printStackTrace();
 		}
 	}
 }

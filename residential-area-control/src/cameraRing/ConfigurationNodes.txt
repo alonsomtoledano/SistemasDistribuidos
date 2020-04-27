@@ -6,12 +6,14 @@
 	    static int puertoIzquierda2 = 6008;
 	    static int puertoDerecha2 = 6005;
 	    static int puertoCentralServer = 6000;
+	    static int puertoCentralServerBackup = 6999;
 	    
 	    //IP
 	    static String ip = "localhost";
 	    static String ipIzquierda = "localhost";
 	    static String ipDerecha = "localhost";
 	    static String ipCentralServer = "localhost";
+	    static String ipCentralServerBackup = "localhost";
 	    
 	    //NODE VARIABLES
 	    static boolean masterNode = true; //IS THIS THE MASTER NODE
@@ -28,12 +30,14 @@
 	    static int puertoIzquierda2 = 6005;
 	    static int puertoDerecha2 = 6006;
 	    static int puertoCentralServer = 6000;
+	    static int puertoCentralServerBackup = 6999;
 	    
 	    //IP
 	    static String ip = "localhost";
 	    static String ipIzquierda = "localhost";
 	    static String ipDerecha = "localhost";
 	    static String ipCentralServer = "localhost";
+	    static String ipCentralServerBackup = "localhost";
 	    
 	    //NODE VARIABLES
 	    static boolean masterNode = false; //IS THIS THE MASTER NODE
@@ -50,12 +54,14 @@
 	    static int puertoIzquierda2 = 6006;
 	    static int puertoDerecha2 = 6007;
 	    static int puertoCentralServer = 6000;
+	    static int puertoCentralServerBackup = 6999;
 	    
 	    //IP
 	    static String ip = "localhost";
 	    static String ipIzquierda = "localhost";
 	    static String ipDerecha = "localhost";
 	    static String ipCentralServer = "localhost";
+	    static String ipCentralServerBackup = "localhost";
 	    
 	    //NODE VARIABLES
 	    static boolean masterNode = false; //IS THIS THE MASTER NODE
@@ -72,12 +78,14 @@
 	    static int puertoIzquierda2 = 6007;
 	    static int puertoDerecha2 = 6008;
 	    static int puertoCentralServer = 6000;
+	    static int puertoCentralServerBackup = 6999;
 	    
 	    //IP
 	    static String ip = "localhost";
 	    static String ipIzquierda = "localhost";
 	    static String ipDerecha = "localhost";
 	    static String ipCentralServer = "localhost";
+	    static String ipCentralServerBackup = "localhost";
 	    
 	    //NODE VARIABLES
 	    static boolean masterNode = false; //IS THIS THE MASTER NODE

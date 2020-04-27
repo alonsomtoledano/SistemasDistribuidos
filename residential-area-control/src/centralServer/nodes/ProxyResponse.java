@@ -13,7 +13,7 @@ import cameraRing.Message;
 
 public class ProxyResponse {
 	static int centralServerPort = 4007;
-	static int auxCentralServerPort = 4012;
+	static int auxCentralServerPort = 4999;
 	static String centralServerHost = "127.0.0.1";
 
 	static String path = "./src/centralServer/logs/proxyResponse.log";
@@ -106,6 +106,7 @@ public class ProxyResponse {
 				Message response = (Message) in.readObject();
 				Message plate = (Message) in.readObject();
 				Message time = (Message) in.readObject();
+				Message image = (Message) in.readObject();
 				System.out.println("Add plate: " + plate.getContent());
 				timeClock = ProxyClock.getError();
 				logLock.lock();
@@ -124,6 +125,7 @@ public class ProxyResponse {
 					out1.writeObject(response);
 					out1.writeObject(plate);
 					out1.writeObject(time);
+					out1.writeObject(image);
 					logLock.lock();
 					try {
 						Log.log(INFO, path, "Data sent to central server", className, timeClock);
@@ -151,6 +153,7 @@ public class ProxyResponse {
 					ObjectOutputStream out1 = new ObjectOutputStream(socketToCentralServer.getOutputStream());
 					out1.writeObject(response);
 					out1.writeObject(plate);
+					out1.writeObject(time);
 					out1.writeObject(time);
 					logLock.lock();
 					try {

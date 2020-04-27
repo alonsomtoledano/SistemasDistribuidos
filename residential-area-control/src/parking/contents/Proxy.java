@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.locks.ReentrantLock;
 
+import cameraRing.Message;
 import clock.ProxyClock;
 import log.Log;
 import parking.service.ProxyServiceLogin;
@@ -15,8 +16,9 @@ import parking.service.ProxyServiceWriteData;
 public class Proxy {
 	//PORTS
 	static int server1Port = 5000;
-	static int centralNodePort = 5900; //PUERTO DEL NODO CENTRAL///////////////////////////////////////////////////////////////////////////////
-	static int centralNodeBackUpPort = 5901; //PUERTO DEL NODO CENTRAL BACKUP///////////////////////////////////////////////////////////////////////////////
+//	static int centralNodePort = 5900; //PUERTO DEL NODO CENTRAL///////////////////////////////////////////////////////////////////////////////
+	static int centralNodeBackUpPort = 4999; //PUERTO DEL NODO CENTRAL BACKUP///////////////////////////////////////////////////////////////////////////////
+	static int centralNodePort = 4007;
 	//IP
 	static String serverHost = "127.0.0.1";
 	//LOG VARIABLES

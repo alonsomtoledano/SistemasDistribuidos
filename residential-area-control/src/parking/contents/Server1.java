@@ -30,6 +30,7 @@ import java.nio.file.WatchService;
 import java.util.Date;
 import java.util.concurrent.locks.ReentrantLock;
 
+import cameraRing.Message;
 import clock.ProxyClock;
 import log.Log;
 

@@ -5,14 +5,17 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.concurrent.locks.ReentrantLock;
 
 import log.Log;
 import cameraRing.Message;
 import centralServer.services.database.AccessService;
 import clock.ProxyClock;
+import encryptation.Encryptation;
 
-public class oldCentralServer {	
+public class CentralServer {	
 	//PORTS
     static int puertoCameraRing = 6000;
 	static int proxyRequestPort = 4005;
@@ -85,7 +88,7 @@ public class oldCentralServer {
     					
     					if (!message.getMatriculasInLog().isEmpty()) {
     						for (int i = 0; i < message.getMatriculasInLog().size(); i++) {
-        						addPlate(message.getMatriculasInLog().get(i).get(0), Long.parseLong(message.getMatriculasInLog().get(i).get(2)));
+        						addPlate(message.getMatriculasInLog().get(i).get(0), message.getMatriculasInLog().get(i).get(1), Long.parseLong(message.getMatriculasInLog().get(i).get(2)));
         					}
     						newLicensePlate = true;
     					}
@@ -93,9 +96,13 @@ public class oldCentralServer {
     					if (!message.getMatriculasOutLog().isEmpty()) {
     						for (int i = 0; i < message.getMatriculasOutLog().size(); i++) {
     							vehicleExit(message.getMatriculasOutLog().get(i).get(0), Long.parseLong(message.getMatriculasOutLog().get(i).get(2)));
+    							
+    							if (checkSantioned(message.getMatriculasOutLog().get(i).get(0))) {
+        							addSanction(message.getMatriculasOutLog().get(i).get(0), message.getMatriculasOutLog().get(i).get(1), Long.parseLong(message.getMatriculasOutLog().get(i).get(2)));
+        				    	}
         					}
     						newLicensePlate = true;
-    					}     					
+    					}  
     					
 					} catch (ClassNotFoundException | InterruptedException e) {
 						e.printStackTrace();
@@ -130,7 +137,7 @@ public class oldCentralServer {
 		}
     }
     
-	public static void addPlate(String plate, long licensePlateTime) {
+	public static void addPlate(String plate, String image, long licensePlateTime) {
 		System.out.println("New vehicle: " + plate + " at " + licensePlateTime);
 		try (Socket socketToProxy = new Socket(proxyRequestHost, proxyRequestPort)) {
 			ObjectOutputStream out = new ObjectOutputStream(socketToProxy.getOutputStream());
@@ -140,8 +147,10 @@ public class oldCentralServer {
 			ObjectOutputStream out1 = new ObjectOutputStream(socketToProxy.getOutputStream());
 			Message plateToSend = new Message(plate);
 			Message timeToSend = new Message(licensePlateTime);
+			Message imageToSend = new Message(image);
 			out1.writeObject(plateToSend);
 			out1.writeObject(timeToSend);
+			out1.writeObject(imageToSend);
 
 			time = ProxyClock.getError();
 			logLock.lock();
@@ -173,7 +182,13 @@ public class oldCentralServer {
 		psl.vehicleExit(plate, licensePlateTime);
 	}
 	
-	public static void addSanction(String plate) {
+	public static boolean checkSantioned(String plate) {
+		AccessService psl = new AccessService();
+		
+		return psl.checkSantioned(plate);
+	}
+	
+	public static void addSanction(String plate, String image, long date) {
 		System.out.println("Sanction: " + plate);
 		try (Socket socketToProxy = new Socket(proxyRequestHost, proxyRequestPort)) {
 			ObjectOutputStream out = new ObjectOutputStream(socketToProxy.getOutputStream());
@@ -182,7 +197,11 @@ public class oldCentralServer {
 
 			ObjectOutputStream out1 = new ObjectOutputStream(socketToProxy.getOutputStream());
 			Message plateToSend = new Message(plate);
+			Message imageToSend = new Message(image);
+			Message dateToSend = new Message(date);
 			out1.writeObject(plateToSend);
+			out1.writeObject(imageToSend);
+			out1.writeObject(dateToSend);
 
 			time = ProxyClock.getError();
 			logLock.lock();
@@ -247,7 +266,7 @@ public class oldCentralServer {
 				if (command.getContent().equals("newAccess")) {
 					doAddPlate();
 				}
-				if (command.getContent().equals("leaveParking")) {
+				if (command.getContent().equals("newData")) {/////////////////////////////////////////////////////////////////////
 					doLeaveParking();
 				}
 
@@ -269,6 +288,7 @@ public class oldCentralServer {
 				Message response = (Message) in.readObject();
 				Message plate = (Message) in.readObject();
 				Message licensePlateTime = (Message) in.readObject();
+				Message image = (Message) in.readObject();
 
 				time = ProxyClock.getError();
 				logLock.lock();
@@ -287,7 +307,7 @@ public class oldCentralServer {
 						logLock.unlock();
 					}
 					System.out.println("Is resident");
-					psl.addLicensePlate(plate.getContent(), licensePlateTime.getLongNumber(), "Yes");
+					psl.addLicensePlate(plate.getContent(), image.getContent(), licensePlateTime.getLongNumber(), "Yes");
 					System.out.println("Info added to database\n");
 					logLock.lock();
 					try {
@@ -304,7 +324,7 @@ public class oldCentralServer {
 						logLock.unlock();
 					}
 					System.out.println("Is not resident");
-					psl.addLicensePlate(plate.getContent(), licensePlateTime.getLongNumber(), "No");
+					psl.addLicensePlate(plate.getContent(), image.getContent(), licensePlateTime.getLongNumber(), "No");
 					System.out.println("Info added to database\n");
 					logLock.lock();
 					try {
@@ -331,8 +351,6 @@ public class oldCentralServer {
 		public void doLeaveParking() {
 			try {
 				ObjectInputStream in = new ObjectInputStream(socketToProxy.getInputStream());
-				Message plate = (Message) in.readObject();
-				Message licensePlateTime = (Message) in.readObject();
 
 				time = ProxyClock.getError();
 				logLock.lock();
@@ -342,7 +360,22 @@ public class oldCentralServer {
 					logLock.unlock();
 				}
 				AccessService psl = new AccessService();
-				psl.leaveParking(plate.getContent(), licensePlateTime.getLongNumber());
+				
+				Message messageDataFromProxy = (Message)in.readObject();
+				Message messageDateFromProxy = (Message)in.readObject();
+				
+				String data = messageDataFromProxy.getData();
+				long date = messageDateFromProxy.getLongNumber();
+				
+				Date d = new Date(date);
+				
+				System.out.println("Data from proxy: " + data);
+				System.out.println("Date milis from proxy: " + date);
+				System.out.println("Date: " + d);
+				
+				data = Encryptation.Encrypt(data);
+				
+				psl.leaveParking(data, date);
 				
 				logLock.lock();
 				try {
