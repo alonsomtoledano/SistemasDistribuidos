@@ -115,6 +115,7 @@ public class Node {
 				}
 
 				if (masterNode && firstTime) {
+					socketIzquierda.close();
 					firstTime = false;
 				} else {
 					while ((sIzquierda = socketIzquierda.accept()) != null) {
