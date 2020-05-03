@@ -15,108 +15,114 @@ import centralServer.services.database.AccessService;
 import clock.ProxyClock;
 import encryptation.Encryptation;
 
-public class CentralServer {	
-	//PORTS
-    static int puertoCameraRing = 6000;
+public class CentralServer {
+	// PORTS
+	static int puertoCameraRing = 6000;
 	static int proxyRequestPort = 4005;
-	
-	//IP
+
+	// IP
 	static String proxyRequestHost = "127.0.0.1";
-	
-	//NODE VARIABLES
+
+	// NODE VARIABLES
 	static boolean newLicensePlate = false;
-    
-    //LOG VARIBLES
-    static String logPath = "./src/centralServer/logs/centralServer.log";
-    static String INFO = "info";
-    static String ERROR = "error";
-    static String className;
-    static long time;
-    
-    //LOCKS
-    static ReentrantLock logLock = new ReentrantLock();
-    
-    //THREADS
-    static HandlerCameraRing handlerCameraRing = new HandlerCameraRing();
-    static HandlerPublicAdministration handlerPublicAdministration = new HandlerPublicAdministration();
+
+	// LOG VARIBLES
+	static String logPath = "./src/centralServer/logs/centralServer.log";
+	static String INFO = "info";
+	static String ERROR = "error";
+	static String className;
+	static long time;
+
+	// LOCKS
+	static ReentrantLock logLock = new ReentrantLock();
+
+	// THREADS
+	static HandlerCameraRing handlerCameraRing = new HandlerCameraRing();
+	static HandlerPublicAdministration handlerPublicAdministration = new HandlerPublicAdministration();
 
 	public static void main(String[] args) {
-		//LOG DATA
-		Class thisClass = new Object(){}.getClass();
+		// LOG DATA
+		Class thisClass = new Object() {
+		}.getClass();
 		className = thisClass.getEnclosingClass().getSimpleName();
-		
-		//THREADS
-    	new Thread(handlerCameraRing).start();
-    	new Thread(handlerPublicAdministration).start();
+
+		// THREADS
+		new Thread(handlerCameraRing).start();
+		new Thread(handlerPublicAdministration).start();
 	}
-	
-	//THREAD FUNCTIONS
-    public static void cameraRing() {
+
+	// THREAD FUNCTIONS
+	public static void cameraRing() {
 		time = ProxyClock.getError();
 		logLock.lock();
 		try {
 			Log.log(INFO, logPath, "CameraRing thread started", className, time);
-		}finally {
+		} finally {
 			logLock.unlock();
 		}
-    	
-    	while(true) {
-    		try {
-    			ServerSocket socketCameraRing = new ServerSocket(puertoCameraRing);
-    			Socket sCameraRing;
-    			    			
-    			while((sCameraRing = socketCameraRing.accept()) != null) {
-    				ObjectInputStream inputCameraRing = new ObjectInputStream(sCameraRing.getInputStream());
-					
+
+		while (true) {
+			try {
+				ServerSocket socketCameraRing = new ServerSocket(puertoCameraRing);
+				Socket sCameraRing;
+
+				while ((sCameraRing = socketCameraRing.accept()) != null) {
+					ObjectInputStream inputCameraRing = new ObjectInputStream(sCameraRing.getInputStream());
+
 					time = ProxyClock.getError();
 					logLock.lock();
 					try {
 						Log.log(INFO, logPath, "Message recieved", className, time);
-					}finally {
+					} finally {
 						logLock.unlock();
 					}
-    				
-    				try {
-    					Message message = (Message)inputCameraRing.readObject();
-    					
-    					Thread.sleep(2000);
-            			System.out.println("***********************************");
-            			System.out.println("MESSAGE RECEIVED");
-            			System.out.println("matriculasInLog: " + message.getMatriculasInLog());
-    					System.out.println("matriculasOutLog: " + message.getMatriculasOutLog());
-    					System.out.println("***********************************\n");
-    					
-    					if (!message.getMatriculasInLog().isEmpty()) {
-    						for (int i = 0; i < message.getMatriculasInLog().size(); i++) {
-        						addPlate(message.getMatriculasInLog().get(i).get(0), message.getMatriculasInLog().get(i).get(1), Long.parseLong(message.getMatriculasInLog().get(i).get(2)));
-        					}
-    						newLicensePlate = true;
-    					}
-    					
-    					if (!message.getMatriculasOutLog().isEmpty()) {
-    						for (int i = 0; i < message.getMatriculasOutLog().size(); i++) {
-    							vehicleExit(message.getMatriculasOutLog().get(i).get(0), Long.parseLong(message.getMatriculasOutLog().get(i).get(2)));
-    							
-    							if (checkSantioned(message.getMatriculasOutLog().get(i).get(0))) {
-        							addSanction(message.getMatriculasOutLog().get(i).get(0), message.getMatriculasOutLog().get(i).get(1), Long.parseLong(message.getMatriculasOutLog().get(i).get(2)));
-        				    	}
-        					}
-    						newLicensePlate = true;
-    					}  
-    					
+
+					try {
+						Message message = (Message) inputCameraRing.readObject();
+
+						Thread.sleep(2000);
+						System.out.println("***********************************");
+						System.out.println("MESSAGE RECEIVED");
+						System.out.println("matriculasInLog: " + message.getMatriculasInLog());
+						System.out.println("matriculasOutLog: " + message.getMatriculasOutLog());
+						System.out.println("***********************************\n");
+
+						if (!message.getMatriculasInLog().isEmpty()) {
+							for (int i = 0; i < message.getMatriculasInLog().size(); i++) {
+								addPlate(message.getMatriculasInLog().get(i).get(0),
+										message.getMatriculasInLog().get(i).get(1),
+										Long.parseLong(message.getMatriculasInLog().get(i).get(2)));
+							}
+							newLicensePlate = true;
+						}
+
+						if (!message.getMatriculasOutLog().isEmpty()) {
+							for (int i = 0; i < message.getMatriculasOutLog().size(); i++) {
+								vehicleExit(message.getMatriculasOutLog().get(i).get(0),
+										Long.parseLong(message.getMatriculasOutLog().get(i).get(2)));
+
+								if (checkSantioned(message.getMatriculasOutLog().get(i).get(0))) {
+									addSanction(message.getMatriculasOutLog().get(i).get(0),
+											message.getMatriculasOutLog().get(i).get(1),
+											Long.parseLong(message.getMatriculasOutLog().get(i).get(2)));
+								}
+							}
+							newLicensePlate = true;
+						}
+
 					} catch (ClassNotFoundException | InterruptedException e) {
 						e.printStackTrace();
 					}
-    			}
+				}
 			} catch (IOException e) {
 			}
-    	}
-    }
-    
-    public static void publicAdministration() {
+		}
+	}
+
+	public static void publicAdministration() {
 		int serverPort = 4007;
 		try {
-			
+
 			ServerSocket proxyRequest = new ServerSocket(serverPort);
 			while (true) {
 				Socket proxyAccept = proxyRequest.accept();
@@ -135,8 +141,8 @@ public class CentralServer {
 				logLock.unlock();
 			}
 		}
-    }
-    
+	}
+
 	public static void addPlate(String plate, String image, long licensePlateTime) {
 		System.out.println("New vehicle: " + plate + " at " + licensePlateTime);
 		try (Socket socketToProxy = new Socket(proxyRequestHost, proxyRequestPort)) {
@@ -175,19 +181,19 @@ public class CentralServer {
 		}
 
 	}
-	
+
 	public static void vehicleExit(String plate, long licensePlateTime) {
 		AccessService psl = new AccessService();
-		
+
 		psl.vehicleExit(plate, licensePlateTime);
 	}
-	
+
 	public static boolean checkSantioned(String plate) {
 		AccessService psl = new AccessService();
-		
+
 		return psl.checkSantioned(plate);
 	}
-	
+
 	public static void addSanction(String plate, String image, long date) {
 		System.out.println("Sanction: " + plate);
 		try (Socket socketToProxy = new Socket(proxyRequestHost, proxyRequestPort)) {
@@ -225,22 +231,22 @@ public class CentralServer {
 			}
 		}
 	}
-	
-	//THREAD HANDLERS
+
+	// THREAD HANDLERS
 	private static class HandlerCameraRing implements Runnable {
 		@Override
 		public void run() {
 			cameraRing();
 		}
 	}
-	
+
 	private static class HandlerPublicAdministration implements Runnable {
 		@Override
 		public void run() {
 			publicAdministration();
 		}
 	}
-	
+
 	private static class ServerHandler implements Runnable {
 		private final Socket socketToProxy;
 
@@ -255,7 +261,7 @@ public class CentralServer {
 			time = ProxyClock.getError();
 			logLock.lock();
 			try {
-				Log.log(INFO,logPath, "SERVER RUN", className, time);
+				Log.log(INFO, logPath, "SERVER RUN", className, time);
 			} finally {
 				logLock.unlock();
 			}
@@ -274,8 +280,8 @@ public class CentralServer {
 				time = ProxyClock.getError();
 				logLock.lock();
 				try {
-					Log.log(ERROR,logPath, Log.getStackTrace(e), className, time);
-					System.out.println("Exception. For more info visit " +logPath);
+					Log.log(ERROR, logPath, Log.getStackTrace(e), className, time);
+					System.out.println("Exception. For more info visit " + logPath);
 				} finally {
 					logLock.unlock();
 				}
@@ -293,7 +299,7 @@ public class CentralServer {
 				time = ProxyClock.getError();
 				logLock.lock();
 				try {
-					Log.log(INFO,logPath, "Received data from ProxyResponse", className, time);
+					Log.log(INFO, logPath, "Received data from ProxyResponse", className, time);
 				} finally {
 					logLock.unlock();
 				}
@@ -302,16 +308,17 @@ public class CentralServer {
 				if (response.getContent().equals("yes")) {
 					logLock.lock();
 					try {
-						Log.log(INFO,logPath, "Is resident", className, time);
+						Log.log(INFO, logPath, "Is resident", className, time);
 					} finally {
 						logLock.unlock();
 					}
 					System.out.println("Is resident");
-					psl.addLicensePlate(plate.getContent(), image.getContent(), licensePlateTime.getLongNumber(), "Yes");
+					psl.addLicensePlate(plate.getContent(), image.getContent(), licensePlateTime.getLongNumber(),
+							"Yes");
 					System.out.println("Info added to database\n");
 					logLock.lock();
 					try {
-						Log.log(INFO,logPath, "Added info to database", className, time);
+						Log.log(INFO, logPath, "Added info to database", className, time);
 					} finally {
 						logLock.unlock();
 					}
@@ -319,7 +326,7 @@ public class CentralServer {
 
 					logLock.lock();
 					try {
-						Log.log(INFO,logPath, "Is not resident", className, time);
+						Log.log(INFO, logPath, "Is not resident", className, time);
 					} finally {
 						logLock.unlock();
 					}
@@ -328,7 +335,7 @@ public class CentralServer {
 					System.out.println("Info added to database\n");
 					logLock.lock();
 					try {
-						Log.log(INFO,logPath, "Added info to database", className, time);
+						Log.log(INFO, logPath, "Added info to database", className, time);
 					} finally {
 						logLock.unlock();
 					}
@@ -339,8 +346,8 @@ public class CentralServer {
 				time = ProxyClock.getError();
 				logLock.lock();
 				try {
-					Log.log(ERROR,logPath, Log.getStackTrace(e), className, time);
-					System.out.println("Exception. For more info visit " +logPath);
+					Log.log(ERROR, logPath, Log.getStackTrace(e), className, time);
+					System.out.println("Exception. For more info visit " + logPath);
 				} finally {
 					logLock.unlock();
 				}
@@ -360,26 +367,26 @@ public class CentralServer {
 					logLock.unlock();
 				}
 				AccessService psl = new AccessService();
-				
-				Message messageDataFromProxy = (Message)in.readObject();
-				Message messageDateFromProxy = (Message)in.readObject();
-				
+
+				Message messageDataFromProxy = (Message) in.readObject();
+				Message messageDateFromProxy = (Message) in.readObject();
+
 				String data = messageDataFromProxy.getData();
 				long date = messageDateFromProxy.getLongNumber();
-				
+
 				Date d = new Date(date);
-				
+
 				System.out.println("Data from proxy: " + data);
 				System.out.println("Date milis from proxy: " + date);
 				System.out.println("Date: " + d);
-				
+
 				data = Encryptation.Encrypt(data);
-				
+
 				psl.leaveParking(data, date);
-				
+
 				logLock.lock();
 				try {
-					Log.log(INFO,logPath, "Added info to database", className, time);
+					Log.log(INFO, logPath, "Added info to database", className, time);
 				} finally {
 					logLock.unlock();
 				}
@@ -388,8 +395,8 @@ public class CentralServer {
 				time = ProxyClock.getError();
 				logLock.lock();
 				try {
-					Log.log(ERROR,logPath, Log.getStackTrace(e), className, time);
-					System.out.println("Exception. For more info visit " +logPath);
+					Log.log(ERROR, logPath, Log.getStackTrace(e), className, time);
+					System.out.println("Exception. For more info visit " + logPath);
 				} finally {
 					logLock.unlock();
 				}
