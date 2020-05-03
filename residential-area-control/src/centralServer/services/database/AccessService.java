@@ -58,97 +58,97 @@ public class AccessService {
 		}
 
 	}
-	
+
 	public void vehicleExit(String matricula, long time) {
 		String sqlUpdate = "update vehicles set timeOut = ? where licensePlate = ?";
 		try {
 			matricula = Encryptation.Encrypt(matricula);
-			
+
 			PreparedStatement ps1 = connection.prepareStatement(sqlUpdate);
 			ps1.setLong(1, time);
 			ps1.setString(2, matricula);
 			ps1.executeUpdate();
-			
+
 			System.out.println("Vehicle updated\n");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public boolean checkSantioned(String plate) {
 		boolean sanction = false;
-		
+
 		String sqlSelect = "select * from vehicles where licensePlate = ?";
-		
+
 		System.out.println(plate + " has left the area");
-		
+
 		try {
 			plate = Encryptation.Encrypt(plate);
-			
+
 			PreparedStatement ps = connection.prepareStatement(sqlSelect);
 			ps.setString(1, plate);
 			ResultSet rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
 				if (rs.getString("licensePlate").equals(plate)) {
-					
+
 					String resident = rs.getString("resident");
 					if (resident.equals("No")) {
 						System.out.println("Is not resident");
-						
+
 						long parking = rs.getLong("parking");
 						if (parking == 0) {
 							System.out.println("Santion: Enter without being a resident and not visit a parking");
 							sanction = true;
-							
+
 						} else {
 							long timeOut = rs.getLong("timeOut");
-							
+
 							if (timeOut - parking > 6000) {
 								System.out.println("Santion: Take too long to leave the area");
 								sanction = true;
 							} else {
 								System.out.println("Vehicle left not santioned");
 							}
-							
+
 						}
 					} else {
 						System.out.println("Is redident, vehicle not santioned");
 					}
 				}
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return sanction;
 	}
-	
+
 	public String getParking(String plate) {
 		String sqlSelect = "select * from vehicles where licensePlate = ?";
 		String result = null;
-		
+
 		try {
 			plate = Encryptation.Encrypt(plate);
-			
+
 			PreparedStatement ps = connection.prepareStatement(sqlSelect);
 			ps.setString(1, plate);
 			ResultSet rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
 				if (rs.getString("licensePlate").equals(plate)) {
 					result = rs.getString("resident");
 				}
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
-	
+
 	public void leaveParking(String plate, long time) {
 		try {
 			String sqlUpdate = "update vehicles set parking = ? where licensePlate = ?";
@@ -160,7 +160,6 @@ public class AccessService {
 			e.printStackTrace();
 		}
 
-		
 	}
 
 }
