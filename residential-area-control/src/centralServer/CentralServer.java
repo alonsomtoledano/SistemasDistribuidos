@@ -272,7 +272,7 @@ public class CentralServer {
 				if (command.getContent().equals("newAccess")) {
 					doAddPlate();
 				}
-				if (command.getContent().equals("newData")) {/////////////////////////////////////////////////////////////////////
+				if (command.getContent().equals("newData")) {
 					doLeaveParking();
 				}
 
